@@ -29,8 +29,19 @@ source /home/linuxbrew/.linuxbrew/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 
 # Load plugins
-antigen bundle git
+antigen bundle aws
 antigen bundle fnm
+antigen bundle docker
+antigen bundle dotnet
+antigen bundle git
+antigen bundle httpie
+antigen bundle rupa/z@master # z
+# 'fzf' completion behaviour, ctrl-t, etc.
+antigen bundle junegunn/fzf shell
+antigen bundle junegunn/fzf shell/completion.zsh
+antigen bundle junegunn/fzf shell/key-bindings.zsh
+antigen bundle desyncr/zsh-ctrlp                   # find files with fzf | ctrl-p
+antigen bundle joshskidmore/zsh-fzf-history-search # uses fzf for searching command history
 antigen bundle djui/alias-tips
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle alexrochas/zsh-git-semantic-commits
@@ -59,6 +70,7 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # Upload Files
 # ----------------------------------------------------------------
 # Upload aliases
-if [ -f "$DOTFILES/shell/aliases.sh" ]; then
-  source "$DOTFILES/shell/aliases.sh"
-fi
+# if [ -f "$DOTFILES/shell/aliases.sh" ]; then
+#   source "$DOTFILES/shell/aliases.sh"
+# fi
+[[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
