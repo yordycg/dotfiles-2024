@@ -1,0 +1,117 @@
+-- local map = vim.keymap.set
+-- local opts = { noremap = true, silent = true }
+--
+-- -- Set leader key
+-- -- vim.g.mapleader = ' '
+-- -- vim.g.maplocalleader = ' '
+--
+-- -- Disable the spacear key's default behavior in Normal and Visual modes
+-- map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+--
+-- -- File managment
+-- -- map('n', '<C-s>', '<cmd> w <CR>', opts) -- Save file
+-- map('n', '<Leader>w', '<cmd> w <CR>', opts) -- Save file
+-- -- map('n', '<C-q>', '<cmd> q <CR>', opts) -- Quit file
+-- map('n', '<Leader>q', '<cmd> q <CR>', opts) -- Quit file
+-- map('n', '<Leader>sn', '<cmd>noautocmd w <CR>', opts) -- Save file without auto-formatting
+--
+-- -- Delete single character without copying into register
+-- map('n', 'x', '"_x', opts)
+--
+-- -- Vertical scroll and center | keep cursor centered when scrolling
+-- map('n', '<C-d>', '<C-d>zz', opts)
+-- map('n', '<C-u>', '<C-u>zz', opts)
+--
+-- -- Find and center
+-- map('n', 'n', 'nzzv', opts) -- Ir a la SIGUIENTE coincidencia
+-- map('n', 'N', 'Nzzv', opts) -- Ir a la coincidencia ANTERIOR
+-- map('n', '*', '*zzv', opts) -- Buscar palabra del cursor hacia ADELANTE
+-- map('n', '#', '#zzv', opts) -- Buscar palabra del cursor hacia ATRAS
+-- map('n', 'g', 'gzzv', opts) -- Buscar palabra parcial del cursor hacia ATRAS
+-- map('n', 'g#', 'g#zzv', opts) -- Buscar palabra parcial del cursor hacia ADELANTE
+--
+-- -- Resize with arrows
+-- map('n', '<Up>', ':resize -2<CR>', opts)
+-- map('n', '<Down>', ':resize +2<CR>', opts)
+-- map('n', '<Left>', ':vertical resize -2<CR>', opts)
+-- map('n', '<Right>', ':vertical resize +2<CR>', opts)
+--
+-- -- Buffers
+-- map('n', '<Tab>', ':bnext<CR>', opts) -- Next buffer
+-- map('n', '<S-Tab>', ':bprevious<CR>', opts) -- Previous buffer
+-- map('n', '<Leader>x', ':bdelete!<CR>', opts) -- Close buffer
+-- map('n', '<Leader>b', ':<cmd> enew <CR>', opts) -- New buffer
+--
+-- -- Window managment
+-- map('n', '<Leader>v', '<C-w>v', opts) -- Split vertically
+-- map('n', '<Leader>h', '<C-w>s', opts) -- Split horizontally
+-- map('n', '<Leader>se', '<C-w>=', opts) -- Make split windows equal width & height
+-- map('n', '<Leader>xs', ':close<CR>', opts) -- Close current split window
+--
+-- -- Navigate between splits
+-- map('n', '<C-k>', ':wincmd k<CR>', opts)
+-- map('n', '<C-j>', ':wincmd j<CR>', opts)
+-- map('n', '<C-h>', ':wincmd h<CR>', opts)
+-- map('n', '<C-l>', ':wincmd l<CR>', opts)
+--
+-- -- Tabs
+-- map('n', '<Leader>to', ':tabnew<CR>', opts) -- Open new tab
+-- map('n', '<Leader>tx', ':tabclose<CR>', opts) -- Close current tab
+-- map('n', '<Leader>tn', ':tabn<CR>', opts) -- Go to next tab
+-- map('n', '<Leader>tp', ':tabp<CR>', opts) -- Go to previous tab
+--
+-- -- Indent
+-- map('v', '<', '<gv', opts)
+-- map('v', '>', '>gv', opts)
+--
+-- -- Move selected line / block of text in visual mode
+-- map('v', 'J', ":m '>+1<CR>gv=gv", opts)
+-- map('v', 'K', ":m '<-2<CR>gv=gv", opts)
+--
+-- -- Keep last yanked when pasting
+-- map('v', 'p', '"_dP', opts)
+-- map('v', 'P', '"_dP', opts)
+--
+-- -- Move to start/end of line
+-- map({ 'n', 'x', 'o' }, 'H', '^', opts)
+-- map({ 'n', 'x', 'o' }, 'L', 'g_', opts)
+--
+-- -- Exit on jj and jk
+-- map('i', 'jj', '<ESC>', opts)
+-- map('i', 'jk', '<ESC>', opts)
+--
+-- -- Map 'enter' to ciw and 'backspace' to ci in normal mode
+-- map('n', '<CR>', 'ciw', opts)
+-- map('n', '<BS>', 'ci', opts)
+--
+-- -- Move line on the screen rather than by line in the file
+-- map('n', 'j', 'gj', opts)
+-- map('n', 'k', 'gk', opts)
+--
+-- -- Remap for dealing with visual line wraps
+-- map('n', 'j', "v:count == 0 ? 'gj' : 'J'", { expr = true })
+-- map('n', 'k', "v:count == 0 ? 'gk' : 'K'", { expr = true })
+--
+-- -- Essentials
+-- map('n', '<C-a>', 'ggVG', opts) -- select all in normal mode
+-- map('v', '<C-c>', '"+y', opts) -- copy in visual mode
+-- map('v', '<C-x>', '"+d', opts) -- cut in visual mode
+-- map('n', '<C-v>', '"+p', opts) -- paste in normal mode
+-- map('v', '<C-v>', '"+p', opts) -- paste in visual mode
+--
+-- -- Copy everything between { and } including the brackets
+-- -- p puts text after the cursor
+-- -- P puts text before the cursor
+-- map('n', 'YY', 'va{Vy', opts)
+--
+-- -- Split line with X
+-- map('n', 'X', ':keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==^<CR>', { silent = true })
+--
+-- -- Toggle line wrapping
+-- map('n', '<Leader>lw', '<cmd>set wrap!<CR>', opts)
+--
+-- -- Diagnostic keymaps
+-- map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+-- map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+-- map('n', '<Leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+-- map('n', '<Leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic list' })
