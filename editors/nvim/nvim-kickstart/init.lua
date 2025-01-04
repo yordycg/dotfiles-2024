@@ -1,6 +1,7 @@
 require 'core.autocmds'
 require 'core.keymaps'
 require 'core.options'
+-- require 'core.cpp_config'
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -32,11 +33,14 @@ require('lazy').setup {
     { import = 'plugins' },
     { import = 'plugins.alpha' },
     { import = 'plugins.autocompletion' },
+    { import = 'plugins.avante' },
     { import = 'plugins.bufferline' },
     { import = 'plugins.colortheme' },
     { import = 'plugins.comment' },
+    { import = 'plugins.debug' },
     { import = 'plugins.gitsings' },
     { import = 'plugins.indent-blackline' },
+    { import = 'plugins.lazygit' },
     { import = 'plugins.lsp' },
     { import = 'plugins.lualine' },
     { import = 'plugins.misc' },
@@ -44,10 +48,11 @@ require('lazy').setup {
     { import = 'plugins.none-ls' },
     { import = 'plugins.telescope' },
     { import = 'plugins.treesitter' },
+    -- { import = 'lazyvim.plugins.extras.lsp.none-ls' },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { 'habamax' } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  -- checker = { enabled = true },
 }

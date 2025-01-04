@@ -89,4 +89,6 @@ return {
       colorscheme = 'catppuccin',
     },
   },
+
+  vim.keymap.set('n', '<leader>bg', '<cmd> :Transparent_toggle <CR>', { noremap = true, silent = true }),
 }

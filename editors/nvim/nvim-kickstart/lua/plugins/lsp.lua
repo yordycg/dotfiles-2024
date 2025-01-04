@@ -6,6 +6,7 @@ return {
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    { 'jay-babu/mason-nvim-dap.nvim', event = 'VeryLazy', opts = { handlers = {} } }, -- TODO: mi codigo
 
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -228,8 +229,9 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
-      -- 'clangd',
-      -- 'clangd-format',
+      'clangd',
+      'clang-format', -- Formatter for c++
+      'codelldb', -- Debugger for c++
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
