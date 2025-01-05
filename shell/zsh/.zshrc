@@ -74,3 +74,6 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 #   source "$DOTFILES/shell/aliases.sh"
 # fi
 [[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
+
+# Upload exports
+[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
