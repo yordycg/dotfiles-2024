@@ -29,8 +29,8 @@ vim.g.maplocalleader = ' '
 -- Setup lazy.nvim
 require('lazy').setup {
   spec = {
+    -- { 'lazyVim/LazyVim', import = 'lazyvim.plugins' },
     -- import your plugins
-    { import = 'plugins' },
     { import = 'plugins.alpha' },
     { import = 'plugins.autocompletion' },
     { import = 'plugins.avante' },
