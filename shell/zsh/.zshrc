@@ -77,3 +77,6 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Upload exports
 [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
+
+# Upload functions
+[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
