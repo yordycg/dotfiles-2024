@@ -35,6 +35,7 @@ antigen bundle docker
 antigen bundle dotnet
 antigen bundle git
 antigen bundle httpie
+antigen bundle command-not-found
 antigen bundle rupa/z@master # z
 # 'fzf' completion behaviour, ctrl-t, etc.
 antigen bundle junegunn/fzf shell
@@ -44,6 +45,7 @@ antigen bundle desyncr/zsh-ctrlp                   # find files with fzf | ctrl-
 antigen bundle joshskidmore/zsh-fzf-history-search # uses fzf for searching command history
 antigen bundle djui/alias-tips
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
 antigen bundle alexrochas/zsh-git-semantic-commits
 antigen bundle zdharma-continuum/fast-syntax-highlighting
 

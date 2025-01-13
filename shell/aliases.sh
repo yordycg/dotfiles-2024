@@ -52,7 +52,7 @@ alias sozsh="source ~/.zshrc"
 alias t="tmux"
 alias c="clear"
 alias x="exit"
-alias bat="bat" # instalar desde 'bat/github'
+alias cat="bat" # instalar desde 'bat/github'
 # alias nf="neofetch"
 alias ff="fastfetch"
 # alias wifi="nmtui"
@@ -74,15 +74,19 @@ alias v="nvim ."
 alias dot="cd $DOTFILES"
 alias repos="cd $REPOS"
 
-# Pacman and YAY
+# Pacman and YAY - Arch
 # alias pacsyu="sudo pacman -Syu"       # update only standard pkgs
 # alias pacsyyu="sudo pacman -Syyu"     # refresh pkglist & update standard pkgs
 # alias yaysyu="yay -Syu --noconfirm"   # update only AUR pkgs (yay)
 # alias yaysyyu="yay -Syyu --noconfirm" # update standard pkgs & AUR pks (yay)
 
+# Apt - Arch
+alias aptuu="sudo apt update -y ; sudo apt upgrade -y" # update and upgrade pkgs
+
 # WSL
-alias win="cd /mnt/c/Users/yordyPC" # change a yordyWIN
-alias devc="cd /mnt/c/Users/yordyPC/Escritorio2/Cursos-Yordy/00 - Cursos Programacion/"
+alias win="cd /mnt/c/Users/Yordy" # change a yordyWIN
+alias dev="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/"
+alias dircpp="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/02\ Cpp/"
 
 # Dev
 # NodeJS
