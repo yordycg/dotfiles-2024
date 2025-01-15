@@ -39,21 +39,33 @@ alias gm="git merge"
 alias gb="git branch"
 alias gl="git pretty-log"
 alias gg="git log --graph --pretty=format:'%C(bold)%h%Creset%C(magenta)%d%Creset %s %C(yellow)<%an> %C(cyan)(%cr)%Creset' --abbrev-commit --date=relative"
+alias lg="lazygit" # need install lazygit
+
+# Docker
+alias d="docker"
+alias dc="docker-compose"
+alias dcb="docker-compose build"
+alias dcd="docker-compose down"
+alias dce="docker-compose exec"
+alias dcl="docker-compose logs"
+alias dcu="docker-compose up"
+alias dcr="dcd && dcu -d"
+alias ld="lazydocker" # need install lazydocker
 
 # Utils
 alias setup="mkdir \"$1\" && cd \"$1\""
-alias eals="$EDITOR $DOTFILES/shell/aliases.sh"
-alias ezsh="$EDITOR ~/.zshrc"
+alias eal="$EDITOR $DOTFILES/shell/aliases.sh"
+alias ez="$EDITOR ~/.zshrc"
 # alias ebrc="$EDITOR ~/.bashrc"
-alias ealy="$EDITOR ~/.config/alacritty/alacritty.toml"
-alias ekty="$EDITOR ~/.config/kitty/kitty.conf"
-# alias so="source ~/.bashrc"
-alias sozsh="source ~/.zshrc"
+# alias ea="$EDITOR ~/.config/alacritty/alacritty.toml"
+alias ek="$EDITOR $DOTFILES/os/linux/kitty/kitty.conf"
+alias ew="$EDITOR $DOTFILES/os/cross-platform/wezterm/wezterm.lua"
+# alias sb="source ~/.bashrc"
+alias sz="source ~/.zshrc"
 alias t="tmux"
 alias c="clear"
 alias x="exit"
 alias cat="bat" # instalar desde 'bat/github'
-# alias nf="neofetch"
 alias ff="fastfetch"
 # alias wifi="nmtui"
 
