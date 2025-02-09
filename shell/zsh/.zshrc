@@ -1,8 +1,6 @@
 # ----------------------------------------------------------------
-# Environment Variables
+# Directories
 # ----------------------------------------------------------------
-export VISUAL=nvim
-export EDITOR=nvim
 export REPOS="$HOME/workspace/repos"
 export DOTFILES="$REPOS/dotfiles-2024"
 
@@ -14,6 +12,17 @@ export HISTSIZE=25000
 export SAVEHIST=25000
 # Don't put DUPLICATE LINES in the history and do not add lines that START WITH A SPACE
 export HISTCONTROL=erasedups:ignoredups:ignorespace
+#
+# ----------------------------------------------------------------
+# Others
+# ----------------------------------------------------------------
+export TMUX_THEME="nord"
+export NVIM_THEME="nord"
+export STARSHIP_THEME="nord"
+export WEZTERM_THEME="nord"
+# Use nvim as default editor
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # ----------------------------------------------------------------
 # Antigen Configuration
@@ -34,6 +43,7 @@ antigen bundle fnm
 antigen bundle docker
 antigen bundle dotnet
 antigen bundle git
+# antigen bundle git-delta # TODO: add git-delta to antigen/zsh config
 antigen bundle httpie
 antigen bundle command-not-found
 antigen bundle rupa/z@master # z
