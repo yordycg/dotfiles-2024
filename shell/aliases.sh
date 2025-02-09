@@ -1,5 +1,8 @@
-# Enable aliases to be sudo’ed
-alias sudo='sudo '
+# System
+alias shutdown="sudo shutdown now"
+alias restart="sudo reboot"
+alias c="clear"
+alias x="exit"
 
 # Change directory aliases
 alias cd..="cd .."
@@ -25,11 +28,18 @@ alias g="git"
 alias gcl="git clone"
 alias ga="git add"
 alias gaa="git add -A"
-alias gc="git commit -m"
-alias gca="git add --all && git commit --amend --no-edit"
+alias gacm="git add . && git commit -m" # Agregar y hacer commit, cualquier archivo
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gca="git commit -am" # Agregar y hacer commit, no toma en cuenta archivos nuevos
+alias gcam="git commit --amend -m" # Editar el MENSAJE del ultimo commit
+alias gcane="git add --all && git commit --amend --no-edit" # Util para agregar cambios olvidados al ultimo commit
 alias gco="git checkout"
-alias gd="git pretty-diff"
-alias gs="git status -sb"
+alias gcob="git checkout -b"
+# alias gd="git pretty-diff"
+alias gd="git diff"
+alias gs="git status"
+alias gss="git status -sb"
 alias gf="git fetch --all -p"
 alias gps="git push"
 alias gpsf="git push --force"
@@ -37,8 +47,18 @@ alias gpl="git pull --rebase --autostash"
 alias gpp="git pull && git push"
 alias gm="git merge"
 alias gb="git branch"
-alias gl="git pretty-log"
-alias gg="git log --graph --pretty=format:'%C(bold)%h%Creset%C(magenta)%d%Creset %s %C(yellow)<%an> %C(cyan)(%cr)%Creset' --abbrev-commit --date=relative"
+alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) - <%(authorname)>' --sort=-committerdate"
+alias gl="git --no-pager log --pretty=oneline --abbrev-commit --decorate --all"
+alias glg="git log --graph --abbrev-commit --date=relative --pretty=format:'%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %C(green)(%ar) %C(bold blue)<%an>%C(reset)'"
+# alias gg="git log --graph --abbrev-commit --date=relative --pretty=format:'%C(bold)%h%C(reset)%C(magenta)%d%C(reset) %s %C(yellow)<%an> %C(cyan)(%cr)%C(reset)'"
+
+# Git witth fzf
+alias gafzf='git ls-file -m -o --exclude-standar | grep -v "__pycache__" | fzf -m --print0 | xargs -0 -o -t git add' # Git add con fzf
+alias grmfzf='git ls-file -m -o --exclude-standar | fzf -m --print0 | xargs -0 -o -t git rm' # Git rm con fzf
+alias grfzf='git diff --name-only | fzf -m --print0 | xargs -0 -o -t git restore' # Git restore con fzf
+alias grsfzf='git diff --name-only | fzf -m --print0 | xargs -0 -o -t git restore --staged' # Git restore --staged con fzf
+alias gbfzf='git branch | fzf | xargs git checkout' # Seleccionar una branch con fzf
+
 alias lg="lazygit" # need install lazygit
 
 # Docker
@@ -63,8 +83,6 @@ alias ew="$EDITOR $DOTFILES/os/cross-platform/wezterm/wezterm.lua"
 # alias sb="source ~/.bashrc"
 alias sz="source ~/.zshrc"
 alias t="tmux"
-alias c="clear"
-alias x="exit"
 alias cat="bat" # instalar desde 'bat/github'
 alias ff="fastfetch"
 # alias wifi="nmtui"
