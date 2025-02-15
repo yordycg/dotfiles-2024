@@ -49,5 +49,9 @@ function full_proj_cpp() {
     # TODO: agregar .gitignore, CMAKE (aprender), README del proyecto
     
     echo "Proyecto completo C++, creado en $project_name/"
+}
 
+# Crear y entrar a un directorio
+mkcd() {
+    mkdir -p "$1" && cd "$1"
 }
