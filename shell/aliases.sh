@@ -64,6 +64,30 @@ alias gbfzf='git branch | fzf | xargs git checkout' # Seleccionar una branch con
 
 alias lg="lazygit" # need install lazygit
 
+# GH CLI
+alias ghr='gh repo'
+alias ghrc='gh repo create'
+alias ghrl='gh repo list'
+alias ghrf='gh repo fork'
+alias ghrv='gh repo view'
+alias ghrw='gh repo view -w' # open in browser
+ailas ghpr= 'gh pr'
+ailas ghprc= 'gh pr create'
+ailas ghprl= 'gh pr list'
+ailas ghprv= 'gh pr view'
+ailas ghprco= 'gh pr checkout'
+ailas ghprm= 'gh pr merge'
+alias ghi='gh issue'
+alias ghic='gh issue create'
+alias ghil='gh issue list'
+alias ghiv='gh issue view'
+alias ghg='gh gist'
+alias ghgc='gh gist create'
+alias ghgl='gh gist list'
+alias ghra='gh release'
+alias ghrac='gh release create'
+alias ghral='gh release list'
+
 # Docker
 alias d="docker"
 alias dc="docker-compose"
