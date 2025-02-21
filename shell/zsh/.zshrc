@@ -43,9 +43,11 @@ antigen bundle fnm
 antigen bundle docker
 antigen bundle dotnet
 antigen bundle git
+antigen bundle gh
 # antigen bundle git-delta # TODO: add git-delta to antigen/zsh config
 antigen bundle httpie
 antigen bundle command-not-found
+antigen bundle vscode
 antigen bundle rupa/z@master # z
 # 'fzf' completion behaviour, ctrl-t, etc.
 antigen bundle junegunn/fzf shell
