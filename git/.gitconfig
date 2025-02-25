@@ -33,7 +33,7 @@
   undo = reset --soft HEAD^ # deshace el ultimo commit
   wip = !git add . && git commit -m "WIP" # guardar rapidamente en un commit temporal 'Work In Progress'
 [pull]
-  # rebase = false
+  rebase = true
 [merge]
   tool = code
     conflictstyle = zdiff3
