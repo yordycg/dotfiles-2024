@@ -1,32 +1,4 @@
-# ----------------------------------------------------------------
-# Directories
-# ----------------------------------------------------------------
-export REPOS="$HOME/workspace/repos"
-export DOTFILES="$REPOS/dotfiles-2024"
-
-# ----------------------------------------------------------------
-# History Configuration
-# ----------------------------------------------------------------
-export HISTFILE=~/.histfile
-export HISTSIZE=25000
-export SAVEHIST=25000
-# Don't put DUPLICATE LINES in the history and do not add lines that START WITH A SPACE
-export HISTCONTROL=erasedups:ignoredups:ignorespace
-#
-# ----------------------------------------------------------------
-# Others
-# ----------------------------------------------------------------
-export TMUX_THEME="nord"
-export NVIM_THEME="nord"
-export STARSHIP_THEME="nord"
-export WEZTERM_THEME="nord"
-# Use nvim as default editor
-export EDITOR="nvim"
-export VISUAL="nvim"
-
-# ----------------------------------------------------------------
 # Antigen Configuration
-# ----------------------------------------------------------------
 # Laod Antigen
 # source "$HOME/antigen.zsh"
 source /home/linuxbrew/.linuxbrew/share/antigen/antigen.zsh
@@ -44,7 +16,6 @@ antigen bundle docker
 antigen bundle dotnet
 antigen bundle git
 antigen bundle gh
-# antigen bundle git-delta # TODO: add git-delta to antigen/zsh config
 antigen bundle httpie
 antigen bundle command-not-found
 antigen bundle vscode
@@ -53,6 +24,7 @@ antigen bundle rupa/z@master # z
 antigen bundle junegunn/fzf shell
 antigen bundle junegunn/fzf shell/completion.zsh
 antigen bundle junegunn/fzf shell/key-bindings.zsh
+antigen bundle Aloxaf/fzf-tab
 antigen bundle desyncr/zsh-ctrlp                   # find files with fzf | ctrl-p
 antigen bundle joshskidmore/zsh-fzf-history-search # uses fzf for searching command history
 antigen bundle djui/alias-tips
@@ -67,9 +39,29 @@ antigen bundle zdharma-continuum/fast-syntax-highlighting
 # Tell Antigen that you're done
 antigen apply
 
-# ----------------------------------------------------------------
+# Others
+# History Configuration
+setopt appendhistory
+setopt sharehistory         # Share history between sessions
+setopt hist_ignore_space    # Don't save when prefixed with space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups     # Don't save duplicate lines
+setopt hist_find_no_dups
+# keybindings
+bindkey -e                           # Usa el modo de edicion emacs (estandar)
+bindkey '^n' history-search-forward  # ctrl-n para buscar hacia adelante en el historial
+bindkey '^p' history-search-backward # ctrl-p para buscar hacia atras en el historial
+bindkey '^[w' kill-region            # alt-w para borrar region seleccionada
+# Completions styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Case insensitive matching
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Colorear completados
+zstyle ':completion:*' menu no                          # No mostrar menú de selección para completados
+# Fzf-tab config
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+
 # Eval list
-# ----------------------------------------------------------------
 # Homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="/usr/local/bin:$PATH"
@@ -80,9 +72,7 @@ eval "$(starship init zsh)"
 # Node with fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-# ----------------------------------------------------------------
 # Upload Files
-# ----------------------------------------------------------------
 # Upload aliases
 # if [ -f "$DOTFILES/shell/aliases.sh" ]; then
 #   source "$DOTFILES/shell/aliases.sh"
@@ -95,10 +85,8 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # Upload functions
 [[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
 
-# ----------------------------------------------------------------
 # Tmux
 # Always work in a tmux session if Tmux is installed
-# ----------------------------------------------------------------
 if which tmux >/dev/null 2>&1; then
   # Check if the current environment is suitable for tmux
   if [[ -z "$TMUX" && \

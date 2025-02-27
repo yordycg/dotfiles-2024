@@ -103,14 +103,15 @@ alias ld="lazydocker" # need install lazydocker
 # Utils
 alias setup="mkdir \"$1\" && cd \"$1\""
 alias eal="$EDITOR $DOTFILES/shell/aliases.sh"
-alias ez="$EDITOR ~/.zshrc"
-# alias ebrc="$EDITOR ~/.bashrc"
-# alias ea="$EDITOR ~/.config/alacritty/alacritty.toml"
-alias ek="$EDITOR $DOTFILES/os/linux/kitty/kitty.conf"
-alias ew="$EDITOR $DOTFILES/os/cross-platform/wezterm/wezterm.lua"
-# alias sb="source ~/.bashrc"
-alias sz="source ~/.zshrc"
+alias ezsh="$EDITOR ~/.zshrc"
+alias ebash="$EDITOR ~/.bashrc"
+alias eatty="$EDITOR ~/.config/alacritty/alacritty.toml"
+alias ekitty="$EDITOR $DOTFILES/os/linux/kitty/kitty.conf"
+alias ewterm="$EDITOR $DOTFILES/os/cross-platform/wezterm/wezterm.lua"
+alias sbash="source ~/.bashrc"
+alias szsh="source ~/.zshrc"
 alias t="tmux"
+alias tks="tmux kill-server"
 alias cat="bat" # instalar desde 'bat/github'
 alias ff="fastfetch"
 # alias wifi="nmtui"
@@ -147,9 +148,15 @@ alias dev="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/"
 alias dircpp="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/02\ Cpp/"
 
 # Dev
-# NodeJS
+# npm
 alias npmd="npm run dev"
 alias npms="npm start"
 alias rmnpmi="rm -rf node_modules && npm cache clean --force && npm i"
+# pnpm
 alias pn="pnpm"
-alias pnd="pn run dev"
+alias pni="pnpm install"
+alias pna="pnpm add"
+alias pnad="pnpm add -D"
+alias pnrs="pnpm run star"
+alias pnrb="pnpm run build"
+alias pnrd="pnpm run dev"
