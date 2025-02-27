@@ -30,6 +30,7 @@ vim.g.maplocalleader = ' '
 require('lazy').setup {
   spec = {
     -- { 'lazyVim/LazyVim', import = 'lazyvim.plugins' },
+    -- { 'lazyVim/LazyVim', import = 'lazyvim.plugins' },
     -- import your plugins
     { import = 'plugins.alpha' },
     { import = 'plugins.autocompletion' },
@@ -54,5 +55,6 @@ require('lazy').setup {
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { 'habamax' } },
   -- automatically check for plugin updates
+  -- checker = { enabled = true },
   -- checker = { enabled = true },
 }
