@@ -201,3 +201,15 @@ function cleancpp() {
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
+
+# Buscar contenido con ripgrp y fzf
+findedit() {
+  local file=$(
+    rg --line-number --no-heading --color=always --smart-case "$1" |
+    fzf --ansi --preview "bat {1} --highlight-line {2}"
+  )
+  if [[ -n $file ]]; then
+    vim "$(echo "$file" | cut -d':' -f1)" "+$(echo "$file" | cut -d':' -f2)"
+  fi
+}
+

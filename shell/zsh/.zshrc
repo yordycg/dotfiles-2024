@@ -1,3 +1,32 @@
+# PATH config
+# export PATH="/usr/local/bin:$PATH"
+
+export EDITOR="nvim" # Use nvim as default editor
+export VISUAL="nvim"
+
+export BROWSER="firefox"
+
+# Directories
+export WORKSPACE="$HOME/workspace"
+export OBSIDIAN="$WORKSPACE/obsidian-notes"
+export REPOS="$WORKSPACE/repos"
+export DOTFILES="$REPOS/dotfiles-2024"
+
+# Theme config
+export TMUX_THEME="nord" # nord | onedark
+export NVIM_THEME="nord"
+export STARSHIP_THEME="nord"
+export WEZTERM_THEME="nord"
+
+# History config
+export HISTFILE=~/.zsh_history
+export HISTSIZE=5000
+export SAVEHIST=$HISTSIZE
+export HISTDUP=erase
+# Don't put DUPLICATE LINES in the history and do not add lines that START WITH A SPACE
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+
+
 # Antigen Configuration
 # Laod Antigen
 # source "$HOME/antigen.zsh"
@@ -42,11 +71,11 @@ antigen apply
 # Others
 # History Configuration
 setopt appendhistory
-setopt sharehistory         # Share history between sessions
-setopt hist_ignore_space    # Don't save when prefixed with space
+setopt sharehistory      # Share history between sessions
+setopt hist_ignore_space # Don't save when prefixed with space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
-setopt hist_ignore_dups     # Don't save duplicate lines
+setopt hist_ignore_dups # Don't save duplicate lines
 setopt hist_find_no_dups
 # keybindings
 bindkey -e                           # Usa el modo de edicion emacs (estandar)
@@ -54,12 +83,12 @@ bindkey '^n' history-search-forward  # ctrl-n para buscar hacia adelante en el h
 bindkey '^p' history-search-backward # ctrl-p para buscar hacia atras en el historial
 bindkey '^[w' kill-region            # alt-w para borrar region seleccionada
 # Completions styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Case insensitive matching
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Colorear completados
-zstyle ':completion:*' menu no                          # No mostrar menú de selección para completados
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Case insensitive matching
+# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Colorear completados
+# zstyle ':completion:*' menu no                          # No mostrar menú de selección para completados
 # Fzf-tab config
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 
 # Eval list
 # Homebrew
@@ -72,33 +101,33 @@ eval "$(starship init zsh)"
 # Node with fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-# Upload Files
-# Upload aliases
-# if [ -f "$DOTFILES/shell/aliases.sh" ]; then
-#   source "$DOTFILES/shell/aliases.sh"
-# fi
-[[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
-
-# Upload exports
-[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
-
-# Upload functions
-[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
-
 # Tmux
 # Always work in a tmux session if Tmux is installed
 if which tmux >/dev/null 2>&1; then
   # Check if the current environment is suitable for tmux
-  if [[ -z "$TMUX" && \
-        $TERM != "screen-256color" && \
-        $TERM != "screen" && \
-        -z "$VSCODE_INJECTION" && \
-        -z "$INSIDE_EMACS" && \
-        -z "$EMACS" && \
-        -z "$VIM" && \
-        -z "$INTELLIJ_ENVIRONMENT_READER" ]]; then
+  if [[ -z "$TMUX" &&
+    $TERM != "screen-256color" &&
+    $TERM != "screen" &&
+    -z "$VSCODE_INJECTION" &&
+    -z "$INSIDE_EMACS" &&
+    -z "$EMACS" &&
+    -z "$VIM" &&
+    -z "$INTELLIJ_ENVIRONMENT_READER" ]]; then
     # Try to attach to the default tmux session, or create a new one if it doesn't exist
     tmux attach -t default || tmux new -s default
     exit
   fi
 fi
+
+# Upload Files...
+# Aliases
+# if [ -f "$DOTFILES/shell/aliases.sh" ]; then
+#   source "$DOTFILES/shell/aliases.sh"
+# fi
+[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/aliases.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/aliases.sh"
+# Exports
+[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/exports.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/exports.sh"
+# Functions
+[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/functions.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/functions.sh"
+# fzf-git
+[[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
