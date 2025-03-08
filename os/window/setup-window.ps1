@@ -20,7 +20,7 @@ Write-Host "Cargando archivos..."
 . functions\Install-ScoopAps.ps1
 . functions\Get-Repository.ps1
 . functions\New-Symlink.ps1
-. functions\Configure-PowerShellProfile.ps1
+. functions\Set-PowerShellProfile.ps1
 
 # Cargar scripts
 
@@ -31,7 +31,7 @@ Write-Host "Cargando archivos..."
 # Llamando a las funciones
 Write-Host "Creando directorios..."
 New-Directory -Path $configPath -Force
-New-Directory -Path $powershellPath -Force
+New-Directory -Path $powershellConfigPath -Force
 New-Directory -Path $workspacePath -Force
 New-Directory -Path $reposPath -Force
 
@@ -50,7 +50,7 @@ New-Symlink -TargetPath $starshipDotfilesPath -LinkPath $starshipPath
 New-Symlink -TargetPath $profilePSDotfilesPath -LinkPath $userProfileConfigPath
 
 # Setup PowerShell
-Configure-PowerShellProfile -ProfileContent $ProfilePSContent
+Set-PowerShellProfile -ProfileContent $ProfilePSContent
 
 # Instalando programas
 Write-Host "Instalando programas..."
