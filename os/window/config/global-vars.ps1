@@ -16,7 +16,7 @@ $gitConfig = "$env:USERPROFILE\.gitconfig"
 $ahkFilePath = "$env:USERPROFILE\repos\dotfiles\os\windows\remap_keys\remap.ahk"
 
 # Setup PowerShell profile
-$profilePSDotfilesPath = "$env:dotfilesPath\os\window\programs\PowerShell\profiles\user_profile.ps1"
+$profilePSDotfilesPath = "$dotfilesPath\os\window\programs\PowerShell\profiles\user_profile.ps1"
 $powershellConfigPath= "$configPath\powershell"
 $userProfileConfigPath = "$powershellConfigPath\user_profile.ps1"
 $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
@@ -24,8 +24,8 @@ $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
 # Aplicaciones Scoop
 $scoopApps = @(
   "7zip",
-  "autohotkey",
-  "bitwarden",
+  # "autohotkey",
+  # "bitwarden",
   "discord",
   "everything",
   "flow-launcher",
@@ -35,38 +35,38 @@ $scoopApps = @(
   "postman",
   "vlc",
   "whatsapp",
-  "windows-terminal",
+  # "windows-terminal",
   # CLI
-  "bat",
-  "cmake",
+  "bat", # si la instala
+  "cmake", # si la instala
   "curl",
-  "delta",
-  "dotnet-sdk",
-  "docker",
-  "docker-compose",
-  "fnm",
-  "fzf",
+  "delta", # si la instala
+  "dotnet-sdk", # si la instala
+  "docker", # si la instala
+  "docker-compose", # si la instala
+  "fnm", # si la instala
+  "fzf", # si la instala
   "gcc",
-  "gh",
+  "gh", # si la instala
   "httpie",
-  "jq",
+  "jq", # si la instala
   "lazygit",
-  "lazydocker",
-  "neovim",
-  "oh-my-posh",
-  "pnpm",
+  "lazydocker", # si la instala
+  "neovim", # si la instala
+  "oh-my-posh", # si la instala
+  "pnpm", # si la instala
   "posh-git",
   "posh-docker",
   "psfzf",
   "psreadline",
-  "ripgrep",
-  "starship",
-  "sudo",
+  "ripgrep", # si la instala
+  "starship", # si la instala
+  "sudo", # si la instala
   "terminal-icons",
   "z",
   # DataBases
-  "postgresql",
-  "mongodb",
+  "postgresql", # si la instala
+  "mongodb", # si la instala
   "tableplus",
   # IDEs
   "vscode",

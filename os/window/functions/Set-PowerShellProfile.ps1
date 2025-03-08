@@ -1,4 +1,4 @@
-function Configure-PowerShellProfile {
+function Set-PowerShellProfile {
     param (
         [Parameter(Mandatory=$true)]
         [string]$ProfileContent,
