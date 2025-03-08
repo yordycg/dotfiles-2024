@@ -9,7 +9,7 @@ function Install-ScoopAps{
       return
     }
 
-    foreach ($$app in $Apps) {
+    foreach ($app in $Apps) {
       Write-Host "Instalando $app..." -ForegroundColor Cyan
       & scoop install $app
       Write-Host "$app instalado." -ForegroundColor Green
