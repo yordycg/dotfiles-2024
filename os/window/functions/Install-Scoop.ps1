@@ -9,9 +9,11 @@ function Install-Scoop {
     } else {
       Write-Host "Instalando Scoop..." -ForegroundColor Cyan
       iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
-      Write-Host "Agregando bucket 'extras' a Scoop..." -ForegroundColor Cyan
-      & scoop bucket add main extras nerd-fonts versions
-      Write-Host "Scoop instalado." -ForegroundColor Green
+      Write-Host "Agregando bucket a Scoop..." -ForegroundColor Cyan
+      & scoop bucket add extras
+      & scoop bucket add nerd-fonts
+      & scoop bucket add versions
+      Write-Host "Scoop instalado y buckets agregados." -ForegroundColor Green
     }
   }
   catch {
