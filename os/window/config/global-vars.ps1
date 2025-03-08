@@ -1,16 +1,16 @@
 # Directorios
 $configPath = "$env:USERPROFILE\.config"
 $workspacePath = "$env:USERPROFILE\workspace"
-$reposPath = "$env:workspacePath\repos"
-$dotfilesPath = "$env:reposPath\dotfiles-2024"
-$gitConfigDotfilesPath = "$env:dotfilesPath\git\.gitconfig"
-$starshipDotfilesPath = "$env:dotfilesPath\os\cross-platform\starship\starship.toml"
-$wallpapersPath = "$env:reposPath\wallpapers"
-$obsidianPath = "$env:reposPath\obsidian-notes"
+$reposPath = "$workspacePath\repos"
+$dotfilesPath = "$reposPath\dotfiles-2024"
+$gitConfigDotfilesPath = "$dotfilesPath\git\.gitconfig"
+$starshipDotfilesPath = "$dotfilesPath\os\cross-platform\starship\starship.toml"
+$wallpapersPath = "$reposPath\wallpapers"
+$obsidianPath = "$reposPath\obsidian-notes"
 $nvimPath = "$env:LOCALAPPDATA\nvim"
 
 # Archivos u otros
-$starshipPath = "$env:configPath\starship.toml"
+$starshipPath = "$configPath\starship.toml"
 $scoopExe = "$env:USERPROFILE\scoop\scoop.exe"
 $gitConfig = "$env:USERPROFILE\.gitconfig"
 $ahkFilePath = "$env:USERPROFILE\repos\dotfiles\os\windows\remap_keys\remap.ahk"
