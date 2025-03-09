@@ -22,90 +22,110 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
+# Import custom config
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\aliases.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\docker-functions.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\fzf-git-functions.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\gh-functions.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\git-functions.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\pnpm-functions.ps1"
+. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\utils-functions.ps1"
+
 # Alias
-# Set-Alias -Name nv -Value nvim
-Set-Alias v nvim
-Set-Alias ll ls
-Set-Alias g git
-Set-Alias grep findstr
-Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
-Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+# # Set-Alias -Name nv -Value nvim
+# Set-Alias v nvim
+# Set-Alias ll ls
+# Set-Alias g git
+# Set-Alias grep findstr
+# Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+# Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
 
-# Utilities
-function dev { cd "D:\Escritorio 2\Cursos-Yordy\00 - Cursos Programacion" }
-function ws {
-    $fixedPath = "$env:USERPROFILE\workspace"
+# # Utilities
+# function dev { cd "D:\Escritorio 2\Cursos-Yordy\00 - Cursos Programacion" }
+# function ws {
+#     $fixedPath = "$env:USERPROFILE\workspace"
 
-    if (!(Test-Path $fixedPath)) {
-        New-Item -ItemType Directory -Path $fixedPath -Force
-        Write-Host "`nDirectorio '$fixedPath' creado correctamente!"
-    }
-    else {
-        Write-Host "Ir al directorio '$fixedPath'..."
-        cd "$env:USERPROFILE\workspace"
-    }
-}
+#     if (!(Test-Path $fixedPath)) {
+#         New-Item -ItemType Directory -Path $fixedPath -Force
+#         Write-Host "`nDirectorio '$fixedPath' creado correctamente!"
+#     }
+#     else {
+#         Write-Host "Ir al directorio '$fixedPath'..."
+#         cd "$env:USERPROFILE\workspace"
+#     }
+# }
 
-# TODO: solucionar error, no toma la variable $fixedPath
-function ii {
-    $fixedPath = "$env:USERPROFILE\workspace\ing_informatica"
+# function ii {
+#     $fixedPath = "$env:USERPROFILE\workspace\ing_informatica"
 
-    if (!(Test-Path $fixedPath)) {
-        # Crear directorio 'workspace'
-        # ws
-        New-Item -ItemType Directory -Path $fixedPath -Force
-        Write-Host "`nDirectorio '$fixedPath' creado correctamente!"
-    }
-    else {
-        Write-Host "Ir al directorio '$fixedPath'..."
-        cd "$env:USERPROFILE\workspace\ing_informatica"
-    }
-}
-function which ($command) {
-    Get-Command -Name $command -ErrorAction SilentlyContinue |
-    Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
+#     if (!(Test-Path $fixedPath)) {
+#         # Crear directorio 'workspace'
+#         # ws
+#         New-Item -ItemType Directory -Path $fixedPath -Force
+#         Write-Host "`nDirectorio '$fixedPath' creado correctamente!"
+#     }
+#     else {
+#         Write-Host "Ir al directorio '$fixedPath'..."
+#         cd "$env:USERPROFILE\workspace\ing_informatica"
+#     }
+# }
+# function which ($command) {
+#     Get-Command -Name $command -ErrorAction SilentlyContinue |
+#     Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+# }
 
-function lsa {
-    Get-ChildItem -Force
-}
+# function lsa {
+#     Get-ChildItem -Force
+# }
 
-## agregar alias a wsl.exe
-function ub {
-    param (
-        [string]$argument
-    )
+# ## agregar alias a wsl.exe
+# function ub {
+#     param (
+#         [string]$argument
+#     )
 
-    # Verifica si se proporcionó un argumento
-    if ($argument) {
-        # Ejecuta el comando con el argumento
-        wsl.exe $argument
-    }
-    else {
-        # Ejecuta el comando con la ubicación predeterminada
-        wsl.exe ~
-    }
-}
+#     # Verifica si se proporcionó un argumento
+#     if ($argument) {
+#         # Ejecuta el comando con el argumento
+#         wsl.exe $argument
+#     }
+#     else {
+#         # Ejecuta el comando con la ubicación predeterminada
+#         wsl.exe ~
+#     }
+# }
 
-## Node Alias
-Set-Alias -Name pn -Value pnpm
-function pnd {
-    pnpm run dev
-}
-function npmd {
-    npm run dev
-}
+# ## Node Alias
+# Set-Alias -Name pn -Value pnpm
+# function pnd {
+#     pnpm run dev
+# }
+# function npmd {
+#     npm run dev
+# }
 
-# Useful shortcuts for traversing directories
-function .. { cd ..\ }
-function ... { cd ..\.. }
-function .... { cd ..\..\.. }
-function ..... { cd ..\..\..\.. }
-function ...... { cd ..\..\..\..\.. }
+# # Useful shortcuts for traversing directories
+# function .. { cd ..\ }
+# function ... { cd ..\.. }
+# function .... { cd ..\..\.. }
+# function ..... { cd ..\..\..\.. }
+# function ...... { cd ..\..\..\..\.. }
 
-function touch($file) {
-    "" | Out-FIle $file -Encoding ASCII
-}
+# function touch($file) {
+#     "" | Out-FIle $file -Encoding ASCII
+# }
+
+# Config fzf
+# Configuración de fzf para PowerShell
+$env:FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+$env:FZF_CTRL_T_COMMAND=$env:FZF_DEFAULT_COMMAND
+$env:FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+$env:FZF_DEFAULT_OPTS="--height 50% --layout=reverse --info=inline-right --border=rounded --color=hl:#2dd4bf"
+$env:FZF_TMUX_OPTS=" -p70%,70% "
+
+# Configuración de previsualización
+$env:FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always -n --line-range :500 {}'"
+$env:FZF_ALT_C_OPTS="--preview 'ls -l {} | head -200'"  # Ajusta esto según qué herramienta uses para listar directorios
 
 # fnm
 fnm env --use-on-cd | Out-String | Invoke-Expression

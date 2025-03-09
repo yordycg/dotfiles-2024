@@ -34,6 +34,7 @@ New-Directory -Path $configPath -Force
 New-Directory -Path $powershellConfigPath -Force
 New-Directory -Path $workspacePath -Force
 New-Directory -Path $reposPath -Force
+New-Directory -Path "$workspacePath\ing-informatica" -Force
 
 Write-Host "Scoop..."
 Install-Scoop
