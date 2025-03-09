@@ -3,16 +3,19 @@ $configPath = "$env:USERPROFILE\.config"
 $workspacePath = "$env:USERPROFILE\workspace"
 $reposPath = "$workspacePath\repos"
 $dotfilesPath = "$reposPath\dotfiles-2024"
-$gitConfigDotfilesPath = "$dotfilesPath\git\.gitconfig"
-$starshipDotfilesPath = "$dotfilesPath\os\cross-platform\starship\starship.toml"
 $wallpapersPath = "$reposPath\wallpapers"
 $obsidianPath = "$reposPath\obsidian-notes"
 $nvimPath = "$env:LOCALAPPDATA\nvim"
 
 # Archivos u otros
-$starshipPath = "$configPath\starship.toml"
-$scoopExe = "$env:USERPROFILE\scoop\scoop.exe"
+$gitConfigDotfilesPath = "$dotfilesPath\git\.gitconfig"
 $gitConfig = "$env:USERPROFILE\.gitconfig"
+$starshipDotfilesPath = "$dotfilesPath\os\cross-platform\starship\starship.toml"
+$starshipPath = "$configPath\starship.toml"
+$confWinTerminalDotfilesPath = "$reposPath\dotfiles-2024\os\window\programs\Windows-Terminal\settings.json"
+$confWinTerminalPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+
+$scoopExe = "$env:USERPROFILE\scoop\scoop.exe"
 $ahkFilePath = "$env:USERPROFILE\repos\dotfiles\os\windows\remap_keys\remap.ahk"
 
 # Setup PowerShell profile
@@ -24,52 +27,52 @@ $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
 # Aplicaciones Scoop
 $scoopApps = @(
   "7zip",
-  # "autohotkey",
-  # "bitwarden",
+  "autohotkey",
+  "bitwarden",
   "discord",
   "everything",
   "flow-launcher",
   "hoppscotch",
   "obsidian",
-  "powershell",
+  "pwsh",
   "postman",
   "vlc",
-  "whatsapp",
-  # "windows-terminal",
+  "windows-terminal",
   # CLI
-  "bat", # si la instala
-  "cmake", # si la instala
+  "bat",
+  "cmake",
   "curl",
-  "delta", # si la instala
-  "dotnet-sdk", # si la instala
-  "docker", # si la instala
-  "docker-compose", # si la instala
-  "fnm", # si la instala
-  "fzf", # si la instala
+  "curlie",
+  "delta",
+  "dotnet-sdk",
+  "docker",
+  "docker-compose",
+  "fnm",
+  "fzf",
   "gcc",
-  "gh", # si la instala
-  "httpie",
-  "jq", # si la instala
+  "gh",
+  "jq",
   "lazygit",
-  "lazydocker", # si la instala
-  "neovim", # si la instala
-  "oh-my-posh", # si la instala
-  "pnpm", # si la instala
+  "lazydocker",
+  "neovim",
+  "oh-my-posh",
+  "pnpm",
   "posh-git",
   "posh-docker",
   "psfzf",
   "psreadline",
-  "ripgrep", # si la instala
-  "starship", # si la instala
-  "sudo", # si la instala
+  "ripgrep",
+  "starship",
+  "sudo",
   "terminal-icons",
   "z",
   # DataBases
-  "postgresql", # si la instala
-  "mongodb", # si la instala
+  "postgresql",
+  "mongodb",
   "tableplus",
   # IDEs
   "vscode",
+  "jetbrains-toolbox",
   "rider",
   "pycharm",
   "clion",
@@ -77,9 +80,10 @@ $scoopApps = @(
   "datagrip",
   # browsers
   "firefox",
+  "firefox-developer",
   "googlechrome",
+  "googlechrome-dev",
   "brave",
-  "edge"
   # nerdfonts
   "CascadiaCode-NF-Mono"
   "CascadiaMono-NF-Mono"

@@ -48,6 +48,7 @@ Write-Host "Crear Symlinks..."
 New-Symlink -TargetPath $gitConfigDotfilesPath -LinkPath $gitConfig
 New-Symlink -TargetPath $starshipDotfilesPath -LinkPath $starshipPath
 New-Symlink -TargetPath $profilePSDotfilesPath -LinkPath $userProfileConfigPath
+New-Symlink -TargetPath $confWinTerminalDotfilesPath -LinkPath $confWinTerminalPath -Force
 
 # Setup PowerShell
 Set-PowerShellProfile -ProfileContent $ProfilePSContent
