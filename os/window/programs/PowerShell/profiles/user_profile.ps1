@@ -23,13 +23,21 @@ Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # Import custom config
+$customConfigPath = Join-Path -Path $HOME -ChildPath "workspace\dotfiles\os\window\programs\PowerShell\configs"
+$functionsPath = Join-Path -Path $customConfigPath -ChildPath "functions"
+
+# Import functions
+if (Test-Path -Path $functionsPath) {
+  . "$functionsPath\docker-functions.ps1"
+  . "$functionsPath\fzf-git-functions.ps1"
+  . "$functionsPath\gh-functions.ps1"
+  . "$functionsPath\git-functions.ps1"
+  . "$functionsPath\pnpm-functions.ps1"
+  . "$functionsPath\utils-functions.ps1"
+} else {
+  Write-Warning "No se encontraron los funciones en el directorio: $functionsPath"
+}
 . "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\aliases.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\docker-functions.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\fzf-git-functions.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\gh-functions.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\git-functions.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\pnpm-functions.ps1"
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\functions\utils-functions.ps1"
 
 # Alias
 # # Set-Alias -Name nv -Value nvim
