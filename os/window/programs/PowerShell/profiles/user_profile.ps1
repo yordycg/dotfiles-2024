@@ -23,7 +23,7 @@ Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # Import custom config
-$customConfigPath = Join-Path -Path $HOME -ChildPath "workspace\dotfiles\os\window\programs\PowerShell\configs"
+$customConfigPath = Join-Path -Path $HOME -ChildPath "workspace\repos\dotfiles\os\window\programs\PowerShell\configs"
 $functionsPath = Join-Path -Path $customConfigPath -ChildPath "functions"
 
 # Import functions
@@ -34,7 +34,8 @@ if (Test-Path -Path $functionsPath) {
   . "$functionsPath\git-functions.ps1"
   . "$functionsPath\pnpm-functions.ps1"
   . "$functionsPath\utils-functions.ps1"
-} else {
+}
+else {
   Write-Warning "No se encontraron los funciones en el directorio: $functionsPath"
 }
 . "$customConfigPath\aliases.ps1"
@@ -125,15 +126,15 @@ if (Test-Path -Path $functionsPath) {
 
 # Config fzf
 # Configuración de fzf para PowerShell
-$env:FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-$env:FZF_CTRL_T_COMMAND=$env:FZF_DEFAULT_COMMAND
-$env:FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-$env:FZF_DEFAULT_OPTS="--height 50% --layout=reverse --info=inline-right --border=rounded --color=hl:#2dd4bf"
-$env:FZF_TMUX_OPTS=" -p70%,70% "
+$env:FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git"
+$env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND
+$env:FZF_ALT_C_COMMAND = "fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+$env:FZF_DEFAULT_OPTS = "--height 50% --layout=reverse --info=inline-right --border=rounded --color=hl:#2dd4bf"
+$env:FZF_TMUX_OPTS = " -p70%,70% "
 
 # Configuración de previsualización
-$env:FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always -n --line-range :500 {}'"
-$env:FZF_ALT_C_OPTS="--preview 'ls -l {} | head -200'"  # Ajusta esto según qué herramienta uses para listar directorios
+$env:FZF_CTRL_T_OPTS = "--preview 'bat --style=numbers --color=always -n --line-range :500 {}'"
+$env:FZF_ALT_C_OPTS = "--preview 'ls -l {} | head -200'"  # Ajusta esto según qué herramienta uses para listar directorios
 
 # fnm
 fnm env --use-on-cd | Out-String | Invoke-Expression
