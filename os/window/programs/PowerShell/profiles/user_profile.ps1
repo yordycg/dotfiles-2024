@@ -37,7 +37,7 @@ if (Test-Path -Path $functionsPath) {
 } else {
   Write-Warning "No se encontraron los funciones en el directorio: $functionsPath"
 }
-. "$env:USERPROFILE\workspace\dotfiles\os\window\programs\PowerShell\configs\aliases.ps1"
+. "$customConfigPath\aliases.ps1"
 
 # Alias
 # # Set-Alias -Name nv -Value nvim
