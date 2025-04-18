@@ -23,7 +23,7 @@ Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # Import custom config
-$customConfigPath = Join-Path -Path $HOME -ChildPath "workspace\repos\dotfiles\os\window\programs\PowerShell\configs"
+$customConfigPath = Join-Path -Path $HOME -ChildPath "workspace\repos\dotfiles-2024\os\window\programs\PowerShell\configs"
 $functionsPath = Join-Path -Path $customConfigPath -ChildPath "functions"
 
 # Import functions
