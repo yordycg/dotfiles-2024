@@ -20,7 +20,7 @@ $ahkFilePath = "$env:USERPROFILE\repos\dotfiles\os\windows\remap_keys\remap.ahk"
 
 # Setup PowerShell profile
 $profilePSDotfilesPath = "$dotfilesPath\os\window\programs\PowerShell\profiles\user_profile.ps1"
-$powershellConfigPath= "$configPath\powershell"
+$powershellConfigPath = "$configPath\powershell"
 $userProfileConfigPath = "$powershellConfigPath\user_profile.ps1"
 $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
 
@@ -28,15 +28,9 @@ $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
 $scoopApps = @(
   "7zip",
   "autohotkey",
-  "bitwarden",
-  "discord",
-  "everything",
   "flow-launcher",
-  "hoppscotch",
   "obsidian",
   "pwsh",
-  "postman",
-  "vlc",
   "windows-terminal",
   # CLI
   "bat",
@@ -45,8 +39,6 @@ $scoopApps = @(
   "curlie",
   "delta",
   "dotnet-sdk",
-  "docker",
-  "docker-compose",
   "fnm",
   "fzf",
   "gcc",
@@ -66,31 +58,14 @@ $scoopApps = @(
   "sudo",
   "terminal-icons",
   "z",
-  # DataBases
-  "postgresql",
-  "mongodb",
-  "tableplus",
-  # IDEs
-  "vscode",
-  "jetbrains-toolbox",
-  "rider",
-  "pycharm",
-  "clion",
-  "webstorm",
-  "datagrip",
-  # browsers
-  "firefox",
-  "firefox-developer",
-  "googlechrome",
-  "googlechrome-dev",
-  "brave",
   # nerdfonts
-  "CascadiaCode-NF-Mono"
-  "CascadiaMono-NF-Mono"
-  "FiraCode-NF-Mono"
-  "FiraMono-NF-Mono"
-  "Hack-NF-Mono"
-  "JetBrainsMono-NF-Mono"
-  "Meslo-NF-Mono"
+  "CascadiaCode-NF-Mono",
+  "CascadiaMono-NF-Mono",
+  "FiraCode-NF-Mono",
+  "FiraMono-NF-Mono",
+  "Hack-NF-Mono",
+  "JetBrainsMono-NF-Mono",
+  "Meslo-NF-Mono",
+  "RobotoMono-NF-Mono",
   "ZedMono-NF-Mono"
 )

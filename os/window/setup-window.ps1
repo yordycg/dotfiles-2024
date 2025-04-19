@@ -57,5 +57,4 @@ Set-PowerShellProfile -ProfileContent $ProfilePSContent
 # Instalando programas
 Write-Host "Instalando programas..."
 
-
 Write-Host "Adios."
