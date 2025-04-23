@@ -99,7 +99,10 @@ export PATH="/usr/local/bin:$PATH"
 eval "$(starship init zsh)"
 
 # Node with fnm
+# TODO: error fnm multishells
+export FNM_MULTISHELL_PATH=disabled
 eval "$(fnm env --use-on-cd --shell zsh)"
+
 
 # Tmux
 # Always work in a tmux session if Tmux is installed
