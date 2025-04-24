@@ -1,0 +1,16 @@
+CompileFlags:
+  Add:
+    - -std=c++17
+    - -Wall
+    - -Weffc++ # Habilitar advertencias sobre reglas efectivas de C++.
+    - -Wextra
+    - -Wconversion
+    - -Wsign-conversion
+    - -Wpedantic # Habilita advertencias estrictas sobre el estandar ISO C++.
+    - -Werror # Trata todas las advertencias como errores.
+    - -ggdb # Incluye informacion de depuracion compatible con GDB
+    - -02 # Nivel de optimizacion 2
+    - -DNDEBUG # Define la macro NDEBUG (comunmente para deshabilitar asserts)
+    - -pedantic-errors # Trata las adevertencias de '-Wpedantic' como errores
+  # Index:
+  # Background: Skip
