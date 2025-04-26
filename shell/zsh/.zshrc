@@ -122,6 +122,9 @@ if which tmux >/dev/null 2>&1; then
   fi
 fi
 
+# Add script/ directorie to PATH
+export PATH="$DOTFILES/os/linux/scripts:$PATH"
+
 # Upload Files...
 # Aliases
 # if [ -f "$DOTFILES/shell/aliases.sh" ]; then

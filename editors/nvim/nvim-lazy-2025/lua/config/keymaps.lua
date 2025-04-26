@@ -43,8 +43,8 @@ map({ "n", "x", "o" }, "H", "^", opts)
 map({ "n", "x", "o" }, "L", "g_", opts)
 
 -- Remap for dealing with visual line wraps
-map("n", "j", "v=count == 0 ? 'gj' : 'J'", { expr = true })
-map("n", "k", "v=count == 0 ? 'gk' : 'K'", { expr = true })
+map("n", "j", "v:count == 0 ? 'gj' : 'J'", { expr = true })
+map("n", "k", "v:count == 0 ? 'gk' : 'K'", { expr = true })
 
 -- Indent
 map("v", "<", "<gv", opts)

@@ -1,5 +1,5 @@
 return {
-  "ngtuonghy/live-server-nivm",
+  "ngtuonghy/live-server-nvim",
   event = "VeryLazy",
   build = ":LiveServerInstall",
   config = function()
