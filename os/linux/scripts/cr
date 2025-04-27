@@ -1,50 +1,158 @@
 #!/usr/bin/env bash
 # Author: https://github.com/tcmmichaelb139/.dotfiles/blob/main/scripts/.scripts/cr
 
-if [ -z "$1" ]; then
-  echo "Please give a file to compile and run."
-  exit
+set -euo pipefail
+
+# Definir compilador
+# CXX="g++-14"
+
+common_flags=()
+
+releace_flags=(
+  -std=c++17
+  -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Wpedantic -Werror
+  -O2
+  -DNDEBUG
+  -pedantic-errors
+  # Agregar rutas I, si son necesarias...
+)
+
+debug_flags=(
+  -std=c++17
+  -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Wpedantic
+  -ggdb
+  -O0
+  # Flags de sanitizacion...
+  # Agregar rutas I, si son necesarias...
+)
+
+mostrar_uso() {
+  echo "Uso: $(basename "$0") <nombre_archivo.cpp> [-d]"
+  echo " <nombre_archivo.cpp>: Archivo fuente C++ a compilar y ejecutar/depurar."
+  echo " -d                  : Compila con flags de depuracion y lanza el depurardor (lldb)."
+  exit 1
+}
+
+compilar() {
+  local source_file="$1"
+  local output_executable="$2"
+  local flags=("${@:3}") # Captura todas las flags restantes como un array.
+
+  echo -e "\n|---- \e[0;34mCompilando $source_file\e[m ----|"
+  echo -e "Comando: \e[0;33m$CXX "$source_file" -o "$output_executable" "${flags[@]}"\e[m"
+
+  # Usamos /usr/bin/time en Linux o time (si está disponible y es el del shell, o gtime en macOS)
+  # El formato de time -f '%E' varía. Para simplicidad, usaremos el `time` básico o gtime.
+  # Detectar `time` que soporte -f o usar el básico
+  local time_cmd
+  if command -v gtime >/dev/null 2>&1; then
+    time_cmd="gtime -f '\n  real\t%E\n  user\t%U\n  sys\t%S'"
+  elif command -v time >/dev/null 2>&1 && time -f '' >/dev/null 2>&1; then
+    time_cmd="time -f '\n  real\t%E\n  user\t%U\n  sys\t%S'"
+  else
+    time_cmd="time" # time básico sin formato
+  fi
+
+  # Ejecutar compilación con medición de tiempo, redirigiendo stderr (donde time reporta)
+  # Si el time_cmd es solo "time", no redirigimos 2>&1
+  if [[ "$time_cmd" == "time" ]]; then
+    $time_cmd "$CXX" "$source_file" -o "$output_executable" "${flags[@]}"
+  else
+    eval $time_cmd "\"$CXX\" \"$source_file\" -o \"$output_executable\" \"\${flags[@]}\"" 2>&1
+  fi
+}
+
+ejecutar() {
+  local executable="$1"
+
+  echo -e "\n|---- \e[0;34mEjecutando $executable\e[m ----|"
+  local executable_path="./$executable"
+  if [[ "${executable:0:1}" == "/" ]]; then # Si ya es una ruta absoluta
+    executable_path="$executable"
+  fi
+  echo -e "Comando: \e[0;33m$executable_path\e[m"
+
+  # Usamos /usr/bin/time o gtime para medir el tiempo de ejecución si está disponible y soporta -f
+  local time_cmd
+  if command -v gtime >/dev/null 2>&1; then
+    time_cmd="gtime -f '\n  real\t%E\n  user\t%U\n  sys\t%S'"
+  elif command -v time >/dev/null 2>&1 && time -f '' >/dev/null 2>&1; then
+    time_cmd="time -f '\n  real\t%E\n  user\t%U\n  sys\t%S'"
+  else
+    time_cmd="time" # time básico sin formato
+  fi
+
+  # Ejecutar el programa con medición de tiempo
+  echo -e "\n|---- \e[0;34mRunning (Input/Output)\e[m ----|"
+  if [[ "$time_cmd" == "time" ]]; then
+    $time_cmd "$executable_path"
+  else
+    eval $time_cmd "\"$executable_path\"" 2>&1 # Capturar stderr de time
+  fi
+
+  echo -e "\n|---- \e[0;34mEjecución Finalizada\e[m ----|\n"
+}
+
+depurar() {
+  local executable="$1"
+  local debugger="lldb" # O "gdb" si prefieres
+
+  echo -e "\n|---- \e[0;34mIniciando Depurador ($debugger) para $executable\e[m ----|"
+  echo -e "Comando: \e[0;33m$debugger $executable\e[m"
+  echo -e "Tip: Usa 'r' (run) para iniciar, 'bt' (backtrace) para ver la pila.\n"
+
+  # Asegurarse de que el depurador exista
+  if ! command -v "$debugger" >/dev/null 2>&1; then
+    echo -e "\e[0;31mError: Depurador '$debugger' no encontrado.\e[m"
+    exit 1
+  fi
+
+  "$debugger" "$executable"
+}
+
+# --- Logica Principal ---
+
+# Verificar si se proporciono un archivo.
+if [ $# -eq 0 ]; then
+  mostrar_uso
 fi
 
-filename="$1"
-filename="${filename%.*}"
+source_file="$1"
+executable_name="${source_file%.*}"
 
-flag="-std=c++17 -Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Wpedantic -Werror -ggdb -02 -DNDEBUG -pedantic-errors"
+# Determinar el modo (debugo || release)
+mode="release"
+if [ $# -gt 1 ] && [ "$2" == "-d" ]; then
+  modo="debug"
+fi
 
-dbgFlag="-fsanitize=address -fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fno-sanitize-recover=all -fstack-protector-all -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -g"
+# --- Compilacion ---
 
-if [ "$2" == "-d" ]; then
-  printf "Using lldb (use r (run) and bt (backtrace))"
+compile_flags=("${common_flags[@]}")
 
-  printf "g++-14 $1 -o $filename $flag && lldb $filename"
-
-  # printf "\n\nCompiled with DEBUG flags enabled, code may be slower than normal"
-  printf "\n\n|---- \e[0;34mDebugging\e[m ----|\n\n"
-
-  g++-14 $1 -o $filename $flag && lldb $filename
+if [ "$mode" == "debug" ]; then
+  echo -e "\n|--- \e[0;34mModo Depuracion\e[m ---|"
+  compile_flags+=("${debug_flags[@]")
 else
-  printf "g++-14 $1 -g -o $filename $flag"
-
-  printf "\n\n|----\e[0;34m Compilation output \e[m----|\n\n"
-
-  g++-14 $1 -o $filename $flag
-
-  if [ $? -ne 0 ]; then
-    printf "\n\n|----\e[0;31m\033[1m Errors found \e[m----|\n\n"
-    exit
-  fi
-
-  printf "\n|----\e[0;34m Running (Input) \e[m----|\n\n"
-
-  # if the filename is not equal to a slash then add a ./ in front
-
-  if [ "${filename:0:1}" != "/" ]; then
-    filename="./$filename"
-  fi
-
-  # replace gtime (macOS) or time (Linux) operating systems
-  time -f '\n|--------|\n\n  real\t%E\n  user\t%U\n  sys\t%S\n  mem\t%MKB\n' $filename
-  # output=$(gtime -f '\n|--------|\n\n  real\t%E\n  user\t%U\n  sys\t%S\n  mem\t%MKB\n' $filename 2>&1)
-  # printf "\n|----\e[0;34m Running (Output) \e[m----|\n\n"
-  # printf "$output\n\n"
+  echo -e "\n|--- \e[0;34mModo Relesase\e[m ---|"
+  compile_flags+=("${releace_flags[@]")
 fi
+
+# Compilar archivo.
+compilar "$source_file" "$executable_name" "${compile_flags[@]}"
+
+# Verificar si la compilacion fue exitosa.
+if [ $? -ne 0 ]; then
+  echo -e "\n\n|---\e[0;31m\033[1m Errores de compilacion encontrados. No se ejecutara! \e[m---|\n\n"
+  exit 1
+fi
+
+# --- Ejecucion o Depuracion ---
+
+if [ "$mode" == "debug" ]; then
+  depurar "$executable_name"
+else
+  ejecutar "$executable_name" # TODO: error linia 155
+fi
+
+exit 0 # Salida exitosa.
