@@ -1,5 +1,5 @@
 # Create directory if it doesn't exist
-[ -d ~/.config ] || mkdir ~/.config
+[ -d ~/.config ] || mkdir -p ~/.config
 
 # If Linux...
 ln -s $DOTFILES/os/linux/tmux ~/.config/
