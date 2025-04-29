@@ -8,9 +8,10 @@ export BROWSER="firefox"
 
 # Directories
 export WORKSPACE="$HOME/workspace"
-export OBSIDIAN="$WORKSPACE/obsidian-notes"
 export REPOS="$WORKSPACE/repos"
 export DOTFILES="$REPOS/dotfiles-2024"
+export OBSIDIAN="$REPOS/obsidian-notes"
+export WALLPAPERS="$REPOS/wallpapers"
 
 # Theme config
 export TMUX_THEME="nord" # nord | onedark
