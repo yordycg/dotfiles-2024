@@ -22,6 +22,9 @@ map("n", "<leader>lw", "<CMD>set wrap!<CR>", opts) -- Toggle line wrapping
 map("n", "X", ":keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==^<CR>", { silent = true }) -- Split line with X
 map("n", "x", '"_x', opts) -- Delete single character without copying into register
 map("n", "YY", "va{Vy", opts) -- Copy everything BETWEEN { and } including the brackets
+-- map("n", "<C-r>", ":Lazy reload<CR>", { desc = "Reload nvim config" }) -- Reload nvim config
+map("n", "<C-r>", ":source $DOTFILES/editors/nvim/nvim-lazy-2025/init.lua<CR>", { desc = "Reload nvim config" }) -- Reload nvim config
+map("n", "<A-r>", ":%s/", opts) -- Replace
 
 -- Go to END or START
 map("n", "<leader>[", "<S-$>%", { noremap = true, desc = "Move to end {([])}" })
@@ -74,7 +77,7 @@ map("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { noremap = true })
 map("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { noremap = true })
 
 -- Refactoring
-map({ "x", "n" }, "<leader>r", "Refactor")
+map({ "x", "n" }, "<leader>R", "Refactor")
 map("x", "<leader>re", ":Refactor extract ")
 map("x", "<leader>rf", ":Refactor extract_to_file ")
 map("x", "<leader>rv", ":Refactor extract_var ")
@@ -96,28 +99,6 @@ map(
 )
 map("n", "<leader>Tv", ":ToggleTerm direction=vertical<CR>", { noremap = true, desc = "Toggle Terminal (vertical)" })
 
--- TODO: agregar commentarios
-
--- Run Files
--- map("n", "<leader>j", "Execute Files", { noremap = true })
--- Python files
--- map(
---  "n",
---   "<leader>jp",
---   ":w | :TermExec cmd='python3 \"%\"' size=50 direction=tab go_back=0<CR>",
---   { noremap = true, desc = "Run Python File" }
--- )
--- C++ files
--- map(
---   "n",
---   "<leader>jr",
---  ":w | :TermExec cmd='cr \"%\"' size=50 direction=tab go_back=0<CR>",
---   { noremap = true, desc = "Compile and Run C++ File" }
--- )
--- C++ files with Debug
--- map(
---   "n",
---   "<leader>jd",
---   ":w | :TermExec cmd='cr \"%\" -d' size=50 direction=tab go_back=0<CR>",
---   { noremap = true, desc = "Compile and Run C++ File with Debug" }
--- )
+-- Window managment
+-- Tab
+map("n", "<leader>to", "<CMD>tabnew<CR>", { desc = "Open new tab" })
