@@ -77,6 +77,26 @@ return {
   -- set_colorscheme("oh-lucy-evening"); -- oh-lucy | oh-lucy-evening
   -- end
   -- },
+  -- TODO: no funciona, error con Snacks en ui.lua:111
+  {
+    "aliqyan-21/darkvoid.nvim",
+    priority = 1000,
+    config = function()
+      require("darkvoid").setup({
+        transparent = false,
+        glow = false,
+        colors = {
+          line_nr = "#505050",
+          -- comment = "#a6a2a2",
+          comment = "#989898",
+          plugins = {
+            nvim_cmp = false,
+            -- lualine = false, -- solution to Snacks | ui.lua:111
+          },
+        },
+      })
+    end,
+  },
   -- TODO: crear una funcion o keymap para tener la transparencia on/off
   -- TRANSPARENT ---------------------------------------------------------------------------------------
   {
@@ -86,7 +106,8 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      -- colorscheme = "darkvoid",
+      colorscheme = "onedark",
     },
   },
 
