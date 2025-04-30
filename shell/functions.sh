@@ -10,7 +10,7 @@
 #       -Wpedantic -Werror -ggdb -O2 -DNDEBUG -pedantic-errors \
 #       -o "$output" "$1"
 # }
-function runcpp() {
+function rcpp() {
   local input_path="$1"
   local args="${@:2}"
   local src_main=""
@@ -38,12 +38,14 @@ function runcpp() {
     input_file="$project_dir/main.cpp"
     main_found=1
     # echo "Encontrado main.cpp en $project_dir, compilando..."
+
   # Buscar main.cpp en src/ si no se encontró en el directorio del proyecto
   elif [ -d "$project_dir/src" ] && [ -f "$project_dir/src/main.cpp" ]; then
     src_main="$project_dir/src/main.cpp"
     input_file="$src_main"
     main_found=1
     # echo "Encontrado src/main.cpp en $project_dir, compilando..."
+
   # Si no se proporciona un archivo y no se encuentra main.cpp
   elif [ -z "$input_path" ]; then
     echo "Error: No se proporcionó archivo y no se encontró main.cpp"
@@ -133,6 +135,23 @@ function runcpp() {
     return 0
   else
     echo "Error durante la compilación"
+    return 1
+  fi
+}
+
+# BASIC compile and run cpp
+function r() {
+  FILE="$1"
+  OUTPUT=$(basename "$FILE" .cpp)
+
+  g++ "$FILE" -o "$OUTPUT" # compile...
+
+  # Verificar compilacion...
+  if [ $? -eq 0 ]; then
+    ./"$OUTPUT" # compilacion exitosa...
+  else
+    # Fallo de compilacion...
+    echo "--- La compilacion fallo ---"
     return 1
   fi
 }
