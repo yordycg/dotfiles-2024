@@ -1,0 +1,37 @@
+# Agregar una nueva funcionalidad.
+# feat (ambito):
+
+# Arreglar un error.
+# fix (ambito):
+
+# Tareas rutinarios (gitignore, instalar dependencias, etc.)
+# chore (ambito):
+
+# Agregar o corregir un test.
+# test (ambito):
+
+# Modifica la documentacion.
+# docs (ambito):
+
+# Cambio afecta el compilado del proyecto o deploy
+# build (ambito):
+
+# Cambios en el archivo de configuracion o scripts.
+# ci (ambito):
+
+# Cambios en la legibilidad o formateo de codigo.
+# style (ambito):
+
+# Cambios que refactorizan el codigo sin modificar su comportamiento externo.
+# refactor (ambito):
+
+# Se mejora el rendimiento del sitio.
+# perf (ambito):
+
+# El commit revierte un commit anterior.
+# revert (ambito):
+#
+# Hash commit:
+
+# Utilizar cuando un commit (anteriores) rompe la compatibilidad hacia atras.
+# BREAKING CHANGE:

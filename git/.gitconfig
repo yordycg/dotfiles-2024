@@ -1,90 +1,111 @@
 [user]
 	name = Yordy Carmona
 	email = yordy.carmona8@gmail.com
+  # signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
+
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
   pager = delta
+  compression = 9 # Intercambiar CPU por transferencia de red
+  whitespace = error
+  preloadindex = true # Cargar el indice en memoria
+
+
 [init]
-	defaultbranch = main
+  defaultbranch = main
+
+[commit]
+  # Need install GPG in system for 'true'
+  gpgSign = false
+  template = ~/workspace/repos/dotfiles-2024/git/template
+
+[status]
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
+
+[log]
+  abbrevCommit = true
+  graphColors = blue,yellow,cyan,magenta,green,red # Orden de los colores
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = -taggerdate
+
 [pretty]
   colored = format:%C(yellow)%h%C(reset) %C(bold blue)<%an>%C(reset) %s %C(green)(%cr) %C(reset)
   graph = format:%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %C(green)(%ar) %C(bold blue)<%an>%C(reset)
   bw = format:%h | %as | %>(20,trunc)%d%x09%s
-[alias]
-  a = add
-  aa = add -A
-  ##########
-  c = commit
-  cm = commit -m
-  ca = commit -am
-  ##########
-  co = checkout
-  cob = checkout -b
-  ##########
-  cp = cherry-pick
-  ##########
-  d = diff
-  dc = diff --cached
-  ds = diff --staged
-  ##########
-  f = fetch
-  fo = fetch origin
-  fu = fetch upstream
-  ##########
-  s = status
-  ss = status -sb
-  ##########
-  rb = rebase
-  rb3 = rebase -i HEAD~3
-  rb5 = rebase -i HEAD~5
-  rba = rebase --abort
-  rbc = rebase --continue
-  rbi = rebase --interactive
-  ##########
-  ps = push
-  ##########
-  pl = pull --rebase --autostash
-  ##########
-  m = merge
-  ma = merge --abort
-  mc = merge --continue
-  ##########
-  b = branch
-  br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) - <%(authorname)>' --sort=-committerdate
-  ##########
-  ss = stash save
-  sl = stash list
-  sp = stash pop
-  sa = stash apply
-  sd = stash drop
-  sc = stash clear
-  ##########
-  t = tag
-  td = tag -d # eliminar tag
-  ##########
-  l = log --pretty=oneline --abbrev-commit
-  ll = log --pretty=colored --abbrev-commit # --max-count=25
-  l1 = log -1 --pretty=colored
-  l5 = log -5 --pretty=colored
-  lbw = log --pretty=bw
-  rl = reflog
 
-  # Comandos utiles
-  unstage = reset HEAD -- # quitar archivos del stage
-  visual = !gitk # abrir GUI de git
-  amend = commit --amend # modificar ultimo commit
-  undo = reset --soft HEAD^ # deshace el ultimo commit
-  wip = !git add . && git commit -m "WIP" # guardar rapidamente en un commit temporal 'Work In Progress'
+[alias]
+  unstage = reset HEAD -- # remove files from stage
+  visual = !gitk # open GUI git, need install
+  amend = commit --amend # modify last commit, open editor
+  amend-no = commit --amend --no-edit # modify last commit WITHOUT change message
+  undo = reset --soft HEAD^ # undo last commit
+
+  aliases = config --get-regexp 'alias.*' # show ALL aliases (gitconfig)
+
+[pager]
+  branch = false # no need to use pager for git branch
+  tag = false
+
+[push]
+  autoSetupRemote = true # easier to push new branches
+  default = current # push only current branch by defautl
+  followTags = true # push also tags
+  gpgSign = false # my remotes doesn't support sign pushes
+
 [pull]
   rebase = true
+
+[rebase]
+  autoStash = true
+
 [merge]
   tool = code
   conflictstyle = zdiff3
+
 [interactive]
   diffFilter = delta --color-only
+
+[advice]
+  addEmptyPathspec = true
+  pushNonFastForward = false
+  statusHints = false
+
+# Colors
+[color "decorate"]
+  HEAD = red
+  branch = blue
+  tag = yellow
+  remoteBranch = magenta
+
+[color "branch"]
+  current = magenta
+  local = default
+  remote = yellow
+  upstream = green
+  plain = blue
+
+[color "diff"]
+  meta = black bold
+  frag = magenta
+  context = white
+  whitespace = yellow reverse
+
+# Third-party: delta
 [delta]
   navigate = true # use n and N to move between diff sections
   dark = true     # or light = true, or omit for auto-detection
   line-numbers = true
   side-by-side = true
+
+# URL shortcuts
+[url "git@github.com:yordycg/"]
+  insteadOf = "ycg:" # Ejemplo: 'gcl ycg:dotfiles'
+[url "git@github.com:"]
+  insteadOf = "gh:" # Ejemplo: 'gcl gh:torvals/linux'
