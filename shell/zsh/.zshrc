@@ -100,8 +100,7 @@ export PATH="/usr/local/bin:$PATH"
 eval "$(starship init zsh)"
 
 # Node with fnm
-# TODO: error fnm multishells
-export FNM_MULTISHELL_PATH=disabled
+# FIX: error fnm multishells
 eval "$(fnm env --use-on-cd --shell zsh)"
 
 

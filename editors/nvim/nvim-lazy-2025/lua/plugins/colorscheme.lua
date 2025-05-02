@@ -1,3 +1,7 @@
+local function enable_transparency()
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+end
+
 return {
   -- Catppuccin --------------------------------------------------------------------
   {
@@ -17,7 +21,7 @@ return {
     priority = 1000,
     opts = {
       -- Your configuration options here
-      style = "deep", -- dark | darker | cool | deep | warm | warmer | light
+      style = "dark", -- dark | darker | cool | deep | warm | warmer | light
       -- transparent = true, -- true | false
       -- Change code style
       -- italic | bold | underline | none
@@ -78,6 +82,7 @@ return {
   -- end
   -- },
   -- TODO: no funciona, error con Snacks en ui.lua:111
+  -- Darkvoid --------------------------------------------------------------------
   {
     "aliqyan-21/darkvoid.nvim",
     priority = 1000,
@@ -97,6 +102,17 @@ return {
       })
     end,
   },
+  -- Rose-Pine --------------------------------------------------------------------
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+  },
+  -- Nord --------------------------------------------------------------------
+  {
+    "shaunsingh/nord.nvim",
+    lazy = false,
+    name = "nord",
+  },
   -- TODO: crear una funcion o keymap para tener la transparencia on/off
   -- TRANSPARENT ---------------------------------------------------------------------------------------
   {
@@ -105,10 +121,18 @@ return {
   -- COLORSCHEME ---------------------------------------------------------------------------------------
   {
     "LazyVim/LazyVim",
-    opts = {
-      -- colorscheme = "darkvoid",
-      colorscheme = "onedark",
-    },
+    -- opts = {
+    --   -- colorscheme = "darkvoid",
+    --   colorscheme = "onedark",
+    -- },
+    config = function()
+      -- vim.cmd.colorscheme("onedark")
+      -- vim.cmd.colorscheme("darkvoid")
+      -- vim.cmd.colorscheme("catppuccin")
+      -- vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("nord")
+      enable_transparency()
+    end,
   },
 
   vim.keymap.set("n", "<leader>bg", "<cmd> :Transparent_toggle <CR>", { noremap = true, silent = true }),
