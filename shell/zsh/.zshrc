@@ -1,5 +1,21 @@
+# Main zsh settings. env in ~/.zprofile
+# * read second
+
 # PATH config
 # export PATH="/usr/local/bin:$PATH"
+
+# Upload Files...
+# Aliases
+[[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
+
+# Exports
+[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
+
+# Functions
+[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
+
+# fzf-git
+[[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
 
 export EDITOR="nvim" # Use nvim as default editor
 export VISUAL="nvim"
@@ -12,6 +28,10 @@ export REPOS="$WORKSPACE/repos"
 export DOTFILES="$REPOS/dotfiles-2024"
 export OBSIDIAN="$REPOS/obsidian-notes"
 export WALLPAPERS="$REPOS/wallpapers"
+# XDG base directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
 
 # Theme config
 export TMUX_THEME="nord" # nord | onedark
@@ -41,11 +61,11 @@ antigen use oh-my-zsh
 
 # Load plugins
 antigen bundle aws
-antigen bundle fnm
-antigen bundle docker
+# antigen bundle fnm
+# antigen bundle docker
 antigen bundle dotnet
 antigen bundle git
-antigen bundle gh
+# antigen bundle gh
 antigen bundle httpie
 antigen bundle command-not-found
 antigen bundle vscode
@@ -100,8 +120,12 @@ export PATH="/usr/local/bin:$PATH"
 eval "$(starship init zsh)"
 
 # Node with fnm
-# FIX: error fnm multishells
-eval "$(fnm env --use-on-cd --shell zsh)"
+# NOTE: install using curl not brew!
+FNM_PATH="$HOME/.fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$HOME/.fnm:$PATH" # agregar directorio al PATH
+  eval "`fnm env --use-on-cd`"
+fi
 
 
 # Tmux
@@ -122,18 +146,16 @@ if which tmux >/dev/null 2>&1; then
   fi
 fi
 
-# Add script/ directorie to PATH
-export PATH="$DOTFILES/os/linux/scripts:$PATH"
+# fnm
+FNM_PATH="/home/yordycg/.fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/yordycg/.fnm:$PATH"
+  eval "`fnm env`"
+fi
 
-# Upload Files...
-# Aliases
-# if [ -f "$DOTFILES/shell/aliases.sh" ]; then
-#   source "$DOTFILES/shell/aliases.sh"
-# fi
-[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/aliases.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/aliases.sh"
-# Exports
-[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/exports.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/exports.sh"
-# Functions
-[[ -s "$HOME/workspace/repos/dotfiles-2024/shell/functions.sh" ]] && source "$HOME/workspace/repos/dotfiles-2024/shell/functions.sh"
-# fzf-git
-[[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
+# fnm
+FNM_PATH="/home/yordycg/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/yordycg/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
