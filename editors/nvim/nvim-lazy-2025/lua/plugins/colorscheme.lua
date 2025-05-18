@@ -128,10 +128,10 @@ return {
     config = function()
       -- vim.cmd.colorscheme("onedark")
       -- vim.cmd.colorscheme("darkvoid")
-      -- vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin")
       -- vim.cmd.colorscheme("rose-pine")
-      vim.cmd.colorscheme("nord")
-      enable_transparency()
+      -- vim.cmd.colorscheme("nord")
+      -- enable_transparency()
     end,
   },
 
