@@ -3,6 +3,7 @@ alias shutdown="sudo shutdown now"
 alias restart="sudo reboot"
 alias c="clear"
 alias x="exit"
+alias mv="mv -i"
 
 # Change directory aliases
 alias cd..="cd .."
