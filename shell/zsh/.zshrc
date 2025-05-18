@@ -1,21 +1,5 @@
-# Main zsh settings. env in ~/.zprofile
-# * read second
-
 # PATH config
 # export PATH="/usr/local/bin:$PATH"
-
-# Upload Files...
-# Aliases
-[[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
-
-# Exports
-[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
-
-# Functions
-[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
-
-# fzf-git
-[[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
 
 export EDITOR="nvim" # Use nvim as default editor
 export VISUAL="nvim"
@@ -23,11 +7,15 @@ export VISUAL="nvim"
 export BROWSER="firefox"
 
 # Directories
-export WORKSPACE="$HOME/workspace"
-export REPOS="$WORKSPACE/repos"
-export DOTFILES="$REPOS/dotfiles-2024"
-export OBSIDIAN="$REPOS/obsidian-notes"
-export WALLPAPERS="$REPOS/wallpapers"
+export WORKSPACE_PATH="$HOME/workspace"
+export DEV_PATH="$WORKSPACE_PATH/dev"
+export REPOS_PATH="$WORKSPACE_PATH/repos"
+export DOTFILES="$REPOS_PATH/dotfiles-2024"
+export OBSIDIAN="$REPOS_PATH/obsidian-notes"
+export WALLPAPERS="$REPOS_PATH/wallpapers"
+export PROJECTS_PATH="$DEV_PATH/projects"
+export DSA_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/04 DataStructure-Algorithms"
+export CPP_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/02 Cpp"
 # XDG base directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -127,35 +115,18 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env --use-on-cd`"
 fi
 
+# Upload Files...
+# Aliases
+[[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
 
-# Tmux
-# Always work in a tmux session if Tmux is installed
-if which tmux >/dev/null 2>&1; then
-  # Check if the current environment is suitable for tmux
-  if [[ -z "$TMUX" &&
-    $TERM != "screen-256color" &&
-    $TERM != "screen" &&
-    -z "$VSCODE_INJECTION" &&
-    -z "$INSIDE_EMACS" &&
-    -z "$EMACS" &&
-    -z "$VIM" &&
-    -z "$INTELLIJ_ENVIRONMENT_READER" ]]; then
-    # Try to attach to the default tmux session, or create a new one if it doesn't exist
-    tmux attach -t default || tmux new -s default
-    exit
-  fi
-fi
+# Exports
+[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
-# fnm
-FNM_PATH="/home/yordycg/.fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/yordycg/.fnm:$PATH"
-  eval "`fnm env`"
-fi
+# Functions
+[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
 
-# fnm
-FNM_PATH="/home/yordycg/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="/home/yordycg/.local/share/fnm:$PATH"
-  eval "`fnm env`"
-fi
+# fzf-git
+[[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
+
+# Tmux attach
+[[ -x "$DOTFILES/os/linux/scripts/tmux-attach.sh" ]] && "$DOTFILES/os/linux/scripts/tmux-attach.sh"
