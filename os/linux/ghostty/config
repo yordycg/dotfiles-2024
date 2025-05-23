@@ -1,0 +1,25 @@
+font-family = JetBrainsMono NF
+font-size = 12
+theme = nord
+shell-integration-features = no-cursor,sudo,no-title
+cursor-style = block
+adjust-cell-height = 35%
+background-opacity = 0.9
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+window-padding-balance = true
+window-save-state = always
+window-colorspace = "display-p3"
+
+
+# ---------------------------------------------------
+# Others
+# ---------------------------------------------------
+
+copy-on-select = clipboard
+
+# ---------------------------------------------------
+# Keybindings
+# ---------------------------------------------------
