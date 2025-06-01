@@ -16,13 +16,14 @@ export WALLPAPERS="$REPOS_PATH/wallpapers"
 export PROJECTS_PATH="$DEV_PATH/projects"
 export DSA_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/04 DataStructure-Algorithms"
 export CPP_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/02 Cpp"
+#
 # XDG base directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # Theme config
-export TMUX_THEME="nord" # nord | onedark
+export TMUX_THEME="adib-hanna" # adib-hanna | minimalis | nord | onedark | dracula | catppuccin
 export NVIM_THEME="nord"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
