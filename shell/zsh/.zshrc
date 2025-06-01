@@ -23,7 +23,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # Theme config
-export TMUX_THEME="adib-hanna" # adib-hanna | minimalis | nord | onedark | dracula | catppuccin
+export TMUX_THEME="nord" # adib-hanna | minimalis | nord | onedark | dracula | catppuccin
 export NVIM_THEME="nord"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
