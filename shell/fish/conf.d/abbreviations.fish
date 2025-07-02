@@ -86,7 +86,7 @@ end
 # Utils:
 abbr -a ezsh 'nvim ~/.zshrc'
 abbr -a ebash 'nvim ~/.bashrc'
-abbr -a efish 'nvim $DOTFILES_PATH/shell/fish/config.fish'
+abbr -a efish 'nvim $DOTFILES/shell/fish/config.fish'
 abbr -a szsh 'source ~/.zshrc'
 abbr -a sbash 'source ~/.bashrc'
 # abbr -a sfish 'source ~/.fishrc' || exec fish || fish
@@ -139,7 +139,7 @@ abbr -a prd 'pnpm run dev'
 # Shortcuts directories
 abbr -a repos 'cd $REPOS_PATH'
 abbr -a pojects 'cd $PROJECTS_PATH'
-abbr -a dot 'cd $DOTFILES_PATH'
+abbr -a dot 'cd $DOTFILES'
 abbr -a dev 'cd $DEV_PATH'
 abbr -a work 'cd $WORKSPACE_PATH'
 
