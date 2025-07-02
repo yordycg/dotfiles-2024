@@ -24,7 +24,7 @@ set -gx VISUAL nvim
 set -gx BROWSER firefox
 
 # Directories
-set -gx WORKSPACE_PATH "$HOME/workspace/"
+set -gx WORKSPACE_PATH "$HOME/workspace"
 set -gx DEV_PATH "$WORKSPACE_PATH/dev"
 set -gx PROJECTS_PATH "$DEV_PATH/projects"
 set -gx REPOS_PATH "$WORKSPACE_PATH/repos"
