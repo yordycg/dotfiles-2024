@@ -27,9 +27,6 @@ $ProfilePSContent = ". $configPath\powershell\user_profile.ps1"
 # Aplicaciones Scoop
 $scoopApps = @(
   "7zip",
-  "autohotkey",
-  "flow-launcher",
-  "obsidian",
   "pwsh",
   "windows-terminal",
   # CLI
@@ -60,12 +57,8 @@ $scoopApps = @(
   "z",
   # nerdfonts
   "CascadiaCode-NF-Mono",
-  "CascadiaMono-NF-Mono",
   "FiraCode-NF-Mono",
-  "FiraMono-NF-Mono",
-  "Hack-NF-Mono",
   "JetBrainsMono-NF-Mono",
   "Meslo-NF-Mono",
-  "RobotoMono-NF-Mono",
-  "ZedMono-NF-Mono"
+  "RobotoMono-NF-Mono"
 )

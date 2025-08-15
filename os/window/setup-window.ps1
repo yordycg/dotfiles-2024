@@ -12,15 +12,15 @@ Write-Host "Ejecutando script como administrador..."
 Write-Host "Cargando archivos..."
 
 # Cargar variables globales
-. config\global-vars.ps1
+. "$PSScriptRoot\config\Global-Vars.ps1"
 
 # Cargar funciones
-. functions\New-Directory.ps1
-. functions\Install-Scoop
-. functions\Install-ScoopAps.ps1
-. functions\Get-Repository.ps1
-. functions\New-Symlink.ps1
-. functions\Set-PowerShellProfile.ps1
+. "$PSScriptRoot\functions\New-Directory.ps1"
+. "$PSScriptRoot\functions\Install-Scoop.ps1"
+. "$PSScriptRoot\functions\Install-ScoopAps.ps1"
+. "$PSScriptRoot\functions\Get-Repository.ps1"
+. "$PSScriptRoot\functions\New-Symlink.ps1"
+. "$PSScriptRoot\functions\Set-PowerShellProfile.ps1"
 
 # Cargar scripts
 
