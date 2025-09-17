@@ -16,6 +16,10 @@
             "id": "User.paste"
         },
         {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
@@ -23,10 +27,6 @@
                 "splitMode": "duplicate"
             },
             "id": "User.splitPane.A6751878"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
         }
     ],
     "copyFormatting": "none",
@@ -40,12 +40,12 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
             "id": "User.find",
             "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
         },
         {
             "id": "User.splitPane.A6751878",
@@ -62,10 +62,10 @@
     {
         "defaults": 
         {
-            "colorScheme": "One Half Dark (modded)",
+            "colorScheme": "ayu",
             "font": 
             {
-                "face": "CaskaydiaCove Nerd Font Mono"
+                "face": "JetBrainsMono Nerd Font Mono"
             },
             "opacity": 80,
             "scrollbarState": "hidden",
@@ -74,7 +74,7 @@
         "list": 
         [
             {
-                "colorScheme": "OneDark",
+                "colorScheme": "ayu",
                 "commandline": "%USERPROFILE%\\scoop\\apps\\pwsh\\current\\pwsh.exe",
                 "font": 
                 {
@@ -170,6 +170,27 @@
                 "hidden": true,
                 "name": "Visual Studio Debug Console",
                 "source": "VSDebugConsole"
+            },
+            {
+                "guid": "{fe66f4b8-350f-56bb-adb0-c2ce745f6db5}",
+                "hidden": true,
+                "name": "PowerShell (scoop)",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "colorScheme": "Catppuccin Mocha",
+                "commandline": "C:\\Windows\\system32\\wsl.exe --distribution-id {8524d710-dae0-42cc-8a73-bb1eb72ef7a3} --cd ~",
+                "font": 
+                {
+                    "face": "FiraCode Nerd Font Mono",
+                    "size": 11
+                },
+                "guid": "{5ddc39e5-0938-4ada-b986-9d64e2baec43}",
+                "hidden": false,
+                "icon": "C:\\Users\\yordycg\\AppData\\Local\\wsl\\{8524d710-dae0-42cc-8a73-bb1eb72ef7a3}\\shortcut.ico",
+                "name": "Debian",
+                "pathTranslationStyle": "wsl",
+                "startingDirectory": "~"
             }
         ]
     },
