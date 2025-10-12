@@ -34,7 +34,9 @@ New-Directory -Path $configPath -Force
 New-Directory -Path $powershellConfigPath -Force
 New-Directory -Path $workspacePath -Force
 New-Directory -Path $reposPath -Force
-New-Directory -Path "$workspacePath\ing-informatica" -Force
+New-Directory -Path "$workspacePath\repos\ipvg" -Force
+New-Directory -Path "$workspacePath\repos\personal" -Force
+New-Directory -Path "$workspacePath\repos\work" -Force
 
 Write-Host "Scoop..."
 Install-Scoop
@@ -47,6 +49,10 @@ Get-Repository -RepoName "wallpapers.git" -DestinationPath $wallpapersPath
 
 Write-Host "Crear Symlinks..."
 New-Symlink -TargetPath $gitConfigDotfilesPath -LinkPath $gitConfig
+# ERROR al crear los Symlink
+New-Symlink -TargetPath $gitConfigIPVGDotfilesPath -LinkPath $gitConfigIPVG
+New-Symlink -TargetPath $gitConfigPERSONALDotfilesPath -LinkPath $gitConfigPERSONAL
+New-Symlink -TargetPath $gitConfigWORKDotfilesPath -LinkPath $gitConfigWORK
 New-Symlink -TargetPath $starshipDotfilesPath -LinkPath $starshipPath
 New-Symlink -TargetPath $profilePSDotfilesPath -LinkPath $userProfileConfigPath
 New-Symlink -TargetPath $confWinTerminalDotfilesPath -LinkPath $confWinTerminalPath -Force

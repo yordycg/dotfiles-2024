@@ -1,16 +1,15 @@
 [user]
-	name = Yordy Carmona
-	email = yordy.carmona8@gmail.com
-  # signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
+   name = Yordy Carmona
+    email = yordy.carmona8@gmail.com
+#  signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
 
 [core]
   excludesfile = ~/.gitignore
-  autocrlf = input
+ autocrlf = input
   pager = delta
   compression = 9 # Intercambiar CPU por transferencia de red
   whitespace = error
   preloadindex = true # Cargar el indice en memoria
-
 
 [init]
   defaultbranch = main
@@ -109,3 +108,22 @@
   insteadOf = "ycg:" # Ejemplo: 'gcl ycg:dotfiles'
 [url "git@github.com:"]
   insteadOf = "gh:" # Ejemplo: 'gcl gh:torvals/linux'
+
+# Config multi-git
+[includeIf "gitdir:C:/Users/yordycg/workspace/repos/personal/"]
+    path = ~/.gitconfig-personal
+
+[includeIf "gitdir:C:/Users/yordycg/workspace/repos/ipvg/"]
+    path = ~/.gitconfig-ipvg
+
+[includeIf "gitdir:C:/Users/yordycg/workspace/repos/work/"]
+    path = ~/.gitconfig-work
+
+[includeIf "gitdir:~/workspace/repos/personal/"]
+    path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/workspace/repos/ipvg/"]
+    path = ~/.gitconfig-ipvg
+
+[includeIf "gitdir:~/workspace/repos/work/"]
+    path = ~/.gitconfig-work

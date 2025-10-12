@@ -9,7 +9,13 @@ $nvimPath = "$env:LOCALAPPDATA\nvim"
 
 # Archivos u otros
 $gitConfigDotfilesPath = "$dotfilesPath\git\.gitconfig"
+$gitConfigIPVGDotfilesPath = "$dotfilesPath\git\.gitconfig-ipvg"
+$gitConfigPERSONALDotfilesPath = "$dotfilesPath\git\.gitconfig-personal"
+$gitConfigWORKDotfilesPath = "$dotfilesPath\git\.gitconfig-work"
 $gitConfig = "$env:USERPROFILE\.gitconfig"
+$gitConfigIPVG = "$env:USERPROFILE\.gitconfig-ivpg"
+$gitConfigPERSONAL = "$env:USERPROFILE\.gitconfig-personal"
+$gitConfigWORK = "$env:USERPROFILE\.gitconfig-work"
 $starshipDotfilesPath = "$dotfilesPath\os\cross-platform\starship\starship.toml"
 $starshipPath = "$configPath\starship.toml"
 $confWinTerminalDotfilesPath = "$reposPath\dotfiles-2024\os\window\programs\Windows-Terminal\settings.json"
