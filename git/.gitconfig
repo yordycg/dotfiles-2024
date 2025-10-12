@@ -1,7 +1,7 @@
 [user]
    name = Yordy Carmona
-    email = yordy.carmona8@gmail.com
-#  signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
+   email = yordy.carmona8@gmail.com
+   # signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
 
 [core]
   excludesfile = ~/.gitignore
@@ -10,6 +10,7 @@
   compression = 9 # Intercambiar CPU por transferencia de red
   whitespace = error
   preloadindex = true # Cargar el indice en memoria
+  symlinks = true
 
 [init]
   defaultbranch = main
@@ -110,20 +111,17 @@
   insteadOf = "gh:" # Ejemplo: 'gcl gh:torvals/linux'
 
 # Config multi-git
-[includeIf "gitdir:C:/Users/yordycg/workspace/repos/personal/"]
-    path = ~/.gitconfig-personal
+[includeIf "gitdir:C:/Users/yordycg/workspace/repos/personal/**"]
+	path = C:/Users/yordycg/.gitconfig-personal
+[includeIf "gitdir/i:C:/Users/yordycg/workspace/repos/ipvg/**"]
+	path = C:/Users/yordycg/.gitconfig-ipvg
+[includeIf "gitdir:C:/Users/yordycg/workspace/repos/work/**"]
+	path = C:/Users/yordycg/.gitconfig-work
 
-[includeIf "gitdir:C:/Users/yordycg/workspace/repos/ipvg/"]
-    path = ~/.gitconfig-ipvg
-
-[includeIf "gitdir:C:/Users/yordycg/workspace/repos/work/"]
-    path = ~/.gitconfig-work
-
-[includeIf "gitdir:~/workspace/repos/personal/"]
-    path = ~/.gitconfig-personal
-
-[includeIf "gitdir:~/workspace/repos/ipvg/"]
-    path = ~/.gitconfig-ipvg
-
-[includeIf "gitdir:~/workspace/repos/work/"]
-    path = ~/.gitconfig-work
+# Config Linux/Unix
+[includeIf "gitdir:~/workspace/repos/personal/**"]
+	path = ~/.gitconfig-personal
+[includeIf "gitdir:~/workspace/repos/ipvg/**"]
+	path = ~/.gitconfig-ipvg
+[includeIf "gitdir:~/workspace/repos/work/**"]
+	path = ~/.gitconfig-work
