@@ -43,6 +43,19 @@ Write-Host "Instalando y actualizando Scoop y aplicaciones..."
 Install-Scoop
 Install-ScoopAps -Apps $config.scoopApps
 
+# 6.5. Configurar claves SSH para Git
+Write-Host "Ejecutando script de configuración de claves SSH para Git..."
+try {
+    # El script de SSH está escrito en PowerShell Core (pwsh) para ser multiplataforma.
+    # Lo llamamos explícitamente con pwsh.exe.
+    $sshScriptPath = Resolve-Path (Join-Path $PSScriptRoot '..\..\git\setup-git-ssh.ps1')
+    pwsh.exe -File $sshScriptPath
+}
+catch {
+    Write-Warning "El script de configuración de SSH falló. Puede que necesites configurarlo manualmente. Error: $($_.Exception.Message)"
+    # Decidimos no detener todo el script si esto falla, pero sí advertir al usuario.
+}
+
 # 7. Clonar y actualizar repositorios
 Write-Host "Clonando y actualizando repositorios..."
 foreach ($repo in $config.repositories) {
