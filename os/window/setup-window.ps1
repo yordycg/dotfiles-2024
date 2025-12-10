@@ -1,66 +1,69 @@
-# Iniciar script en modo 'Admin'
-# Verificar si el script se está ejecutando como administrador
+# 1. Boilerplate: Verificar y solicitar privilegios de administrador
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    # El script no se está ejecutando como administrador, así que lo reiniciamos con privilegios elevados
     Write-Warning "El script necesita privilegios de administrador. Reiniciando..."
     Start-Process -FilePath powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
-    exit # Salir de la instancia actual del script
+    exit
 }
 
-# El script se está ejecutando como administrador, aquí va el resto de tu código
-Write-Host "Ejecutando script como administrador..."
-Write-Host "Cargando archivos..."
+# 2. Iniciar registro de actividad
+$LogPath = Join-Path -Path $PSScriptRoot -ChildPath "install-log.txt"
+Start-Transcript -Path $LogPath -Append
+Write-Host "Ejecutando script como administrador. Registro de actividad iniciado en '$LogPath'."
 
-# Cargar variables globales
-. "$PSScriptRoot\config\Global-Vars.ps1"
+# 3. Cargar funciones y configuración
+Write-Host "Cargando configuración y funciones..."
+try {
+    $config = Get-Content -Raw -Path (Join-Path -Path $PSScriptRoot -ChildPath "config\config.json") | ConvertFrom-Json
+    
+    # Cargar funciones auxiliares
+    Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath "functions") -Filter *.ps1 | ForEach-Object { . $_.FullName }
+}
+catch {
+    Write-Error "Error fatal: No se pudo cargar la configuración o las funciones. Razón: $($_.Exception.Message)"
+    Stop-Transcript
+    exit 1
+}
 
-# Cargar funciones
-. "$PSScriptRoot\functions\New-Directory.ps1"
-. "$PSScriptRoot\functions\Install-Scoop.ps1"
-. "$PSScriptRoot\functions\Install-ScoopAps.ps1"
-. "$PSScriptRoot\functions\Get-Repository.ps1"
-. "$PSScriptRoot\functions\New-Symlink.ps1"
-. "$PSScriptRoot\functions\Set-PowerShellProfile.ps1"
+# 4. Resolver todas las rutas desde la configuración
+Write-Host "Resolviendo rutas de configuración..."
+$resolvedPaths = @{}
+$config.paths.PSObject.Properties | ForEach-Object {
+    $resolvedPaths[$_.Name] = Resolve-Path -Path $_.Value -ConfigPaths $config.paths
+}
 
-# Cargar scripts
+# 5. Crear directorios
+Write-Host "Creando directorios definidos en la configuración..."
+foreach ($dir in $config.directoriesToCreate) {
+    $resolvedDir = Resolve-Path -Path $dir -ConfigPaths $resolvedPaths
+    New-Directory -Path $resolvedDir -Force
+}
 
-# Instalar programas
-# . scripts\install-chrome.ps1
-# . scripts\install-vscode.ps1
-
-# Llamando a las funciones
-Write-Host "Creando directorios..."
-New-Directory -Path $configPath -Force
-New-Directory -Path $powershellConfigPath -Force
-New-Directory -Path $workspacePath -Force
-New-Directory -Path $reposPath -Force
-New-Directory -Path "$workspacePath\repos\ipvg" -Force
-New-Directory -Path "$workspacePath\repos\personal" -Force
-New-Directory -Path "$workspacePath\repos\work" -Force
-
-Write-Host "Scoop..."
+# 6. Instalar y actualizar Scoop y aplicaciones
+Write-Host "Instalando y actualizando Scoop y aplicaciones..."
 Install-Scoop
-Install-ScoopAps -Apps $scoopApps
+Install-ScoopAps -Apps $config.scoopApps
 
-Write-Host "Clonar Repositorios..."
-Get-Repository -RepoName "dotfiles-2024.git" -DestinationPath $dotfilesPath
-Get-Repository -RepoName "obsidian-notes.git" -DestinationPath $obsidianPath
-Get-Repository -RepoName "wallpapers.git" -DestinationPath $wallpapersPath
+# 7. Clonar y actualizar repositorios
+Write-Host "Clonando y actualizando repositorios..."
+foreach ($repo in $config.repositories) {
+    $destination = Resolve-Path -Path $repo.destination -ConfigPaths $resolvedPaths
+    Sync-Repository -RepoName $repo.name -DestinationPath $destination
+}
 
-Write-Host "Crear Symlinks..."
-New-Symlink -TargetPath $gitConfigDotfilesPath -LinkPath $gitConfig
-# ERROR al crear los Symlink
-New-Symlink -TargetPath $gitConfigIPVGDotfilesPath -LinkPath $gitConfigIPVG
-New-Symlink -TargetPath $gitConfigPERSONALDotfilesPath -LinkPath $gitConfigPERSONAL
-New-Symlink -TargetPath $gitConfigWORKDotfilesPath -LinkPath $gitConfigWORK
-New-Symlink -TargetPath $starshipDotfilesPath -LinkPath $starshipPath
-New-Symlink -TargetPath $profilePSDotfilesPath -LinkPath $userProfileConfigPath
-New-Symlink -TargetPath $confWinTerminalDotfilesPath -LinkPath $confWinTerminalPath -Force
+# 8. Crear enlaces simbólicos
+Write-Host "Creando enlaces simbólicos..."
+foreach ($symlink in $config.symlinks) {
+    $target = Resolve-Path -Path $symlink.target -ConfigPaths $resolvedPaths
+    $link = Resolve-Path -Path $symlink.link -ConfigPaths $resolvedPaths
+    New-Symlink -TargetPath $target -LinkPath $link -Force
+}
 
-# Setup PowerShell
-Set-PowerShellProfile -ProfileContent $ProfilePSContent
+# 9. Configurar perfil de PowerShell
+Write-Host "Configurando perfil de PowerShell..."
+$profileLine = Resolve-Path -Path $config.powershellProfileLine -ConfigPaths $resolvedPaths
+Set-PowerShellProfile -ProfileContent $profileLine
 
-# Instalando programas
-Write-Host "Instalando programas..."
-
-Write-Host "Adios."
+# 10. Finalizar
+Write-Host "Proceso completado."
+Stop-Transcript
+Write-Host "Registro de actividad guardado en '$LogPath'."

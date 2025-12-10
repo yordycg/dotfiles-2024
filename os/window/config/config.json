@@ -1,0 +1,47 @@
+{
+  "paths": {
+    "userprofile": "%USERPROFILE%",
+    "localappdata": "%LOCALAPPDATA%",
+    "config": "%userprofile%\.config",
+    "workspace": "%userprofile%\workspace",
+    "repos": "%workspace%\repos",
+    "dotfiles": "%repos%\dotfiles-2024",
+    "wallpapers": "%repos%\wallpapers",
+    "obsidian": "%repos%\obsidian-notes",
+    "nvim": "%localappdata%\nvim",
+    "powershellConfig": "%config%\powershell",
+    "userProfileConfig": "%powershellConfig%\user_profile.ps1",
+    "winTerminalSettings": "%localappdata%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+  },
+  "scoopApps": [
+    "7zip", "bat", "CascadiaCode-NF-Mono", "cmake", "curl", "curlie", "delta", "direnv", "dotnet-sdk",
+    "fd", "FiraCode-NF-Mono", "flow-launcher", "fnm", "fzf", "gcc", "gh", "JetBrainsMono-NF-Mono",
+    "jq", "lazydocker", "lazygit", "make", "Meslo-NF-Mono", "neovim", "oh-my-posh", "pnpm",
+    "posh-docker", "posh-git", "psfzf", "psreadline", "pwsh", "python", "ripgrep", "RobotoMono-NF-Mono",
+    "starship", "sudo", "terminal-icons", "windows-terminal", "z"
+  ],
+  "repositories": [
+    { "name": "dotfiles-2024.git", "destination": "%dotfiles%" },
+    { "name": "obsidian-notes.git", "destination": "%obsidian%" },
+    { "name": "wallpapers.git", "destination": "%wallpapers%" }
+  ],
+  "symlinks": [
+    { "target": "%dotfiles%\git\.gitconfig", "link": "%userprofile%\.gitconfig" },
+    { "target": "%dotfiles%\git\.gitconfig-ipvg", "link": "%userprofile%\.gitconfig-ivpg" },
+    { "target": "%dotfiles%\git\.gitconfig-personal", "link": "%userprofile%\.gitconfig-personal" },
+    { "target": "%dotfiles%\git\.gitconfig-work", "link": "%userprofile%\.gitconfig-work" },
+    { "target": "%dotfiles%\os\cross-platform\starship\starship.toml", "link": "%config%\starship.toml" },
+    { "target": "%dotfiles%\os\window\programs\PowerShell\profiles\user_profile.ps1", "link": "%userProfileConfig%" },
+    { "target": "%dotfiles%\os\window\programs\Windows-Terminal\settings.json", "link": "%winTerminalSettings%" }
+  ],
+  "directoriesToCreate": [
+    "%config%",
+    "%powershellConfig%",
+    "%workspace%",
+    "%repos%",
+    "%repos%\ipvg",
+    "%repos%\personal",
+    "%repos%\work"
+  ],
+  "powershellProfileLine": ". %userProfileConfig%"
+}
