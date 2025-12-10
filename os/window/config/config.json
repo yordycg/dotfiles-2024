@@ -14,11 +14,11 @@
     "winTerminalSettings": "%localappdata%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
   },
   "scoopApps": [
-    "7zip", "bat", "CascadiaCode-NF-Mono", "cmake", "curl", "curlie", "delta", "direnv", "dotnet-sdk",
-    "fd", "FiraCode-NF-Mono", "flow-launcher", "fnm", "fzf", "gcc", "gh", "JetBrainsMono-NF-Mono",
+    "7zip", "bat", "CascadiaCode-NF-Mono", "curl", "curlie", "delta", "direnv", "dotnet-sdk",
+    "fd", "FiraCode-NF-Mono", "flow-launcher", "fnm", "fzf", "gcc", "JetBrainsMono-NF-Mono",
     "jq", "lazydocker", "lazygit", "make", "Meslo-NF-Mono", "neovim", "oh-my-posh", "pnpm",
-    "posh-docker", "posh-git", "psfzf", "psreadline", "pwsh", "python", "ripgrep", "RobotoMono-NF-Mono",
-    "starship", "sudo", "terminal-icons", "windows-terminal", "z"
+    "posh-docker", "posh-git", "psfzf", "psreadline", "python", "ripgrep", "RobotoMono-NF-Mono",
+    "starship", "sudo", "terminal-icons", "z"
   ],
   "repositories": [
     { "name": "dotfiles-2024.git", "destination": "%dotfiles%" },
