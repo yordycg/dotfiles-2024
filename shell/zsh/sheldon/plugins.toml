@@ -1,0 +1,68 @@
+# sheldon configuration file
+# Symlinked from dotfiles to ~/.config/sheldon/plugins.toml
+
+shell = "zsh"
+
+[templates]
+# Template for Oh My Zsh plugins.
+# This makes adding OMZ plugins easier.
+oh-my-zsh = { github = "ohmyzsh/ohmyzsh", dir = "plugins/{{ name }}" }
+
+[plugins]
+
+# Z - Directory Jumper
+[plugins.z]
+github = "rupa/z"
+branch = "master"
+
+# FZF and related tools
+[plugins.fzf]
+github = "junegunn/fzf"
+use = ["shell/completion.zsh", "shell/key-bindings.zsh"]
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
+[plugins.zsh-ctrlp]
+github = "desyncr/zsh-ctrlp"
+
+[plugins.zsh-fzf-history-search]
+github = "joshskidmore/zsh-fzf-history-search"
+
+# Zsh-users plugins (essential)
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+# Use the faster, community-maintained fork of syntax-highlighting
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+# Other utilities
+[plugins.alias-tips]
+github = "djui/alias-tips"
+
+[plugins.zsh-git-semantic-commits]
+github = "alexrochas/zsh-git-semantic-commits"
+
+# --- Oh My Zsh plugins using the template ---
+
+[plugins.aws]
+template = "oh-my-zsh"
+
+[plugins.dotnet]
+template = "oh-my-zsh"
+
+[plugins.git]
+template = "oh-my-zsh"
+
+[plugins.httpie]
+template = "oh-my-zsh"
+
+[plugins.command-not-found]
+template = "oh-my-zsh"
+
+[plugins.vscode]
+template = "oh-my-zsh"

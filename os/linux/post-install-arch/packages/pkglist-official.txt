@@ -45,6 +45,7 @@ lazydocker
 neovim
 ripgrep
 starship
+sheldon
 tmux
 yazi
 zoxide
