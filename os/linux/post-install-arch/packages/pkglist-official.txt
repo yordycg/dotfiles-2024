@@ -1,0 +1,62 @@
+# --- CORE Y UTILIDADES ---
+base-devel
+git
+zsh
+jq
+tar
+tree
+nano
+imagemagick
+zenity
+
+# --- HYPRLAND Y COMPONENTES VISUALES ---
+hyprland
+hyprpaper
+xdg-desktop-portal-hyprland
+waybar
+mako
+sddm
+polkit-kde-agent
+qt5-wayland
+qt6-wayland
+pipewire
+wireplumber
+pamixer
+brightnessctl
+cliphist
+grim
+slurp
+gjs
+tesseract
+tesseract-data-eng
+
+# --- HERRAMIENTAS DE TERMINAL Y CLI (TU LISTA) ---
+bat
+btop
+cmake
+eza
+fastfetch
+fd
+fzf
+gdb
+gh
+lazygit
+lazydocker
+neovim
+ripgrep
+starship
+tmux
+yazi
+zoxide
+pnpm
+
+# --- TEMAS Y APARIENCIA ---
+nwg-look
+qt5ct
+qt6ct
+kvantum
+
+# --- FUENTES (puedes descomentar las que quieras) ---
+ttf-jetbrains-mono-nerd
+ttf-fira-code
+ttf-cascadia-code-nerd

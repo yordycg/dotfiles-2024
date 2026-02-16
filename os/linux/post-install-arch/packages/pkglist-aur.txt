@@ -1,0 +1,27 @@
+# --- HYPRLAND Y UTILIDADES DE ESCRITORIO ---
+hyprpicker
+hyprlock
+hypridle
+wlogout
+tofi
+grimblast
+matugen
+satty
+sunsetr
+swayosd
+tinte
+uwsm
+walker
+impala
+
+# --- NAVEGADOR Y EDITORES ---
+brave-bin
+visual-studio-code-bin
+
+# --- HERRAMIENTAS CLI ---
+fnm
+git-delta
+ghostty
+
+# --- TEMAS ---
+kvantum-theme-catppuccin-git
