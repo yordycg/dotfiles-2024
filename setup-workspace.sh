@@ -39,7 +39,6 @@ echo "PASO 1: ¡Completado!"
 echo
 
 echo "PASO 2: Clonando o actualizando repositorios..."
-# La lógica de clone-repos.sh se trae aquí.
 REPOSITORIES_TO_CLONE=(
   "https://github.com/yordycg/dotfiles-2024.git"
   "https://github.com/yordycg/obsidian-notes.git"
@@ -52,9 +51,18 @@ for repo_url in "${REPOSITORIES_TO_CLONE[@]}"; do
     echo "Clonando '$repo_name'..."
     git clone "$repo_url" "$repo_dest"
   else
-    echo "El directorio '$repo_dest' ya existe. Actualizando con 'git pull'..."
+    echo "El directorio '$repo_dest' ya existe. Forzando actualización desde el remoto..."
     # Usamos un subshell para no cambiar el directorio actual del script
-    (cd "$repo_dest" && git pull)
+    (
+      cd "$repo_dest"
+      # Obtenemos el nombre de la rama por defecto (ej. 'main' o 'master')
+      DEFAULT_BRANCH=$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's@^origin/@@')
+      # Descargamos todos los cambios del remoto
+      git fetch origin
+      # Reseteamos la rama local para que sea un espejo exacto de la remota,
+      # descartando cualquier cambio local.
+      git reset --hard "origin/$DEFAULT_BRANCH"
+    )
   fi
 done
 echo "PASO 2: ¡Completado!"
