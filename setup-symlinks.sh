@@ -1,3 +1,8 @@
+#!/bin/bash
+# Self-define the DOTFILES variable based on the script's own location
+# This makes the script portable and independent of the calling environment.
+DOTFILES=$(dirname "$(readlink -f "$0" || realpath "$0")")
+
 # Create directory if it doesn't exist
 [ -d ~/.config ] || mkdir -p ~/.config
 

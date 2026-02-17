@@ -77,4 +77,24 @@ fi
 
 echo
 echo "--- Proceso de instalación de Arch finalizado. ---"
-echo "--- ¡Configuración completa! ---"
+echo "-------------------------------------------------"
+echo "--- ¡CONFIGURACIÓN COMPLETA! ---"
+echo "-------------------------------------------------"
+echo
+echo "Se recomienda reiniciar para que todos los cambios, servicios y la nueva shell surtan efecto."
+echo
+
+# --- Optional Reboot ---
+read -p "¿Desea reiniciar el sistema ahora? (y/n): " choice
+case "$choice" in
+  y|Y )
+    echo "Reiniciando el sistema ahora..."
+    # 'reboot' a menudo requiere privilegios de superusuario.
+    # Se le puede pedir al usuario su contraseña.
+    sudo reboot
+    ;;
+  * )
+    echo "Reinicio omitido. Por favor, reinicie manualmente más tarde."
+    exit 0
+    ;;
+esac
