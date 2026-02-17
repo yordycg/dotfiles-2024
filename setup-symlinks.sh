@@ -7,19 +7,19 @@ DOTFILES=$(dirname "$(readlink -f "$0" || realpath "$0")")
 [ -d ~/.config ] || mkdir -p ~/.config
 
 # If Linux...
-ln -s $DOTFILES/os/linux/tmux ~/.config/
-ln -s $DOTFILES/os/linux/kitty ~/.config/
-ln -s $DOTFILES/os/linux/hyprland ~/.config/
-ln -s $DOTFILES/os/linux/waybar ~/.config/
-ln -s $DOTFILES/os/linux/dunst ~/.config/
-ln -s $DOTFILES/os/linux/wlogout ~/.config/
-ln -s $DOTFILES/os/linux/tofi ~/.config/
-ln -s $DOTFILES/os/linux/alacritty ~/.config/
-ln -s $DOTFILES/os/linux/ghostty ~/.config/
-ln -s $DOTFILES/os/cross-platform/wezterm ~/.config/
-ln -s $DOTFILES/os/cross-platform/starship/ ~/.config/
-ln -fs $DOTFILES/git/.gitconfig ~/.gitconfig
-ln -fs $DOTFILES/shell/zsh/.zshrc ~/.zshrc
+ln -sf $DOTFILES/os/linux/tmux ~/.config/
+ln -sf $DOTFILES/os/linux/kitty ~/.config/
+ln -sf $DOTFILES/os/linux/hyprland ~/.config/
+ln -sf $DOTFILES/os/linux/waybar ~/.config/
+ln -sf $DOTFILES/os/linux/dunst ~/.config/
+ln -sf $DOTFILES/os/linux/wlogout ~/.config/
+ln -sf $DOTFILES/os/linux/tofi ~/.config/
+ln -sf $DOTFILES/os/linux/alacritty ~/.config/
+ln -sf $DOTFILES/os/linux/ghostty ~/.config/
+ln -sf $DOTFILES/os/cross-platform/wezterm ~/.config/
+ln -sf $DOTFILES/os/cross-platform/starship/ ~/.config/
+ln -sf $DOTFILES/git/.gitconfig ~/.gitconfig
+ln -sf $DOTFILES/shell/zsh/.zshrc ~/.zshrc
 
 # Sheldon config
 mkdir -p ~/.config/sheldon
