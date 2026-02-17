@@ -38,7 +38,7 @@ done
 echo "PASO 1: ¡Completado!"
 echo
 
-echo "PASO 2: Clonando repositorios..."
+echo "PASO 2: Clonando o actualizando repositorios..."
 # La lógica de clone-repos.sh se trae aquí.
 REPOSITORIES_TO_CLONE=(
   "https://github.com/yordycg/dotfiles-2024.git"
@@ -49,9 +49,12 @@ for repo_url in "${REPOSITORIES_TO_CLONE[@]}"; do
   repo_name=$(basename "$repo_url" .git)
   repo_dest="$REPO_DIR/$repo_name"
   if [ ! -d "$repo_dest" ]; then
+    echo "Clonando '$repo_name'..."
     git clone "$repo_url" "$repo_dest"
   else
-    echo "El directorio '$repo_dest' ya existe. Omitiendo clonación."
+    echo "El directorio '$repo_dest' ya existe. Actualizando con 'git pull'..."
+    # Usamos un subshell para no cambiar el directorio actual del script
+    (cd "$repo_dest" && git pull)
   fi
 done
 echo "PASO 2: ¡Completado!"
