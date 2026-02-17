@@ -7,17 +7,17 @@ DOTFILES=$(dirname "$(readlink -f "$0" || realpath "$0")")
 [ -d ~/.config ] || mkdir -p ~/.config
 
 # If Linux...
-ln -sf $DOTFILES/os/linux/tmux ~/.config/
-ln -sf $DOTFILES/os/linux/kitty ~/.config/
-ln -sf $DOTFILES/os/linux/hyprland ~/.config/
-ln -sf $DOTFILES/os/linux/waybar ~/.config/
-ln -sf $DOTFILES/os/linux/dunst ~/.config/
-ln -sf $DOTFILES/os/linux/wlogout ~/.config/
-ln -sf $DOTFILES/os/linux/tofi ~/.config/
-ln -sf $DOTFILES/os/linux/alacritty ~/.config/
-ln -sf $DOTFILES/os/linux/ghostty ~/.config/
-ln -sf $DOTFILES/os/cross-platform/wezterm ~/.config/
-ln -sf $DOTFILES/os/cross-platform/starship/ ~/.config/
+rm -rf ~/.config/tmux; ln -sf $DOTFILES/os/linux/tmux ~/.config/
+rm -rf ~/.config/kitty; ln -sf $DOTFILES/os/linux/kitty ~/.config/
+rm -rf ~/.config/hyprland; ln -sf $DOTFILES/os/linux/hyprland ~/.config/
+rm -rf ~/.config/waybar; ln -sf $DOTFILES/os/linux/waybar ~/.config/
+rm -rf ~/.config/dunst; ln -sf $DOTFILES/os/linux/dunst ~/.config/
+rm -rf ~/.config/wlogout; ln -sf $DOTFILES/os/linux/wlogout ~/.config/
+rm -rf ~/.config/tofi; ln -sf $DOTFILES/os/linux/tofi ~/.config/
+rm -rf ~/.config/alacritty; ln -sf $DOTFILES/os/linux/alacritty ~/.config/
+rm -rf ~/.config/ghostty; ln -sf $DOTFILES/os/linux/ghostty ~/.config/
+rm -rf ~/.config/wezterm; ln -sf $DOTFILES/os/cross-platform/wezterm ~/.config/
+rm -rf ~/.config/starship; ln -sf $DOTFILES/os/cross-platform/starship/ ~/.config/
 ln -sf $DOTFILES/git/.gitconfig ~/.gitconfig
 ln -sf $DOTFILES/shell/zsh/.zshrc ~/.zshrc
 
