@@ -25,8 +25,10 @@ fi
 
 # Execute the main setup-symlinks.sh script from the dotfiles root
 if [ -f "$DOTFILES_ROOT/setup-symlinks.sh" ]; then
-    log_info "Executing $DOTFILES_ROOT/setup-symlinks.sh"
-    bash "$DOTFILES_ROOT/setup-symlinks.sh" || log_error "setup-symlinks.sh failed."
+    log_info "Executing $DOTFILES_ROOT/setup-symlinks.sh with absolute path..."
+    # Prepending the command with DOTFILES="$DOTFILES_ROOT" injects the absolute path
+    # as an environment variable into the script, ensuring it's always set correctly.
+    DOTFILES="$DOTFILES_ROOT" bash "$DOTFILES_ROOT/setup-symlinks.sh" || log_error "setup-symlinks.sh failed."
 else
     log_error "setup-symlinks.sh not found at $DOTFILES_ROOT/setup-symlinks.sh. Please ensure it exists."
 fi

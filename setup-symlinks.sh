@@ -1,34 +1,28 @@
 #!/bin/bash
-# Self-define the DOTFILES variable based on the script's own location
-# This makes the script portable and independent of the calling environment.
-DOTFILES=$(dirname "$(readlink -f "$0" || realpath "$0")")
+[ -d "$HOME/.config" ] || mkdir -p "$HOME/.config"
 
-# Create directory if it doesn't exist
-[ -d ~/.config ] || mkdir -p ~/.config
+# --- Linux & Cross-Platform Directory Links ---
+rm -rf "$HOME/.config/tmux"; ln -s $DOTFILES/os/linux/tmux "$HOME/.config/"
+rm -rf "$HOME/.config/kitty"; ln -s $DOTFILES/os/linux/kitty "$HOME/.config/"
+rm -rf "$HOME/.config/hyprland"; ln -s $DOTFILES/os/linux/hyprland "$HOME/.config/"
+rm -rf "$HOME/.config/waybar"; ln -s $DOTFILES/os/linux/waybar "$HOME/.config/"
+rm -rf "$HOME/.config/dunst"; ln -s $DOTFILES/os/linux/dunst "$HOME/.config/"
+rm -rf "$HOME/.config/wlogout"; ln -s $DOTFILES/os/linux/wlogout "$HOME/.config/"
+rm -rf "$HOME/.config/tofi"; ln -s $DOTFILES/os/linux/tofi "$HOME/.config/"
+rm -rf "$HOME/.config/alacritty"; ln -s $DOTFILES/os/linux/alacritty "$HOME/.config/"
+rm -rf "$HOME/.config/ghostty"; ln -s $DOTFILES/os/linux/ghostty "$HOME/.config/"
+rm -rf "$HOME/.config/wezterm"; ln -s $DOTFILES/os/cross-platform/wezterm "$HOME/.config/"
 
-# If Linux...
-rm -rf ~/.config/tmux; ln -sf $DOTFILES/os/linux/tmux ~/.config/
-rm -rf ~/.config/kitty; ln -sf $DOTFILES/os/linux/kitty ~/.config/
-rm -rf ~/.config/hyprland; ln -sf $DOTFILES/os/linux/hyprland ~/.config/
-rm -rf ~/.config/waybar; ln -sf $DOTFILES/os/linux/waybar ~/.config/
-rm -rf ~/.config/dunst; ln -sf $DOTFILES/os/linux/dunst ~/.config/
-rm -rf ~/.config/wlogout; ln -sf $DOTFILES/os/linux/wlogout ~/.config/
-rm -rf ~/.config/tofi; ln -sf $DOTFILES/os/linux/tofi ~/.config/
-rm -rf ~/.config/alacritty; ln -sf $DOTFILES/os/linux/alacritty ~/.config/
-rm -rf ~/.config/ghostty; ln -sf $DOTFILES/os/linux/ghostty ~/.config/
-rm -rf ~/.config/wezterm; ln -sf $DOTFILES/os/cross-platform/wezterm ~/.config/
-rm -rf ~/.config/starship; ln -sf $DOTFILES/os/cross-platform/starship/ ~/.config/
-ln -sf $DOTFILES/git/.gitconfig ~/.gitconfig
-ln -sf $DOTFILES/shell/zsh/.zshrc ~/.zshrc
+# --- Config File Links ---
+# For files, `ln -sf` is sufficient to overwrite. No `rm` needed.
+ln -sf $DOTFILES/os/cross-platform/starship/starship.toml "$HOME/.config/starship.toml"
+ln -sf $DOTFILES/git/.gitconfig "$HOME/.gitconfig"
+ln -sf $DOTFILES/shell/zsh/.zshrc "$HOME/.zshrc"
 
 # Sheldon config
-mkdir -p ~/.config/sheldon
-ln -sf "$DOTFILES/shell/zsh/sheldon/plugins.toml" ~/.config/sheldon/plugins.toml
+mkdir -p "$HOME/.config/sheldon"
+ln -sf "$DOTFILES/shell/zsh/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
 
-## cpp
-ln -sf $DOTFILES/os/cross-platform/clangd/.clang-format ~/.clang-format
-ln -sf $DOTFILES/os/cross-platform/clangd/.clangd ~/.clangd
-
-# If Windows...
-
-# If macOs...
+# cpp config
+ln -sf $DOTFILES/os/cross-platform/clangd/.clang-format "$HOME/.clang-format"
+ln -sf $DOTFILES/os/cross-platform/clangd/.clangd "$HOME/.clangd"
