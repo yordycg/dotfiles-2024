@@ -15,14 +15,14 @@ log_error() {
 
 log_info "Installing packages from official repositories..."
 if [ -f "./packages/pkglist-official.txt" ]; then
-    yay -Syu --noconfirm --needed - < "./packages/pkglist-official.txt" || log_error "Failed to install official packages."
+    tr -d '\r' < "./packages/pkglist-official.txt" | yay -Syu --noconfirm --needed - || log_error "Failed to install official packages."
 else
     log_info "No official package list found (./packages/pkglist-official.txt). Skipping."
 fi
 
 log_info "Installing packages from AUR..."
 if [ -f "./packages/pkglist-aur.txt" ]; then
-    yay -Syu --noconfirm --needed - < "./packages/pkglist-aur.txt" || log_error "Failed to install AUR packages."
+    tr -d '\r' < "./packages/pkglist-aur.txt" | yay -Syu --noconfirm --needed - || log_error "Failed to install AUR packages."
 else
     log_info "No AUR package list found (./packages/pkglist-aur.txt). Skipping."
 fi
