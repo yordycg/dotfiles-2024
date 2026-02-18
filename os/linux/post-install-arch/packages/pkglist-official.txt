@@ -9,6 +9,7 @@ nano
 imagemagick
 zenity
 inetutils
+openssh
 
 # --- HYPRLAND Y COMPONENTES VISUALES ---
 hyprland
