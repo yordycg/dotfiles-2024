@@ -80,8 +80,17 @@ else
 fi
 
 
-# --- 5. Add Public Key to GitHub ---
-echo "Adding public key to GitHub using gh CLI..."
+# --- 5. Add Public Key to GitHub (Idempotent) ---
+echo "Checking for existing SSH key on GitHub titled '$KEY_TITLE'..."
+# Get the fingerprint of the key with the matching title
+FINGERPRINT_TO_DELETE=$(gh ssh-key list | grep "$KEY_TITLE" | awk '{print $4}' || true)
+
+if [ -n "$FINGERPRINT_TO_DELETE" ]; then
+    echo "Key found on GitHub. Deleting it to ensure a clean state..."
+    gh ssh-key delete "$FINGERPRINT_TO_DELETE" --yes
+fi
+
+echo "Adding new public key to GitHub..."
 gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE"
 
 if [ $? -eq 0 ]; then
