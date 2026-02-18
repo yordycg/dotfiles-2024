@@ -95,3 +95,5 @@ El repositorio `dotfiles-2024` es un ejemplo de un entorno de desarrollo persona
 ## 6. TODOs Pendientes
 
 *   **Probar el Script de Post-Instalación en Arch Linux:** Ejecutar el script `bootstrap.sh` (o `os/linux/post-install-arch/install.sh` después de `chmod +x` manual) en una instalación limpia de Arch Linux (preferiblemente en una VM) para verificar que todos los paquetes se instalen correctamente y que los dotfiles se enlacen adecuadamente, y que el entorno Hyprland funcione como se espera.
+*   **Migrar las URLs de los repositorios en `setup-workspace.sh` de HTTPS a SSH** para eliminar la necesidad de autenticación interactiva.
+*   **Investigar la automatización de la creación de llaves SSH y su vinculación a la cuenta de GitHub** (posiblemente usando la CLI de GitHub, `gh auth ssh-key add`) para un proceso de arranque completamente automatizado.

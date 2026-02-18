@@ -40,9 +40,9 @@ echo
 
 echo "PASO 2: Clonando o actualizando repositorios..."
 REPOSITORIES_TO_CLONE=(
-  "https://github.com/yordycg/dotfiles-2024.git"
-  "https://github.com/yordycg/obsidian-notes.git"
-  "https://github.com/yordycg/wallpapers.git"
+  "git@github.com:yordycg/dotfiles-2024.git"
+  "git@github.com:yordycg/obsidian-notes.git"
+  "git@github.com:yordycg/wallpapers.git"
 )
 for repo_url in "${REPOSITORIES_TO_CLONE[@]}"; do
   repo_name=$(basename "$repo_url" .git)

@@ -33,6 +33,11 @@ bash 00-yay.sh || log_error "00-yay.sh failed."
 log_info "Running 01-packages.sh: Installing official and AUR packages."
 bash 01-packages.sh || log_error "01-packages.sh failed."
 
+log_info "Running generate-github-ssh-key.sh: Automating GitHub SSH key setup."
+# Note: This requires user interaction to log in to GitHub CLI ('gh auth login') if not already authenticated.
+# The script is located in the root 'scripts' directory, so we go up two levels.
+bash ../../scripts/generate-github-ssh-key.sh || log_error "generate-github-ssh-key.sh failed."
+
 log_info "Running 02-dotfiles.sh: Setting up dotfiles."
 bash 02-dotfiles.sh || log_error "02-dotfiles.sh failed."
 
