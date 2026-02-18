@@ -4,7 +4,7 @@
 # --- Linux & Cross-Platform Directory Links ---
 rm -rf "$HOME/.config/tmux"; ln -s $DOTFILES/os/linux/tmux "$HOME/.config/"
 rm -rf "$HOME/.config/kitty"; ln -s $DOTFILES/os/linux/kitty "$HOME/.config/"
-rm -rf "$HOME/.config/hyprland"; ln -s $DOTFILES/os/linux/hyprland "$HOME/.config/"
+rm -rf "$HOME/.config/hypr"; ln -s $DOTFILES/os/linux/hypr "$HOME/.config/"
 rm -rf "$HOME/.config/waybar"; ln -s $DOTFILES/os/linux/waybar "$HOME/.config/"
 rm -rf "$HOME/.config/dunst"; ln -s $DOTFILES/os/linux/dunst "$HOME/.config/"
 rm -rf "$HOME/.config/wlogout"; ln -s $DOTFILES/os/linux/wlogout "$HOME/.config/"
