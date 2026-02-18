@@ -13,6 +13,13 @@ log_error() {
     exit 1
 }
 
+# --- Pacman Lock File Check ---
+PACMAN_LOCK="/var/lib/pacman/db.lck"
+if [ -f "$PACMAN_LOCK" ]; then
+    log_info "Pacman database lock file found. Removing it..."
+    sudo rm -f "$PACMAN_LOCK" || log_error "Failed to remove pacman lock file."
+fi
+
 if command -v yay &> /dev/null
 then
     log_info "yay is already installed. Updating yay..."
