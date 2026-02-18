@@ -40,7 +40,7 @@ fastfetch
 fd
 fzf
 gdb
-gh
+github-cli
 lazygit
 lazydocker
 neovim
