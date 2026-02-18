@@ -22,7 +22,8 @@ fi
 # 2. Clone the repository
 DOTFILES_DIR="$HOME/.dotfiles"
 if [ -d "$DOTFILES_DIR" ]; then
-    echo -e "${GREEN}Dotfiles directory already exists at $DOTFILES_DIR. Skipping clone.${NC}"
+    echo -e "${GREEN}Dotfiles directory already exists. Pulling latest changes...${NC}"
+    (cd "$DOTFILES_DIR" && git pull origin main) # Assuming main is the default branch
 else
     echo -e "${GREEN}Cloning dotfiles repository to $DOTFILES_DIR...${NC}"
     git clone https://github.com/yordycg/dotfiles-2024.git "$DOTFILES_DIR"
