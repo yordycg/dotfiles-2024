@@ -66,9 +66,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons --tree --color=always $
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 
 # Eval list
-# Homebrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-export PATH="/usr/local/bin:$PATH"
+
 
 # Starship prompt
 eval "$(starship init zsh)"
