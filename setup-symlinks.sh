@@ -23,6 +23,11 @@ ln -sf $DOTFILES/shell/zsh/.zshrc "$HOME/.zshrc"
 mkdir -p "$HOME/.config/sheldon"
 ln -sf "$DOTFILES/shell/zsh/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
 
+# Zed config
+mkdir -p "$HOME/.config/zed"
+ln -sf "$DOTFILES/editors/zed/settings.json" "$HOME/.config/zed/settings.json"
+ln -sf "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
+
 # cpp config
 ln -sf $DOTFILES/os/cross-platform/clangd/.clang-format "$HOME/.clang-format"
 ln -sf $DOTFILES/os/cross-platform/clangd/.clangd "$HOME/.clangd"

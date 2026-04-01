@@ -1,0 +1,97 @@
+// Zed keymap
+[
+    // 1. GLOBAL & WORKSPACE (Atajos que funcionan en cualquier lado)
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-t": "terminal_panel::ToggleFocus",
+            "ctrl-\\": "terminal_panel::ToggleFocus",
+            "alt-s": "zed::OpenSettingsFile",
+            "alt-k": "zed::OpenKeymapFile",
+            "cmd-b": "workspace::ToggleRightDock",
+        },
+    },
+
+    // 2. NAVEGACIÓN ENTRE PANELES (Consistencia total)
+    {
+        "context": "Dock || Terminal || Editor || ProjectPanel",
+        "bindings": {
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-l": "workspace::ActivatePaneRight",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-j": "workspace::ActivatePaneDown",
+        },
+    },
+
+    // 3. MODO INSERT (Mejor escape)
+    {
+        "context": "Editor && vim_mode == insert && !menu",
+        "bindings": {
+            "j k": "vim::NormalBefore",
+            "j j": "vim::NormalBefore",
+        },
+    },
+
+    // 4. MODO NORMAL (Leader Key: Space)
+    {
+        "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+        "bindings": {
+            // Archivos y Buscador
+            "space space": "file_finder::Toggle",
+            "space f p": "projects::OpenRecent",
+            "space e": "pane::RevealInProjectPanel", // Enfoca el archivo actual en el árbol
+            "space q": "pane::CloseActiveItem",
+
+            // LSP / Código
+            "g d": "editor::GoToDefinition",
+            "g r": "editor::FindAllReferences",
+            "g i": "editor::GoToImplementation",
+            "s s": "outline::Toggle", // Símbolos del archivo
+            "space .": "editor::ToggleCodeActions",
+            "space c r": "editor::Rename",
+            "space f": "editor::Format",
+            "space i": "editor::OrganizeImports",
+
+            // Diagnósticos (Errores)
+            "] d": "editor::GoToDiagnostic",
+            "[ d": "editor::GoToPreviousDiagnostic",
+            "space x x": "diagnostics::Deploy",
+
+            // Git
+            "] h": "editor::GoToHunk",
+            "[ h": "editor::GoToPreviousHunk",
+            "space g s": "git_panel::ToggleFocus",
+
+            // IA y UI
+            "space a": "assistant::ToggleFocus",
+            "space u z": "workspace::ToggleCenteredLayout", // Tu modo Zen
+            "space u w": "editor::ToggleSoftWrap",
+        },
+    },
+
+    // 5. MODO VISUAL
+    {
+        "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+        "bindings": {
+            "g c": "editor::ToggleComments",
+            "s": ["vim::PushSneak", {}],
+        },
+    },
+
+    // 6. PANEL DE PROYECTO (Comportamiento tipo File Explorer)
+    {
+        "context": "ProjectPanel && not_editing",
+        "bindings": {
+            "a": "project_panel::NewFile",
+            "A": "project_panel::NewDirectory",
+            "r": "project_panel::Rename",
+            "d": "project_panel::Delete",
+            "x": "project_panel::Cut",
+            "c": "project_panel::Copy",
+            "p": "project_panel::Paste",
+            "h": "project_panel::CollapseSelectedEntry",
+            "l": "project_panel::ExpandSelectedEntry",
+            "q": "workspace::ToggleRightDock",
+        },
+    },
+]

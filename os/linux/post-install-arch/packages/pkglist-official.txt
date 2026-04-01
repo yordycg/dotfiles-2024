@@ -52,6 +52,7 @@ tmux
 yazi
 zoxide
 pnpm
+zed
 
 # --- TEMAS Y APARIENCIA ---
 nwg-look

@@ -1,0 +1,171 @@
+// Zed settings
+{
+    // THEME ---------------------------------------------------------------------------------------
+    "theme": {
+        "mode": "dark",
+        "light": "One Light",
+        "dark": "Snazzy Theme - blurred",
+    },
+    "icon_theme": {
+        "mode": "dark",
+        "light": "Zed (Default)",
+        "dark": "Base Charmed Icons",
+    },
+    // FONT ----------------------------------------------------------------------------------------
+    // "buffer_font_family": "Inconsolata", // font code.
+    "buffer_font_size": 16.0,
+    "buffer_line_height": {
+        "custom": 1.8,
+    },
+    "ui_font_family": "Dank Mono",
+    "ui_font_size": 16,
+    "agent_ui_font_size": 16,
+    "agent_buffer_font_size": 16,
+    "terminal": {
+        "font_size": 14.0,
+        "font_family": "JetBrainsMono NFM",
+    },
+    "buffer_font_fallbacks": [
+        "JetBrainsMono Nerd Font Mono",
+        "Cascadia Code",
+        "SF Mono",
+        "Source Code Pro",
+        "MonoLisa",
+        "Dank Mono",
+    ],
+    // FORMATTING & IDENTATION ---------------------------------------------------------------------
+    "wrap_guides": [100],
+    "preferred_line_length": 100,
+    "soft_wrap": "editor_width",
+    "hard_tabs": false,
+    "tab_size": 4,
+    "colorize_brackets": true,
+    "auto_indent": "syntax_aware",
+    "auto_indent_on_paste": true,
+    // "show_completions_on_input": false,
+    // LAYOUT & APPEARANCE -------------------------------------------------------------------------
+    "title_bar": {
+        "show_onboarding_banner": false, // hide additional onboarding buttons or hints.
+        "show_project_items": false, // hide project folder.
+        // "show_branch_name": false, // hide branch name.
+        // "show_user_menu": false, // hide user avatar.
+    },
+    "tab_bar": {
+        "show": false, // hide tab bar.
+    },
+    "toolbar": {
+        "quick_actions": false, // hide quick actions settings.
+    },
+    "status_bar": {
+        // "experimental.show": false, // hide status bar.
+    },
+    "project_panel": {
+        "dock": "right", // show panel to the right.
+        "default_width": 350,
+        // "hide_root": true, // hide root folder.
+        "auto_fold_dirs": false, // always show directory contents.
+        "starts_open": false,
+        "sticky_scroll": false,
+        "scrollbar": {
+            "show": "never",
+        },
+        "indent_guides": {
+            "show": "never",
+        },
+    },
+    "outline_panel": {
+        "default_width": 300,
+        "indent_guides": {
+            "show": "never",
+        },
+    },
+    "file_finder": {
+        "modal_max_width": "large", // width of search modal.
+    },
+    "scrollbar": {
+        "show": "never",
+    },
+    "gutter": {
+        "line_numbers": true,
+        "min_line_number_digits": 0,
+        "folds": false, // hide arrows in code.
+    },
+    "indent_guides": {
+        "coloring": "indent_aware",
+        // "enabled": false,
+    },
+    // OTHERS --------------------------------------------------------------------------------------
+    "vim_mode": true,
+    "multi_cursor_modifier": "cmd_or_ctrl",
+    "cursor_shape": "block",
+    "cursor_blink": true,
+    // "selection_highlight": false,
+    "drag_and_drop_selection": {
+        "enabled": false,
+    },
+    "seed_search_query_from_cursor": "never",
+    "show_whitespaces": "none",
+    "extend_comment_on_newline": false,
+    "horizontal_scroll_margin": 5,
+    "vertical_scroll_margin": 5,
+    "when_closing_with_no_tabs": "keep_window_open",
+    "close_on_file_delete": true,
+    "restore_on_file_reopen": false,
+    "restore_on_startup": "empty_tab",
+    // LANGUAGES -----------------------------------------------------------------------------------
+    "languages": {
+        "Python": {
+            "format_on_save": "on",
+            "formatter": { "language_server": { "name": "ruff" } },
+            "language_servers": ["pyright", "ruff"],
+        },
+        "JavaScript": {
+            "format_on_save": "on",
+            "formatter": { "language_server": { "name": "prettier" } },
+            "language_servers": ["typescript-language-server", "eslint"],
+        },
+        "TypeScript": {
+            "format_on_save": "on",
+            "formatter": { "language_server": { "name": "prettier" } },
+            "language_servers": ["typescript-language-server", "eslint"],
+        },
+        "JSON": {
+            "format_on_save": "on",
+            "formatter": { "language_server": { "name": "json-language-server" } },
+        },
+    },
+    "lsp": {
+        "ruff": {
+            "settings": {
+                "args": ["--fix", "--organize-imports"], // Ruff limpia tu código cada vez que guardas.
+            },
+        },
+        "pyright": {
+            "settings": {
+                "python.analysis.typeCheckingMode": "basic", // Cambia a "strict" si quieres ser más riguroso.
+            },
+        },
+    },
+    // EXTENSIONS ----------------------------------------------------------------------------------
+    "session": {
+        "trust_all_worktrees": true,
+    },
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false,
+    },
+    "base_keymap": "VSCode",
+    "show_signature_help_after_edits": true,
+    "auto_signature_help": true,
+    "relative_line_numbers": "enabled",
+    "minimap": {
+        "show": "never",
+    },
+    "hover_popover_enabled": true,
+    "current_line_highlight": "all",
+    "autosave": "on_focus_change",
+    "linked_edits": true,
+    "use_on_type_format": false,
+    "show_edit_predictions": true,
+    "semantic_tokens": "off",
+}
