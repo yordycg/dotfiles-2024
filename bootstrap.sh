@@ -20,7 +20,7 @@ else
 fi
 
 # 2. Clone the repository
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="$HOME/workspace/repos/dotfiles-2024"
 if [ -d "$DOTFILES_DIR" ]; then
     echo -e "${GREEN}Dotfiles directory already exists. Pulling latest changes...${NC}"
     (cd "$DOTFILES_DIR" && git pull origin main) # Assuming main is the default branch

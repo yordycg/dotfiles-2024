@@ -3,12 +3,16 @@
 
 shell = "zsh"
 
-[templates]
-# Template for Oh My Zsh plugins.
-# This makes adding OMZ plugins easier.
-oh-my-zsh = { github = "ohmyzsh/ohmyzsh", dir = "plugins/{{ name }}" }
-
 [plugins]
+
+# --- Core Oh My Zsh Library ---
+# Many OMZ plugins depend on these core library files.
+[plugins.oh-my-zsh-lib]
+github = "ohmyzsh/ohmyzsh"
+dir = "lib"
+use = ["*.zsh"]
+
+# --- Independent Plugins ---
 
 # Z - Directory Jumper
 [plugins.z]
@@ -47,22 +51,28 @@ github = "djui/alias-tips"
 [plugins.zsh-git-semantic-commits]
 github = "alexrochas/zsh-git-semantic-commits"
 
-# --- Oh My Zsh plugins using the template ---
+# --- Oh My Zsh plugins ---
 
 [plugins.aws]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/aws"
 
 [plugins.dotnet]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/dotnet"
 
 [plugins.git]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/git"
 
 [plugins.httpie]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/httpie"
 
 [plugins.command-not-found]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/command-not-found"
 
 [plugins.vscode]
-template = "oh-my-zsh"
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/vscode"

@@ -108,7 +108,7 @@ echo "Private key file: $SSH_KEY_PATH"
 
 # --- 6. Switch dotfiles repo remote URL to SSH ---
 # The bootstrap process clones via HTTPS, this step switches it to SSH.
-DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/.dotfiles}" # Use env var or default
+DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/workspace/repos/dotfiles-2024}" # Use env var or default
 if [ -d "$DOTFILES_DIR_CHECK" ] && [ -d "$DOTFILES_DIR_CHECK/.git" ]; then
     echo "Switching origin remote URL to SSH for dotfiles repository..."
     (cd "$DOTFILES_DIR_CHECK" && git remote set-url origin "git@github.com:yordycg/dotfiles-2024.git")
