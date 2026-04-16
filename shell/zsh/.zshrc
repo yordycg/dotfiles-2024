@@ -5,6 +5,9 @@
 export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
 [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
+# Load Functions (early for lazy-loading & performance)
+[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
+
 # Sheldon Plugin Manager
 # Initializes sheldon. It will automatically source plugins from the config file.
 if command -v sheldon &> /dev/null; then
@@ -40,19 +43,14 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons --tree --color=
 eval "$(starship init zsh)"
 
 # Node with fnm
-# NOTE: install using curl not brew!
+# Initialization is handled via lazy-loading in shell/functions/performance.sh
 FNM_PATH="$HOME/.fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="$HOME/.fnm:$PATH" # agregar directorio al PATH
-  eval "`fnm env --use-on-cd`"
+  export PATH="$HOME/.fnm:$PATH"
 fi
 
-# Upload Files...
 # Aliases
 [[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
-
-# Functions
-[[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
 
 # fzf-git
 [[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"

@@ -6,8 +6,8 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Centralización de Variables de Entorno**:
     - Mover todos los `export` de `.zshrc`, scripts y configs a un único archivo `shell/exports.sh`.
     - Asegurar que todos los scripts (como el de tmux) lean de ese archivo central para evitar rutas duplicadas.
-- [ ] **Profiling del Shell**: Implementar `zprof` (Zsh) o `fish --profile` para identificar y eliminar retardos en la apertura de la terminal.
-- [ ] **Lazy Loading de Herramientas**: Configurar la carga diferida para `nvm`, `pyenv`, `sdkman` o similares, evitando que ralenticen cada nueva terminal.
+- [x] **Profiling del Shell**: Implementar `zprof` (Zsh) o `fish --profile` para identificar y eliminar retardos en la apertura de la terminal.
+- [x] **Lazy Loading de Herramientas**: Configurar la carga diferida para `nvm`, `pyenv`, `sdkman` o similares, evitando que ralenticen cada nueva terminal.
 
 ## 🟡 PRIORIDAD 2: Flujo de Trabajo (Multiplicador de Productividad)
 - [ ] **Gestor de Proyectos con fzf**: Crear un script (ej. `pj` o `work`) que permita buscar repositorios en `~/workspace/repos/`, abrir una sesión de Tmux nombrada y lanzar el editor (NVIM/Zed) automáticamente.
