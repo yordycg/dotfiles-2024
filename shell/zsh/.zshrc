@@ -1,41 +1,9 @@
-# PATH config
-# export PATH="/usr/local/bin:$PATH"
-
-export EDITOR="nvim" # Use nvim as default editor
-export VISUAL="nvim"
-
-export BROWSER="firefox"
-
-# Directories
-export WORKSPACE_PATH="$HOME/workspace"
-export DEV_PATH="$WORKSPACE_PATH/dev"
-export REPOS_PATH="$WORKSPACE_PATH/repos"
-export DOTFILES="$REPOS_PATH/dotfiles-2024"
-export OBSIDIAN="$REPOS_PATH/obsidian-notes"
-export WALLPAPERS="$REPOS_PATH/wallpapers"
-export PROJECTS_PATH="$DEV_PATH/projects"
-export DSA_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/04 DataStructure-Algorithms"
-export CPP_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/02 Cpp"
-#
-# XDG base directories
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# Theme config
-export TMUX_THEME="nord" # adib-hanna | minimalis | nord | onedark | dracula | catppuccin
-export NVIM_THEME="nord"
-export STARSHIP_THEME="nord"
-export WEZTERM_THEME="nord"
-
-# History config
-export HISTFILE=~/.zsh_history
-export HISTSIZE=5000
-export SAVEHIST=$HISTSIZE
-export HISTDUP=erase
-# Don't put DUPLICATE LINES in the history and do not add lines that START WITH A SPACE
-export HISTCONTROL=erasedups:ignoredups:ignorespace
-
+# Load Exports (Environment Variables)
+# We assume the repo is at a standard location if DOTFILES is not set, 
+# but usually it's better to source it relatively or via an absolute path if known.
+# Since this file is in $DOTFILES/shell/zsh/.zshrc, we can try to find it.
+export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
 # Sheldon Plugin Manager
 # Initializes sheldon. It will automatically source plugins from the config file.
@@ -82,9 +50,6 @@ fi
 # Upload Files...
 # Aliases
 [[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
-
-# Exports
-[[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
 # Functions
 [[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"

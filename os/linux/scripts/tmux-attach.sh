@@ -6,6 +6,12 @@
 # Verificar si tmux está instalado
 if which tmux >/dev/null 2>&1; then
 
+  # Load environment variables if not present
+  if [[ -z "$DOTFILES" ]]; then
+    export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+  fi
+  [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
+
   # Evitar ejecutar dentro de tmux o entornos especiales
   if [[ -z "$TMUX" &&
         $TERM != "screen-256color" &&
