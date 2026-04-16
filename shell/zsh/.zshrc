@@ -40,7 +40,7 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 # Sheldon Plugin Manager
 # Initializes sheldon. It will automatically source plugins from the config file.
 if command -v sheldon &> /dev/null; then
-  eval "$(sheldon init --shell zsh)"
+  eval "$(sheldon init --shell zsh 2> /dev/null)"
 fi
 
 # Others
