@@ -1,6 +1,6 @@
 font-family = JetBrainsMono NF
 font-size = 12
-theme = nord
+theme = Nord
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 adjust-cell-height = 35%
@@ -13,6 +13,8 @@ window-padding-balance = true
 window-save-state = always
 window-colorspace = "display-p3"
 
+
+confirm-close-surface = false
 
 # ---------------------------------------------------
 # Others
