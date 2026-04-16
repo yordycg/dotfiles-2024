@@ -48,3 +48,23 @@ function cleanup() {
   find . -type d -name "build" -exec rm -rf {} +
   echo "Limpieza de desarrollo completada."
 }
+
+# Sincronizar listas de paquetes instalados con dotfiles
+function pkg-sync() {
+  local pkg_dir="$DOTFILES/os/linux/post-install-arch/packages"
+  local official_list="$pkg_dir/pkglist-official.txt"
+  local aur_list="$pkg_dir/pkglist-aur.txt"
+
+  if [ ! -d "$pkg_dir" ]; then
+    mkdir -p "$pkg_dir"
+  fi
+
+  # Exportar paquetes oficiales (instalados explícitamente, no dependencias)
+  pacman -Qqen > "$official_list"
+  # Exportar paquetes del AUR/Locales
+  pacman -Qqem > "$aur_list"
+
+  echo "✅ Listas de paquetes actualizadas en: $pkg_dir"
+  echo "📦 Oficiales: $(wc -l < "$official_list")"
+  echo "📦 AUR: $(wc -l < "$aur_list")"
+}
