@@ -56,5 +56,12 @@ else
     log_info "Default shell is already Zsh. Skipping."
 fi
 
+# --- Setup Node.js with fnm ---
+if [ -f "$DOTFILES_ROOT/scripts/setup-node.sh" ]; then
+    log_info "Executing $DOTFILES_ROOT/scripts/setup-node.sh..."
+    bash "$DOTFILES_ROOT/scripts/setup-node.sh" || log_error "setup-node.sh failed."
+else
+    log_info "setup-node.sh not found at $DOTFILES_ROOT/scripts/setup-node.sh. Skipping."
+fi
 
 log_info "Dotfiles setup complete."

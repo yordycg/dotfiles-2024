@@ -50,11 +50,6 @@ set -gx WEZTERM_THEME nord
 fish_add_path /usr/local/bin
 fish_add_path ~/.local/bin
 
-# Tmux attach
-if test -x "$DOTFILES/os/linux/scripts/tmux-attach.sh"
-  "$DOTFILES/os/linux/scripts/tmux-attach.sh"
-end
-
 # Homebrew
 if test -d /home/linuxbrew/.linuxbrew
   eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
@@ -68,4 +63,37 @@ end
 # Init Zoxide.
 if command -v zoxide >/dev/null
   zoxide init fish | source
+end
+
+# Node with fnm (Lazy Load)
+if command -v fnm >/dev/null
+  function __init_fnm
+    functions -e node npm npx pnpm fnm __init_fnm
+    fnm env --use-on-cd | source
+  end
+
+  function node
+    __init_fnm
+    node $argv
+  end
+
+  function npm
+    __init_fnm
+    npm $argv
+  end
+
+  function npx
+    __init_fnm
+    npx $argv
+  end
+
+  function pnpm
+    __init_fnm
+    pnpm $argv
+  end
+
+  function fnm
+    __init_fnm
+    fnm $argv
+  end
 end

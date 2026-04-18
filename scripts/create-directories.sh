@@ -7,17 +7,15 @@ set -ueo pipefail # fail on error and report it, debug all lines
 # Definición de directorios
 WORKSPACE_DIR="$HOME/workspace"
 BACK_DIR="$HOME/BACKUP"
-PERSONAL_PROJECT_DIR="$WORKSPACE_DIR/personal-projects"
-ENG_COMPUTER_DIR="$WORKSPACE_DIR/computer-engineering"
 REPO_DIR="$WORKSPACE_DIR/repos"
+UNIVERSITY_DIR="$WORKSPACE_DIR/university/year_3/semester_5"
 
 # Lista de directorios a crear
 DIRECTORIES=(
   "$WORKSPACE_DIR"
   "$BACK_DIR"
-  "$PERSONAL_PROJECT_DIR"
-  "$ENG_COMPUTER_DIR"
   "$REPO_DIR"
+  "$UNIVERSITY_DIR"
 )
 
 echo "Creando directorios base necesarios del espacio de trabajo..."

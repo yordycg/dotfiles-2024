@@ -54,6 +54,3 @@ fi
 
 # fzf-git
 [[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
-
-# Tmux attach
-[[ -x "$DOTFILES/os/linux/scripts/tmux-attach.sh" ]] && "$DOTFILES/os/linux/scripts/tmux-attach.sh"
