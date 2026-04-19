@@ -28,6 +28,11 @@ mkdir -p "$HOME/.config/zed"
 ln -sf "$DOTFILES/editors/zed/settings.json" "$HOME/.config/zed/settings.json"
 ln -sf "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
 
-# cpp config
-ln -sf $DOTFILES/os/cross-platform/clangd/.clang-format "$HOME/.clang-format"
-ln -sf $DOTFILES/os/cross-platform/clangd/.clangd "$HOME/.clangd"
+# --- Linters & Formatters ---
+ln -sf $DOTFILES/os/cross-platform/linters/.clang-format "$HOME/.clang-format"
+ln -sf $DOTFILES/os/cross-platform/linters/.clangd "$HOME/.clangd"
+ln -sf $DOTFILES/os/cross-platform/linters/.stylua.toml "$HOME/.stylua.toml"
+ln -sf $DOTFILES/os/cross-platform/linters/.luacheckrc "$HOME/.luacheckrc"
+ln -sf $DOTFILES/os/cross-platform/linters/.prettierrc "$HOME/.prettierrc"
+ln -sf $DOTFILES/os/cross-platform/linters/.ruff.toml "$HOME/.ruff.toml"
+ln -sf $DOTFILES/os/cross-platform/linters/.editorconfig "$HOME/.editorconfig"
