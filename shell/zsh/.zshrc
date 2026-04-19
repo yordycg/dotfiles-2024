@@ -36,8 +36,20 @@ bindkey '^[w' kill-region            # alt-w para borrar region seleccionada
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 
-# Eval list
+# Eval list (External Tool Initializations)
+# Zoxide - Smarter cd command
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
+# Fzf - Fuzzy Finder integrations (Keybindings & Auto-completion)
+# Usually installed via package manager or script in ~/.fzf
+if [ -f "$HOME/.fzf.zsh" ]; then
+  source "$HOME/.fzf.zsh"
+elif [ -f "/usr/share/fzf/key-bindings.zsh" ]; then # Arch Linux default
+  source "/usr/share/fzf/key-bindings.zsh"
+  source "/usr/share/fzf/completion.zsh"
+fi
 
 # Starship prompt
 eval "$(starship init zsh)"
