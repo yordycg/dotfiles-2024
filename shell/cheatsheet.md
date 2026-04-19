@@ -91,14 +91,15 @@
 [hypr] SUPER + B         | Abrir el navegador (Thorium)
 [hypr] SUPER + O         | Abrir notas (Obsidian)
 [hypr] SUPER + C         | Abrir editor de código (VS Code)
-[hypr] SUPER + S         | Abrir editor alternativo (Sublime)
+[hypr] SUPER + S         | Abrir editor alternativo (Ghostty + Neovim)
 [hypr] SUPER + Q         | Cerrar la ventana enfocada
 [hypr] SUPER + M         | Salir de Hyprland (Logout)
-[hypr] SUPER + F         | Abrir gestor de archivos (Nautilus)
+[hypr] SUPER + F         | Abrir gestor de archivos (Thunar)
 [hypr] SUPER + W         | Cambiar ventana entre flotante o mosaico
 [hypr] SUPER + A         | Abrir menú de aplicaciones (Tofi)
 [hypr] SUPER + J         | Cambiar división (horizontal/vertical)
-[hypr] SUPER + E         | Selector de Emojis y copiar al portapapeles
+[hypr] SUPER + N         | Abrir/Cerrar panel de notificaciones (SwayNC)
+[hypr] SUPER + E         | Abrir selector de Emojis (Smile)
 [hypr] SUPER + V         | Historial del Portapapeles (Cliphist)
 [hypr] SUPER + P         | Selector de Color (Hyprpicker)
 [hypr] SUPER + L         | Bloquear pantalla (Hyprlock)
