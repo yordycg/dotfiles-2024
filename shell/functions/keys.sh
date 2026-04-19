@@ -1,61 +1,43 @@
 #!/bin/bash
 ###############################################################################
-# UNIVERSAL KEYBINDINGS & ALIASES SEARCH (WITH DESCRIPTIONS)
+# UNIVERSAL CHEATSHEET SEARCH (POPUP VERSION)
 ###############################################################################
 
 function keys() {
-  local filter="$1"
-
-  # Fuentes de datos
-  local aliases_file="$DOTFILES/shell/aliases.sh"
-  local tmux_file="$DOTFILES/os/linux/tmux/tmux.conf"
-  local tmux_reset_file="$DOTFILES/os/linux/tmux/tmux.reset.conf"
-  local hypr_file="$DOTFILES/os/linux/hypr/hyprland.conf"
-  local functions_dir="$DOTFILES/shell/functions"
-
-  (
-    # 1. Extraer Aliases: alias name='cmd' # [cat] Descripcion
-    if [[ -f "$aliases_file" ]]; then
-      grep -E "^alias " "$aliases_file" | sed -E 's/alias ([^=]+)=(.+) # \[([^]]+)\] (.*)/ [\3] \1 \t= \4 (\2)/'
-      # Fallback para los que no tienen descripción aún
-      grep -E "^alias " "$aliases_file" | grep -v "\] " | sed -E 's/alias ([^=]+)=(.+) # \[([^]]+)\]/ [\3] \1 \t= \2/'
+    local cheatsheet="$DOTFILES/shell/cheatsheet.md"
+    local query="$1"
+    
+    if [[ ! -f "$cheatsheet" ]]; then
+        echo "Error: No se encontró el archivo cheatsheet en $cheatsheet"
+        return 1
     fi
 
-    # 2. Extraer Binds de Tmux (con soporte para comentarios al final)
-    for f in "$tmux_file" "$tmux_reset_file"; do
-      if [[ -f "$f" ]]; then
-        grep -E "^bind " "$f" | sed -E 's/bind (-r |-n | )*([^ ]+) ([^#]+)(# (.*))?/ [tmux] \2 \t= \5 (\3)/'
-      fi
-    done
+    # Opciones estéticas unificadas
+    local fzf_color="header:bold:blue,info:green,pointer:red,border:blue"
+    local fzf_header="Prefix Tmux: CTRL+SPACE | Prefix Hypr: SUPER (WIN)"
 
-    # 3. Extraer Binds de Hyprland
-    if [[ -f "$hypr_file" ]]; then
-       grep -E "^bind" "$hypr_file" | sed -E 's/bind[dmeilre]* = ([^,]*), ([^,]*), ([^,]*),? ?([^#]*)(# (.*))?/ [hypr] \1+\2 \t= \6 (\3 \4)/'
-    fi
+    # Opciones comunes para mantener la consistencia
+    local common_opts=(
+        --reverse
+        --border=rounded
+        --query="$query"
+        --prompt="  Atajos: "
+        --header="$fzf_header"
+        --color="$fzf_color"
+    )
 
-    # 4. Listar funciones con descripción (busca comentario arriba)
-    if [[ -d "$functions_dir" ]]; then
-      find "$functions_dir" -maxdepth 1 -name "*.sh" -exec awk '
-        /^# / { last_comment = substr($0, 3) }
-        /^function / { 
-          split($2, a, "("); 
-          printf " [%s] %s \t= %s (function)\n", FILENAME, a[1], last_comment;
-          last_comment = ""
-        }
-        /^[a-zA-Z0-9_-]+\(\)/ {
-          split($1, a, "(");
-          printf " [%s] %s \t= %s (function)\n", FILENAME, a[1], last_comment;
-          last_comment = ""
-        }
-      ' {} + | sed "s|\[$functions_dir/||; s|\.sh\]|]|"
+    if [[ -n "$TMUX" ]]; then
+        # Dentro de Tmux: Popup real (80% x 70%)
+        grep "^\[" "$cheatsheet" | \
+            column -t -s "|" | \
+            fzf-tmux -p 80%,70% -- "${common_opts[@]}"
+    else
+        # Fuera de Tmux: Simular popup sin limpiar la pantalla (permite ver el fondo)
+        # Altura del 70% y margen lateral del 10% para centrarlo horizontalmente
+        grep "^\[" "$cheatsheet" | \
+            column -t -s "|" | \
+            fzf "${common_opts[@]}" \
+                --height=70% \
+                --margin="1,10%"
     fi
-  ) | grep -i "${filter:-.}" | column -t -s $'\t' | fzf \
-    --height 60% \
-    --layout=reverse \
-    --border \
-    --prompt="  Comandos: " \
-    --header "Busca por nombre, categoría o descripción. Formato: [Cat] Comando = Descripción (Origen)" \
-    --preview "echo {}" \
-    --preview-window up:1 \
-    --ansi
 }
