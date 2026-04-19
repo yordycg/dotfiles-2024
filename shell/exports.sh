@@ -24,7 +24,7 @@ export VISUAL="nvim"
 export BROWSER="firefox"
 
 # Themes (Global consistency)
-export TMUX_THEME="nord" # adib-hanna | minimalis | nord | onedark | dracula | catppuccin
+export TMUX_THEME="catppuccin-minimal" # adib-hanna | minimalist | nord | onedark | catppuccin-minimal
 export NVIM_THEME="nord"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
