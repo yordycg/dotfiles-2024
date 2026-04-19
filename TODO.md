@@ -76,4 +76,10 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Implementar un tema basado en QML/CSS para eliminar el aspecto básico.
     - **Recomendaciones**: `sddm-sugar-candy-git`, `sddm-theme-catppuccin` o un tema minimalista que soporte avatares circulares y fondos desenfocados.
     - Sincronizar el fondo de pantalla del login con el de Hyprland automáticamente.
+- [ ] **Limpieza de Scripts de Instalación (Entry Points)**:
+    - Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install-linux.sh` e `install-windows.ps1`.
+- [ ] **Actualización de Temas de Carpetas e Iconos**:
+    - Investigar y aplicar un tema de iconos consistente (ej: Catppuccin Papirus, Tela-circle) que se refleje en Thunar, Waybar y el Shell (`eza`).
+- [ ] **Sheldon**: 
+    - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
 
