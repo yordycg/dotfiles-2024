@@ -1,3 +1,7 @@
 **/lazy-lock.json
 **/chadrc.lua
 **/install-log.txt
+
+# Tmux plugins
+os/linux/tmux/plugins/
+!os/linux/tmux/plugins/tpm/
