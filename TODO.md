@@ -18,12 +18,13 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Gestor de Proyectos con fzf**: 
     - [x] Implementada función `work` (ex `tat`) para sesiones automáticas.
     - [x] Implementada función `jump` para navegar entre repos y universidad.
-- [ ] **Configuración Global de LSP/Linters**: Centralizar archivos como `.clang-format`, `.prettierrc` o configs de `ruff` en un lugar común para asegurar consistencia en todos los editores.
-- [ ] **Optimización de Tmux**: 
-    - [ ] **Persistencia**: Instalar y configurar `tmux-resurrect` y `tmux-continuum` para que las sesiones sobrevivan a reinicios.
-    - [ ] **Navegación Fuzzy**: Integrado con `jump`.
-    - [ ] **Estética**: Diseñar una `status-line` minimalista que armonice con los colores de Hyprland y Waybar.
-    - [ ] **Mantenimiento**: Evaluar un script de limpieza periódica para sesiones inactivas (Opción B del workflow).
+- [x] **Configuración Global de LSP/Linters**: Centralizar archivos como `.clang-format`, `.prettierrc` o configs de `ruff` en un lugar común para asegurar consistencia en todos los editores.
+- [x] **Optimización de Tmux**: 
+    - [x] **Persistencia**: Instalar y configurar `tmux-resurrect` y `tmux-continuum` para que las sesiones sobrevivan a reinicios.
+    - [x] **Navegación Fuzzy**: Integrado con `jump` y `sessionx`.
+    - [x] **Estética**: Diseñar una `status-line` minimalista que armonice con los colores de Hyprland y Waybar.
+    - [x] **Mantenimiento**: Evaluar un script de limpieza periódica para sesiones inactivas (Opción B del workflow).
+    - [x] **Sesión Core**: Autogenerar la sesión `dotfiles` al inicio.
 
 ## 🔵 PRIORIDAD 3: UX y Documentación (Fricción Cognitiva)
 - [x] **Visor de Keymaps unificado (`keys`)**:

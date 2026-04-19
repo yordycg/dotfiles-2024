@@ -20,6 +20,38 @@ function work() {
   fi
 }
 
+# "tcl": Limpieza interactiva de sesiones de Tmux inactivas.
+# Uso: tcl (abre un selector de fzf para matar sesiones)
+function tcl() {
+  local sessions
+  # Obtenemos las sesiones con su nombre y última vez que fueron conectadas.
+  sessions=$(tmux list-sessions -F "#{session_name} | Last: #{session_last_attached}" 2>/dev/null)
+
+  if [[ -z "$sessions" ]]; then
+    echo "No hay sesiones de Tmux activas."
+    return
+  fi
+
+  # Usamos fzf para seleccionar una o más sesiones y las cerramos.
+  echo "$sessions" | fzf --multi --header="Selecciona sesiones para CERRAR (TAB para selección múltiple):" --prompt="Kill session: " \
+    | cut -d' ' -f1 | xargs -r -n 1 tmux kill-session -t
+}
+
+# "tmux_bootstrap": Asegura que las sesiones core estén creadas.
+function tmux_bootstrap() {
+  # Si tmux está instalado, crear sesión dotfiles en segundo plano si no existe.
+  if command -v tmux &>/dev/null; then
+    if ! tmux has-session -t "dotfiles" 2>/dev/null; then
+      tmux new-session -d -s "dotfiles" -c "$DOTFILES"
+    fi
+  fi
+}
+
+# Ejecutar el bootstrap al cargar (solo si no estamos ya en tmux o en una tty sin entorno)
+if [[ -z "$TMUX" && "$TERM" != "linux" ]]; then
+  tmux_bootstrap
+fi
+
 # "jump": Buscador fuzzy para saltar entre proyectos y materias.
 # Uso: jump (luego escribe el nombre de la carpeta)
 function jump() {
