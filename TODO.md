@@ -76,9 +76,11 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Realizar auditoría periódica de apps instaladas (`pacman` y `yay`).
     - Actualizar listas en `os/linux/post-install-arch/packages/pkglist-official.txt` y `pkglist-aur.txt`.
     - Crear un script `pkg-sync` que automatice la exportación de estas listas.
-- [ ] **Gestión de Wallpapers**: 
-    - Integrar un selector de wallpapers (ej. usando `swww` o `hyprpaper` con `fzf` o `rofi/tofi`).
-    - Organizar la carpeta `~/workspace/repos/wallpapers`.
+- [x] **Gestión de Wallpapers**: 
+    - [x] Integrar un selector de wallpapers interactivas con `swww` y `fzf`.
+    - [x] Implementar persistencia del fondo de pantalla entre reinicios.
+    - [x] Organizar la carpeta `~/workspace/repos/wallpapers`.
+
 - [ ] **Consolidación Total de Neovim**: 
     - Migrar a una única configuración modular basada en `Lazy.nvim` (Lua).
     - **Stack a evaluar/comparar**:

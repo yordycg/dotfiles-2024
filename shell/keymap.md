@@ -38,6 +38,7 @@
 [util] findedit <text>   | Buscar con ripgrep y abrir en línea exacta en Vim
 [util] cpz <file>        | Copiar a destino inteligente (Zoxide + FD + FZF)
 [util] mvz <file>        | Mover a destino inteligente (Zoxide + FD + FZF)
+[util] wall              | Seleccionar y cambiar fondo de pantalla (swww + fzf)
 
 # [GIT] GIT & GITHUB
 [git] lg                 | Abrir LazyGit (TUI)

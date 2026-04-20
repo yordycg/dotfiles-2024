@@ -133,3 +133,4 @@ alias pt="pytest" # [py] Suite de tests profesional
 alias win="cd /mnt/c/Users/Yordy" # [os] Ir al Home de Windows
 alias dev="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/" # [os] Carpeta principal de estudios
 alias dircpp="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/02\ Cpp/" # [os] Carpeta de C++
+alias wall='bash /home/yordycg/workspace/repos/dotfiles-2024/scripts/wallpaper-picker.sh'
