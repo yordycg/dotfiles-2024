@@ -99,10 +99,20 @@
 
 # Third-party: delta
 [delta]
-  navigate = true # use n and N to move between diff sections
-  dark = true     # or light = true, or omit for auto-detection
-  line-numbers = true
-  side-by-side = true
+    navigate = true    # use n and N to move between diff sections
+    line-numbers = true
+    side-by-side = true
+    syntax-theme = OneHalfDark
+    plus-style = syntax "#012800"
+    minus-style = syntax "#340001"
+    map-styles = \
+        bold purple => syntax "#340001", \
+        bold cyan => syntax "#012800"
+    file-added-label = [+]
+    file-copied-label = [==]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [->]
 
 # URL shortcuts
 [url "git@github.com:yordycg/"]

@@ -44,4 +44,7 @@ bash 02-dotfiles.sh || log_error "02-dotfiles.sh failed."
 log_info "Running 03-services.sh: Configuring system services."
 bash 03-services.sh || log_error "03-services.sh failed."
 
+log_info "Installing Docker: The Professional Way."
+bash ../../../install/install-docker.sh || log_error "install-docker.sh failed."
+
 log_info "Arch Linux post-installation script completed successfully!"

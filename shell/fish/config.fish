@@ -65,6 +65,11 @@ if command -v zoxide >/dev/null
   zoxide init fish | source
 end
 
+# Init Atuin.
+if command -v atuin >/dev/null
+  atuin init fish | source
+end
+
 # Node with fnm (Lazy Load)
 if command -v fnm >/dev/null
   function __init_fnm

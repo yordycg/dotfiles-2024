@@ -12,17 +12,18 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Ajuste de Sensibilidad del Trackpad**: Investigar y reducir la velocidad de scroll (es demasiado rápida). 
     - [x] Ajustado `scroll_factor = 0.5` en `hyprland.conf`.
     - [x] Ajustado `mouse-scroll-multiplier = 1` en `Ghostty`.
-- [ ] **Docker "The Professional Way" (Arch Linux)**:
-    - Instalación de `docker`, `docker-compose` y `lazydocker`.
-    - Configuración del grupo `docker` para ejecución sin `sudo`.
-    - Habilitar y optimizar el demonio mediante `systemd`.
+- [x] **Docker "The Professional Way" (Arch Linux)**:
+    - [x] Instalación de `docker`, `docker-compose` y `lazydocker`.
+    - [x] Configuración del grupo `docker` para ejecución sin `sudo`.
+    - [x] Habilitar y optimizar el demonio mediante `systemd` (Socket Activation).
+    - [x] Script de automatización creado en `install/install-docker.sh`.
 
 
 ## 🟡 PRIORIDAD 2: Flujo de Trabajo (Multiplicador de Productividad)
 - [x] **Gestor de Proyectos con fzf**: 
     - [x] Implementada función `work` (ex `tat`) para sesiones automáticas.
     - [x] Implementada función `jump` para navegar entre repos y universidad.
-- [ ] **Búsqueda de Historial con `Atuin`**:
+- [x] **Búsqueda de Historial con `Atuin`**:
     - Reemplazar el historial por defecto con `Atuin` (SQLite) para búsquedas ultra-rápidas y sincronizadas.
 - [x] **Configuración Global de LSP/Linters**: Centralizar archivos como `.clang-format`, `.prettierrc` o configs de `ruff` en un lugar común para asegurar consistencia en todos los editores.
 - [x] **Optimización de Tmux**: 
@@ -31,11 +32,26 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Estética**: Diseñar una `status-line` minimalista que armonice con los colores de Hyprland y Waybar.
     - [x] **Mantenimiento**: Evaluar un script de limpieza periódica para sesiones inactivas (Opción B del workflow).
     - [x] **Sesión Core**: Autogenerar la sesión `dotfiles` al inicio.
-    - [ ] **Navegación Instantánea con `zoxide`**:
+    - [x] **Navegación Instantánea con `zoxide`**:
         - Sustituir `z` por `zoxide` e integrarlo con `fzf` y `tmux` para saltar a cualquier directorio desde un popup global.
-    - [ ] **Workflow de Git Avanzado**:
-        - Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
-        - Crear funciones para `git worktree` para trabajar en múltiples ramas simultáneamente sin cambiar de contexto.
+    - [x] **Workflow de Git Avanzado**:
+        - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
+        - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
+        - [ ] Crear funciones para `git worktree` para trabajar en múltiples ramas simultáneamente sin cambiar de contexto (investigar si es necesario).
+
+- [x] **Ecosistema Python & Django Pro**:
+    - [x] **Expandir alias**: Mapear comandos de `django-admin` y `manage.py` (`djs`, `pma`, `pmcs`).
+    - [x] **Calidad de Código**: Integrar alias para `ruff` y `pytest`.
+    - [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
+    - [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
+    - [ ] **Investigar `uv`**: Evaluar migración a `uv` una vez dominado el flujo con `pip` y `venv`.
+- [ ] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
+    - [ ] Investigar un método de búsqueda más profundo cuando `zoxide` falla (ej. caché de `fd` o `locate`).
+    - [ ] Optimizar `_smart_path_picker` para que soporte argumentos de búsqueda iniciales (ej. `cpz archivo "termino_busqueda"`).
+    - [ ] Evaluar el uso de `fzf-tab` para mejorar la integración de carpetas profundas en comandos de copia estándar.
+- [x] **Documentar Persistencia de Tmux**:
+    - [x] Agregar `Prefix + Ctrl-s` (Guardar) y `Prefix + Ctrl-r` (Restaurar) al `cheatsheet.md`.
+    - [x] Verificar que `tmux-resurrect` y `tmux-continuum` funcionen correctamente en el arranque.
 
 ## 🔵 PRIORIDAD 3: UX y Documentación (Fricción Cognitiva)
 - [x] **Visor de Keymaps unificado (`keys`)**:

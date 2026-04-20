@@ -13,7 +13,39 @@ function findedit() {
   fi
 }
 
-# --- TMUX SEARCH FUNCTIONS ---
+# --- SMART PATH PICKER (zoxide + fd + fzf) ---
+
+# Picker genérico: combina carpetas visitadas (zoxide) con carpetas reales (fd)
+# Prioriza las visitadas arriba y busca en todo el HOME (profundidad 4 para velocidad)
+function _smart_path_picker() {
+  (
+    # 1. Carpetas de zoxide (las que más usas)
+    zoxide query -l
+    # 2. Carpetas reales en HOME (evitando .git y ocultas innecesarias)
+    fd --type d --hidden --exclude .git --max-depth 4 . "$HOME"
+  ) | awk '!seen[$0]++' | fzf \
+    --height 40% \
+    --layout=reverse \
+    --border=rounded \
+    --prompt=" Seleccionar Destino: " \
+    --header="[Zoxide + Home Search]" \
+    --preview 'eza --icons --tree --color=always {} | head -50'
+}
+
+# Alias inteligentes que usan el picker
+function cpz() {
+  local dest=$(_smart_path_picker)
+  if [[ -n "$dest" ]]; then
+    cp -rv "$@" "$dest"
+  fi
+}
+
+function mvz() {
+  local dest=$(_smart_path_picker)
+  if [[ -n "$dest" ]]; then
+    mv -iv "$@" "$dest"
+  fi
+}
 
 # Seleccionar sesión de Tmux con fzf
 function tmux-sessions() {
