@@ -45,10 +45,10 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
     - [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
     - [ ] **Investigar `uv`**: Evaluar migración a `uv` una vez dominado el flujo con `pip` y `venv`.
-- [ ] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
-    - [ ] Investigar un método de búsqueda más profundo cuando `zoxide` falla (ej. caché de `fd` o `locate`).
-    - [ ] Optimizar `_smart_path_picker` para que soporte argumentos de búsqueda iniciales (ej. `cpz archivo "termino_busqueda"`).
-    - [ ] Evaluar el uso de `fzf-tab` para mejorar la integración de carpetas profundas en comandos de copia estándar.
+- [x] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
+    - [x] Investigar y aplicar búsqueda profunda con `fd` dinámico dentro de FZF.
+    - [x] Optimizar `_smart_path_picker` con colores diferenciales y soporte de argumentos iniciales.
+    - [x] Mejorar visualización de rutas largas mediante `sed` y `awk` (home as ~).
 - [x] **Documentar Persistencia de Tmux**:
     - [x] Agregar `Prefix + Ctrl-s` (Guardar) y `Prefix + Ctrl-r` (Restaurar) al `cheatsheet.md`.
     - [x] Verificar que `tmux-resurrect` y `tmux-continuum` funcionen correctamente en el arranque.
@@ -89,11 +89,11 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
         - `Fuzzy Finder`: `fzf-lua` o `fff.nvim`.
         - `File Browser`: `oil.nvim` (edición de archivos como buffers).
         - `UI/UX`: `fidget.nvim` (progreso LSP), `gitsigns.nvim`, `glance.nvim` (previsualización de código).
-- [ ] **Pantalla de Inicio (Login Manager) - Estética Pro**:
-    - Instalar y configurar `SDDM` como gestor de arranque.
-    - Implementar un tema basado en QML/CSS para eliminar el aspecto básico.
-    - **Recomendaciones**: `sddm-sugar-candy-git`, `sddm-theme-catppuccin` o un tema minimalista que soporte avatares circulares y fondos desenfocados.
-    - Sincronizar el fondo de pantalla del login con el de Hyprland automáticamente.
+- [x] **Pantalla de Inicio (Login Manager) - Estética Pro**:
+    - [x] Instalar y configurar `SDDM` con el tema `sugar-candy`.
+    - [x] Sincronización automática del fondo de pantalla entre Hyprland y SDDM.
+    - [x] Configuración de avatares circulares y estética minimalista.
+
 - [ ] **Limpieza de Scripts de Instalación (Entry Points)**:
     - Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install-linux.sh` e `install-windows.ps1`.
 - [ ] **Actualización de Temas de Carpetas e Iconos**:

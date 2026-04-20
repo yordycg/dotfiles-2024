@@ -1,0 +1,32 @@
+[General]
+# --- Wallpaper Sync ---
+# (Sincronizado via scripts/sync-sddm-wallpaper.sh)
+Background="/usr/share/sddm/themes/sugar-candy/Backgrounds/current_wallpaper.jpg"
+
+# --- Layout Configuration ---
+# Centrado horizontal y verticalmente
+FormPosition="center"
+# Un radio de 20px le da un toque moderno
+CornerRadius=20
+# Semi-transparente para un look limpio
+HaveFormBackground=true
+# Un toque de desenfoque al fondo (si el tema lo soporta)
+PartialBlur=true
+
+# --- Colors (Catppuccin Macchiato) ---
+# Color de acento (Lavender/Blue)
+AccentColor="#8aadf4"
+# Color principal (Base)
+MainColor="#24273a"
+# Color del texto
+BackgroundColor="#24273a"
+# Color del campo de password
+PlaceholderColor="#5b6078"
+
+# --- User Icon ---
+UserIconRoundness=0.5
+UserIconSize=128
+
+# --- Shadows & Effects ---
+InterfaceShadowSize=12
+InterfaceShadowOpacity=0.4

@@ -34,6 +34,9 @@ if [[ -n "$selection" ]]; then
     # 3. Save state for persistence
     echo "$full_path" > "$STATE_FILE"
     
+    # 4. Sync with SDDM (may require sudo for system-wide sync)
+    bash "$HOME/workspace/repos/dotfiles-2024/scripts/sync-sddm-wallpaper.sh" "$full_path"
+
     # Clean up the terminal and exit
     clear
     echo "󰸉 Wallpaper applied: $selection"
