@@ -1,4 +1,4 @@
-#   CHEATSHEET DE COMANDOS Y ATAJOS
+#   KEYMAP DE COMANDOS Y ATAJOS
 # Prefix Tmux: CTRL + SPACE
 # Prefix Hyprland: SUPER (Windows Key)
 

@@ -4,11 +4,11 @@
 ###############################################################################
 
 function keys() {
-    local cheatsheet="$DOTFILES/shell/cheatsheet.md"
+    local keymap="$DOTFILES/shell/keymap.md"
     local query="$1"
     
-    if [[ ! -f "$cheatsheet" ]]; then
-        echo "Error: No se encontró el archivo cheatsheet en $cheatsheet"
+    if [[ ! -f "$keymap" ]]; then
+        echo "Error: No se encontró el archivo keymap en $keymap"
         return 1
     fi
 
