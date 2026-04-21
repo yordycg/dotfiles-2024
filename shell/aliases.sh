@@ -42,6 +42,8 @@ alias v="nvim" # [conf] Neovim (El estándar pro)
 alias v.="nvim ." # [conf] Abrir Neovim en la carpeta actual
 alias eal="v $DOTFILES/shell/aliases.sh" # [conf] Editar estos alias
 alias edot="cd $DOTFILES && v ." # [conf] Abrir todos tus dotfiles en Neovim
+alias theme="bash $DOTFILES/os/linux/scripts/theme-picker.sh" # [sys] Selector de temas interactivo (fzf)
+alias set-theme="bash $DOTFILES/os/linux/scripts/set-theme.sh" # [sys] Aplicar tema directamente
 alias szsh="source ~/.zshrc && echo 'ZSH Reloaded!'" # [conf] Recargar configuración de ZSH
 
 ###############################################################################

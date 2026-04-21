@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# =============================================================================
+# THEME PICKER (Interactive FZF with Preview)
+# =============================================================================
+
+DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+THEMES_DIR="$DOTFILES/os/linux/themes"
+SET_THEME_SCRIPT="$DOTFILES/os/linux/scripts/set-theme.sh"
+CACHE_FILE="$HOME/.cache/dotfiles/current_theme.sh"
+
+# Get current theme name
+CURRENT_THEME="none"
+if [ -f "$CACHE_FILE" ]; then
+    CURRENT_THEME=$(grep "GLOBAL_THEME" "$CACHE_FILE" | cut -d'"' -f2)
+fi
+
+# Function to show a color box in the preview
+show_color() {
+    local hex=$1
+    local label=$2
+    local r=$(printf "%d" "0x${hex:1:2}")
+    local g=$(printf "%d" "0x${hex:3:2}")
+    local b=$(printf "%d" "0x${hex:5:2}")
+    printf "\x1b[48;2;%s;%s;%sm  \x1b[0m %s: %s\n" "$r" "$g" "$b" "$label" "$hex"
+}
+export -f show_color
+
+# The preview command (using bash -c to ensure consistency)
+PREVIEW_CMD='
+    source '$THEMES_DIR'/{}.sh
+    echo -e "\n  🎨 Theme: \033[1;36m$THEME_NAME\033[0m"
+    [ "{}" == "'$CURRENT_THEME'" ] && echo -e "  \033[1;32m(Currently in use)\033[0m"
+    echo -e ""
+    
+    # Inline color box function for the preview
+    show_preview_color() {
+        local hex=$1
+        local label=$2
+        # Convert hex to RGB
+        local r=$(printf "%d" "0x${hex:1:2}")
+        local g=$(printf "%d" "0x${hex:3:2}")
+        local b=$(printf "%d" "0x${hex:5:2}")
+        printf "\x1b[48;2;%s;%s;%sm  \x1b[0m %s: %s\n" "$r" "$g" "$b" "$label" "$hex"
+    }
+
+    show_preview_color "$COLOR_BG"      "Background"
+    show_preview_color "$COLOR_FG"      "Foreground"
+    show_preview_color "$COLOR_ACCENT"  "Accent    "
+    show_preview_color "$COLOR_BORDER"  "Border    "
+    show_preview_color "$COLOR_CRITICAL" "Critical  "
+    show_preview_color "$COLOR_ACTIVE"   "Active    "
+    
+    echo -e "\n  🖥️ Apps Configuration:"
+    echo -e "  - Terminal: $GHOSTTY_THEME"
+    echo -e "  - Editor:   $NVIM_THEME"
+    echo -e "  - Tmux:     $TMUX_THEME"
+'
+
+# Run FZF with indicator
+SELECTED_THEME=$(ls "$THEMES_DIR" | sed 's/.sh//g' | SHELL=/bin/bash fzf \
+    --height 70% \
+    --layout=reverse \
+    --border=rounded \
+    --prompt=" 🌈 Select Theme > " \
+    --header="Current: $CURRENT_THEME" \
+    --preview="bash -c \"$PREVIEW_CMD\"" \
+    --preview-window="right:55%:border-rounded" \
+    --query="$1")
+
+# Apply theme
+if [ -n "$SELECTED_THEME" ]; then
+    bash "$SET_THEME_SCRIPT" "$SELECTED_THEME"
+fi

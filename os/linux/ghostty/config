@@ -1,10 +1,10 @@
 font-family = JetBrainsMono NF
 font-size = 12
-theme = Nord
+theme = Everforest Dark Hard
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 adjust-cell-height = 35%
-background-opacity = 0.9
+background-opacity = 1
 
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 1
