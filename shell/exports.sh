@@ -33,8 +33,8 @@ export WEZTERM_THEME="nord"
 # SHELL HISTORY
 # -----------------------------------------------------------------------------
 export HISTFILE=~/.zsh_history
-export HISTSIZE=5000
-export SAVEHIST=$HISTSIZE
+export HISTSIZE=1000        # Menos comandos en memoria
+export SAVEHIST=1000        # Menos comandos en el archivo (Atuin tiene el resto)
 export HISTDUP=erase
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 

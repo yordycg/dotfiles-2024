@@ -3,6 +3,7 @@
 Este documento sirve como guía para las próximas optimizaciones y funcionalidades de este repositorio de configuraciones.
 
 ## 🔴 PRIORIDAD 1: Cimientos y Velocidad (Impacto Inmediato)
+- [x] **Reparar Historial de Zsh**: Corregir error `zsh: corrupt history file /home/yordycg/.zsh_history`. (Reparado usando strings y backup creado).
 - [x] **Centralización de Variables de Entorno**:
     - Mover todos los `export` de `.zshrc`, scripts y configs a un único archivo `shell/exports.sh`.
     - Asegurar que todos los scripts (como el de tmux) lean de ese archivo central para evitar rutas duplicadas.
@@ -37,14 +38,12 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Workflow de Git Avanzado**:
         - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
         - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
-        - [ ] Crear funciones para `git worktree` para trabajar en múltiples ramas simultáneamente sin cambiar de contexto (investigar si es necesario).
 
 - [x] **Ecosistema Python & Django Pro**:
     - [x] **Expandir alias**: Mapear comandos de `django-admin` y `manage.py` (`djs`, `pma`, `pmcs`).
     - [x] **Calidad de Código**: Integrar alias para `ruff` y `pytest`.
     - [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
     - [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
-    - [ ] **Investigar `uv`**: Evaluar migración a `uv` una vez dominado el flujo con `pip` y `venv`.
 - [x] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
     - [x] Investigar y aplicar búsqueda profunda con `fd` dinámico dentro de FZF.
     - [x] Optimizar `_smart_path_picker` con colores diferenciales y soporte de argumentos iniciales.
@@ -66,6 +65,9 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [ ] **Análisis de Dotfiles Externos**: Estudiar repositorios de referencia (ej: https://dotfiles.substtack.com) para extraer trucos y optimizaciones de rendimiento.
 
 ## 🟢 PRIORIDAD 4: Mantenimiento y Estética (Pulido Final)
+- [ ] **Estética de Terminal**:
+    - [ ] Agregar `fastfetch` al iniciar la terminal.
+    - [ ] Cambiar el tema de la terminal `Ghostty`.
 - [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
     - Evaluar migrar los scripts de symlinks manuales a `chezmoi` para soportar plantillas (ej. diferentes correos de git según el host).
 - [ ] **Script de Instalación y Sync para Zed**:
@@ -82,6 +84,8 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Organizar la carpeta `~/workspace/repos/wallpapers`.
 
 - [ ] **Consolidación Total de Neovim**: 
+    - [ ] **Actualizar Symlink**: Apuntar el symlink de `nvim` a la nueva configuración `nvim-yc-26`.
+    - [ ] **Análisis de nvim-yc-26**: Evaluar la nueva configuración para identificar faltantes (plugins, funciones, autocmds, etc.).
     - Migrar a una única configuración modular basada en `Lazy.nvim` (Lua).
     - **Stack a evaluar/comparar**:
         - `LSP`: Nativo con `blink.cmp` (autocompletado de alto rendimiento).

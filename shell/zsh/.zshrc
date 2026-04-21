@@ -16,7 +16,7 @@ fi
 
 # Others
 # History Configuration
-setopt appendhistory
+setopt inc_append_history # Write to the history file immediately, not when the shell exits.
 setopt sharehistory      # Share history between sessions
 setopt hist_ignore_space # Don't save when prefixed with space
 setopt hist_ignore_all_dups
