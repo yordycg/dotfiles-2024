@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-dev
+    restart: always
+    environment:
+      # Variables dinámicas desde tu .env
+      MYSQL_DATABASE: ${DB_NAME:-dev_db}
+      MYSQL_USER: ${DB_USER:-user}
+      MYSQL_PASSWORD: ${DB_PASS:-password}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:-root}
+      # Permite explícitamente contraseñas vacías si DB_PASS está vacío
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
