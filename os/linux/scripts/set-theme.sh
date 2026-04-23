@@ -41,19 +41,26 @@ EOF
 echo "return '$NVIM_THEME'" > "$HOME/.local/share/nvim/yc_theme_state.lua"
 
 # 4. Update Ghostty
-GHOSTTY_CONFIG_REPO="$DOTFILES/os/linux/ghostty/config"
-GHOSTTY_CONFIG_HOME="$HOME/.config/ghostty/config"
+GHOSTTY_CONFIG="$DOTFILES/os/linux/ghostty/config"
 
-update_ghostty() {
+if [ -f "$GHOSTTY_CONFIG" ]; then
+    # Forzamos comillas dobles alrededor del nombre del tema para evitar problemas con espacios
+    sed -i "s|^[[:space:]]*theme[[:space:]]*=.*|theme = \"$GHOSTTY_THEME\"|" "$GHOSTTY_CONFIG"
+fi
+
+# 4.5 Update Harlequin
+HARLEQUIN_CONFIG_REPO="$DOTFILES/os/cross-platform/harlequin/config.toml"
+HARLEQUIN_CONFIG_HOME="$HOME/.config/harlequin/config.toml"
+
+update_harlequin() {
     local file=$1
     if [ -f "$file" ]; then
-        # Busca "theme =" ignorando espacios al inicio y lo reemplaza
-        sed -i "s/^[[:space:]]*theme[[:space:]]*=[[:space:]]*.*/theme = $GHOSTTY_THEME/" "$file"
+        sed -i "s/^theme = .*/theme = \"$HARLEQUIN_THEME\"/" "$file"
     fi
 }
 
-update_ghostty "$GHOSTTY_CONFIG_REPO"
-update_ghostty "$GHOSTTY_CONFIG_HOME"
+update_harlequin "$HARLEQUIN_CONFIG_REPO"
+update_harlequin "$HARLEQUIN_CONFIG_HOME"
 
 # 5. Generate UI Colors
 cat <<EOF > "$HOME/.config/hypr/colors.conf"
