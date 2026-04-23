@@ -14,6 +14,11 @@ set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = 
 set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 set("n", "N", "Nzzzv", { desc = "Prev search result (centered)" })
 
+-- Exit insert mode
+set("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+set("i", "kk", "<Esc>", { desc = "Exit insert mode" })
+
 -- Clear search highlights
 set("n", "<leader>c", ":nohlsearch<CR>", { desc = "Clear search highlights" })
 
@@ -57,6 +62,12 @@ set("v", ">", ">gv", { desc = "Indent Right" })
 set("n", "J", "mzJ`z", { desc = "Join lines (keep cursor)" })
 
 -- === Clipboard & Utilities ===
+-- Select All
+set("n", "<C-a>", "ggVG", { desc = "Select all text" })
+
+-- Copy All to Clipboard
+set("n", "<leader>ya", ":%y+<CR>", { desc = "Copy all text to clipboard" })
+
 -- Paste without overwriting register
 set("x", "<leader>p", '"_dP', { desc = "Paste (no yank)" })
 
@@ -71,6 +82,6 @@ set("n", "<leader>pa", function()
 end, { desc = "Copy absolute path" })
 
 -- Toggle diagnostics (YC-26 Special)
-set("n", "<leader>td", function()
+set("n", "<leader>ud", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle Diagnostics" })

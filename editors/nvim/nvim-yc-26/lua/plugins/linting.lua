@@ -5,7 +5,7 @@ if not status then return end
 
 lint.linters_by_ft = {
   lua = { "luacheck" },
-  python = { "ruff", "flake8" },
+  python = { "ruff" },
   javascript = { "eslint_d" },
   typescript = { "eslint_d" },
   javascriptreact = { "eslint_d" },

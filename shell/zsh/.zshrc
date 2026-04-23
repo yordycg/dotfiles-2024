@@ -71,3 +71,11 @@ fi
 
 # fzf-git
 [[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
+
+# Fastfetch - System Information
+if command -v fastfetch &> /dev/null; then
+  fastfetch
+fi
+
+# Created by `pipx` on 2026-04-23 11:31:16
+export PATH="$PATH:/home/yordycg/.local/bin"

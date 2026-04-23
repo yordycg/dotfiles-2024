@@ -28,13 +28,13 @@ function keys() {
 
     if [[ -n "$TMUX" ]]; then
         # Dentro de Tmux: Popup real (80% x 70%)
-        grep "^\[" "$cheatsheet" | \
+        grep "^\[" "$keymap" | \
             column -t -s "|" | \
             fzf-tmux -p 80%,70% -- "${common_opts[@]}"
     else
         # Fuera de Tmux: Simular popup sin limpiar la pantalla (permite ver el fondo)
         # Altura del 70% y margen lateral del 10% para centrarlo horizontalmente
-        grep "^\[" "$cheatsheet" | \
+        grep "^\[" "$keymap" | \
             column -t -s "|" | \
             fzf "${common_opts[@]}" \
                 --height=70% \

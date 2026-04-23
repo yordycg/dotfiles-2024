@@ -102,3 +102,8 @@ if command -v fnm >/dev/null
     fnm $argv
   end
 end
+
+# Fastfetch - System Information
+if command -v fastfetch >/dev/null
+  fastfetch
+end

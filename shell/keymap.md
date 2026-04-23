@@ -21,6 +21,8 @@
 [sys] mkcd <dir>         | Crear y entrar a un directorio (función)
 [sys] up <n>             | Subir N niveles en el árbol de directorios (función)
 [sys] win                | Ir al Home de Windows (/mnt/c/Users/Yordy)
+[sys] theme              | Selector de temas interactivo (fzf)
+[sys] set-theme <name>   | Aplicar un tema específico directamente
 
 # [UTIL] SEARCH & UTILS
 [util] grep              | Buscar texto con colores (--color=auto)
@@ -92,7 +94,8 @@
 [tmux] Prefix + s        | Dividir panel horizontalmente (Split)
 [tmux] Prefix + v        | Dividir panel verticalmente (Vertical)
 [tmux] Prefix + h/j/k/l  | Moverse entre paneles (Vim Style)
-[tmux] Prefix + C-H/J/K/L| Redimensionar paneles (+5 celdas)
+[tmux] Alt + Flechas     | Redimensionar paneles (Directo)
+[tmux] Prefix + Flechas  | Redimensionar paneles (Paso a paso)
 [tmux] Prefix + z        | Maximizar el panel actual (Zoom)
 [tmux] Prefix + H        | Ventana Anterior (Mayúscula + H)
 [tmux] Prefix + L        | Ventana Siguiente (Mayúscula + L)
@@ -106,6 +109,7 @@
 [tmux] Prefix + Ctrl-r   | RESTAURAR última sesión (Tmux-Resurrect)
 [tmux] Alt + g           | Abrir LazyGit (Popup)
 [tmux] Alt + y           | Abrir Yazi (Popup)
+[tmux] Alt + t           | Abrir Terminal Popup (Flotante)
 [tmux] Alt + s           | Abrir Terminal de notas/scratch (Popup)
 [tmux] Alt + n           | Abrir nueva ventana rápido (en path actual)
 [tmux] Modo Copia: v     | Iniciar selección (Modo vi)
@@ -175,9 +179,52 @@
 [cpp] bproj <name>       | Crear proyecto básico C o C++ (función)
 [cpp] cleanc             | Limpiar binarios compilados (find + delete)
 
-# [NVIM] NEVIM KEYMAPS (General)
-[nvim] :Lazy             | Gestionar plugins
-[nvim] :Mason            | Gestionar LSPs y Formatters
-[nvim] <space>ff         | Buscar archivos (Telescope)
-[nvim] <space>fg         | Buscar texto en archivos (Live Grep)
-[nvim] <space>e          | Abrir explorador de archivos (Oil/NvimTree)
+# [NVIM] NEVIM KEYMAPS (YC-26 Config - Space as Leader)
+[nvim] <space>           | Leader Key (Abre Which-Key / Guía de Comandos)
+[nvim] <space>t          | Toggle Terminal Flotante (Abrir/Cerrar)
+[nvim] <space>ud         | Activar/Desactivar Diagnósticos (LSP)
+[nvim] <space>c          | Limpiar resaltado de búsqueda (:nohlsearch)
+[nvim] <space>e          | Toggle Explorador Lateral (Neo-tree)
+[nvim] <space>fe         | Revelar archivo en el explorador (Neo-tree)
+[nvim] <space>-          | Abrir Explorador de archivos (Oil)
+[nvim] <space>ya         | Copiar TODO el texto al portapapeles
+[nvim] CTRL + a          | Seleccionar TODO el texto
+[nvim] <space>ff         | Buscar Archivos (FZF-Lua)
+[nvim] <space>fg         | Buscar Texto / Grep (FZF-Lua)
+[nvim] <space>fb         | Buscar Buffers abiertos (FZF-Lua)
+[nvim] <space>fh         | Buscar en la Ayuda (FZF-Lua)
+[nvim] <space>fr         | Reanudar última búsqueda (FZF-Lua)
+[nvim] <space>bn         | Siguiente Buffer
+[nvim] <space>bp         | Buffer Anterior
+[nvim] <space>bd         | Cerrar Buffer actual
+[nvim] <space>pa         | Copiar ruta absoluta del archivo actual
+[nvim] <space>p          | Pegar (sin sobreescribir registro actual)
+[nvim] <space>x          | Borrar (sin sobreescribir registro actual)
+[nvim] <space>rn         | LSP: Renombrar símbolo
+[nvim] <space>ca         | LSP: Acciones de código
+[nvim] <space>D          | LSP: Ver diagnóstico de línea (float)
+[nvim] gd                | LSP: Ir a Definición
+[nvim] gD                | LSP: Ir a Declaración
+[nvim] gi                | LSP: Ir a Implementación
+[nvim] gt                | LSP: Ir a Definición de Tipo
+[nvim] gr                | LSP: Mostrar Referencias (FZF-Lua)
+[nvim] K                 | LSP: Información flotante (Hover)
+[nvim] [d / ]d           | LSP: Navegar entre diagnósticos (error/warn)
+[nvim] [h / ]h           | Git: Navegar entre hunks (cambios)
+[nvim] <space>hp         | Git: Previsualizar Hunk
+[nvim] <space>hb         | Git: Ver Blame de la línea
+[nvim] <space>hd         | Git: Ver Diff del archivo
+[nvim] <space>hs         | Git: Stage Hunk (añadir cambio)
+[nvim] <space>hr         | Git: Reset Hunk (deshacer cambio)
+[nvim] CTRL + h/j/k/l    | Moverse entre ventanas (Vim Style)
+[nvim] CTRL + Flechas    | Redimensionar ventanas
+[nvim] ALT + j/k         | Mover línea/bloque actual hacia abajo/arriba
+[nvim] j/k               | Movimiento inteligente en líneas envueltas (wrap)
+[nvim] n/N               | Ir al siguiente/anterior resultado (centrado)
+[nvim] J                 | Unir líneas manteniendo posición del cursor
+[nvim] > / <             | Indentar en modo visual (mantiene selección)
+[nvim] (Insert) C-Space  | Blink: Mostrar/Ocultar autocompletado
+[nvim] (Insert) C-j / C-k| Blink: Navegar sugerencias
+[nvim] (Insert) Tab      | Blink: Snippet adelante / Aceptar
+[nvim] (Insert) jj/kk/jk | Salir del modo Insertar (Esc)
+[nvim] (Term) Esc Esc    | Cerrar Terminal Flotante

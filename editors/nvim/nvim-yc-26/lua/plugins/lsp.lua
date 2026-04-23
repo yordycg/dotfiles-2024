@@ -12,7 +12,7 @@ mason.setup({
 
 -- 2. Define servers
 local servers = {
-  "ts_ls", "html", "cssls", "tailwindcss",
+  "ts_ls", "html", "cssls", "tailwindcss", "emmet_ls",
   "pyright", "ruff",
   "clangd", "omnisharp",
   "sqls", "lemminx", "bashls", "lua_ls", "dockerls", "jsonls", "yamlls",
@@ -68,6 +68,11 @@ for _, server_name in ipairs(servers) do
     config = vim.deepcopy(config)
     config.capabilities = vim.tbl_deep_extend("force", config.capabilities or {}, capabilities)
     
+    -- Emmet specific config
+    if server_name == "emmet_ls" then
+      config.filetypes = { "html", "htmldjango", "css", "scss", "javascriptreact", "typescriptreact" }
+    end
+
     -- Lua specific config
     if server_name == "lua_ls" then
       config.settings = {

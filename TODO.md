@@ -38,6 +38,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Workflow de Git Avanzado**:
         - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
         - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
+- [x] **Acciones rápidas en Neovim**: Crear función/keymap para seleccionar todo el texto de un archivo y copiarlo al portapapeles.
 
 - [x] **Ecosistema Python & Django Pro**:
     - [x] **Expandir alias**: Mapear comandos de `django-admin` y `manage.py` (`djs`, `pma`, `pmcs`).
@@ -59,21 +60,28 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Extraer binds de `hyprland.conf`.
     - [ ] **Pendiente**: Extraer atajos de Neovim (investigar parseo de Lua).
 - [x] **Cheatsheet interactivo**: Implementado buscador con `fzf` y sincronizado con cambios recientes.
+- [ ] **Estandarización de Interfaz FZF**:
+    - Definir 1 o 2 layouts máximos (preferiblemente tipo popup) para todas las herramientas que usan `fzf` (scripts propios, plugins de zsh/fish, etc.).
+- [ ] **Experiencia VS Code en Neovim**: Investigar y configurar plugins para cerrar la brecha de UX:
+    - [ ] **Symbols Outline**: Panel lateral con la estructura de clases/funciones (ej: `symbols-outline.nvim` o `aerial.nvim`).
+    - [ ] **Breadcrumbs**: Barra de navegación superior con símbolos LSP (ej: `barbecue.nvim` o `lspsaga.nvim`).
+    - [ ] **Mini-map**: Vista previa del código a la derecha (ej: `codewindow.nvim`).
+    - [ ] **Multi-cursor**: Soporte para edición en múltiples líneas (ej: `iron-nvim` o `multiple-cursors.nvim`).
 - [ ] **Investigación y Benchmarking**:
     - [ ] **ZenNotes**: Evaluar como alternativa ligera de notas (https://zennotes.org).
     - [ ] **OpenClaw**: Investigar utilidad e integración en el flujo de trabajo.
     - [ ] **Análisis de Dotfiles Externos**: Estudiar repositorios de referencia (ej: https://dotfiles.substtack.com) para extraer trucos y optimizaciones de rendimiento.
 
 ## 🟢 PRIORIDAD 4: Mantenimiento y Estética (Pulido Final)
-- [ ] **Estética de Terminal**:
-    - [ ] Agregar `fastfetch` al iniciar la terminal.
-    - [ ] Cambiar el tema de la terminal `Ghostty`.
+- [x] **Estética de Terminal**:
+    - [x] Agregar `fastfetch` al iniciar la terminal.
+    - [ ] **Selector de Fuentes**: Crear script que use `fzf` para previsualizar y cambiar la fuente de la terminal dinámicamente.
 - [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
     - Evaluar migrar los scripts de symlinks manuales a `chezmoi` para soportar plantillas (ej. diferentes correos de git según el host).
 - [ ] **Script de Instalación y Sync para Zed**:
     - Crear script para instalar el editor Zed y vincular automáticamente `settings.json` y `keymap.json`.
-- [ ] **Unificación de Temas (Single Source of Truth)**: 
-    - Investigar un sistema para cambiar el tema globalmente (ej. de Nord a Catppuccin) en todos los componentes: Hyprland, Ghostty, Waybar, Tmux y Neovim, usando un único archivo de configuración o script.
+- [x] **Unificación de Temas (Single Source of Truth)**: 
+    - [x] Investigar un sistema para cambiar el tema globalmente (ej. de Nord a Catppuccin) en todos los componentes: Hyprland, Ghostty, Waybar, Tmux y Neovim, usando un único archivo de configuración o script.
 - [ ] **Sincronización de Paquetes**:
     - Realizar auditoría periódica de apps instaladas (`pacman` y `yay`).
     - Actualizar listas en `os/linux/post-install-arch/packages/pkglist-official.txt` y `pkglist-aur.txt`.
@@ -83,9 +91,15 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Implementar persistencia del fondo de pantalla entre reinicios.
     - [x] Organizar la carpeta `~/workspace/repos/wallpapers`.
 
-- [ ] **Consolidación Total de Neovim**: 
-    - [ ] **Actualizar Symlink**: Apuntar el symlink de `nvim` a la nueva configuración `nvim-yc-26`.
-    - [ ] **Análisis de nvim-yc-26**: Evaluar la nueva configuración para identificar faltantes (plugins, funciones, autocmds, etc.).
+- [x] **Consolidación Total de Neovim**: 
+    - [x] **Actualizar Symlink**: Apuntar el symlink de `nvim` a la nueva configuración `nvim-yc-26`.
+    - [x] **Explorador de Archivos (Neo-tree)**: Implementada barra lateral tipo VS Code para mejorar la visibilidad y gestión de archivos.
+    - [x] **Oil.nvim**: Configurado como herramienta secundaria para edición masiva de archivos.
+    - [ ] **Organización de Autocommands**:
+        - [ ] Crear directorio/archivo específico para `autocmds` (limpiar `init.lua`).
+        - [ ] Investigar y migrar automatizaciones útiles de otras configs (`kickstart`, `lazyvim`, `nvchad`).
+    - [ ] **Glance.nvim**: Investigar utilidad del plugin para previsualizar definiciones y referencias sin saltar de archivo.
+    - [ ] **Transparencia**: Reparar y mejorar el plugin/config de transparencia (actualmente no se aplica correctamente).
     - Migrar a una única configuración modular basada en `Lazy.nvim` (Lua).
     - **Stack a evaluar/comparar**:
         - `LSP`: Nativo con `blink.cmp` (autocompletado de alto rendimiento).
@@ -104,4 +118,15 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Investigar y aplicar un tema de iconos consistente (ej: Catppuccin Papirus, Tela-circle) que se refleje en Thunar, Waybar y el Shell (`eza`).
 - [ ] **Sheldon**: 
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
+
+## 🐳 PRIORIDAD 5: Ecosistema Docker & Bases de Datos (Workflow Pro)
+- [ ] **Orquestación de DBs con Docker**:
+    - [ ] Crear script/función `db-up <type>` que levante contenedores efímeros o persistentes de PostgreSQL, MySQL, Redis, etc., con configuraciones seguras por defecto.
+    - [ ] Investigar el uso de `Docker Compose` modular para proyectos de desarrollo.
+- [ ] **Gestión de DBs desde la Terminal**:
+    - [ ] **Neovim (Dadbod)**: Instalar y configurar `vim-dadbod`, `vim-dadbod-ui` y `vim-dadbod-completion` para gestionar bases de datos sin salir del editor.
+    - [ ] **CLIs Inteligentes**: Instalar y configurar `pgcli` y `mycli` para consultas interactivas con autocompletado.
+    - [ ] **Monitoreo**: Optimizar el uso de `lazydocker` para la gestión del ciclo de vida de los contenedores de DB.
+- [ ] **Investigación de Flujos Pro**: 
+    - [ ] Estudiar cómo los DBAs y SREs gestionan migraciones y backups usando herramientas CLI en Linux.
 

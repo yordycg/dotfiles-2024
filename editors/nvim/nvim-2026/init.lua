@@ -769,7 +769,6 @@ do
   local luacheck = require("efmls-configs.linters.luacheck")
   local stylua = require("efmls-configs.formatters.stylua")
 
-  local flake8 = require("efmls-configs.linters.flake8")
   local black = require("efmls-configs.formatters.black")
 
   local eslint_d = require("efmls-configs.linters.eslint_d")
@@ -820,7 +819,7 @@ do
         jsonc = { esling_d, fixjson },
         lua = { luacheck, stylua },
         markdown = { prettier_d },
-        python = { flake8, black },
+        python = { black },
         sh = { shellcheck, shfmt },
         typescript = { esling_d, prettier_d },
         typescriptreact = { esling_d, prettier_d },

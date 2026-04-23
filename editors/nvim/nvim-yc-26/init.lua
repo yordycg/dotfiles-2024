@@ -13,12 +13,16 @@ if vim.fn.executable("fnm") == 1 then
   end
 end
 
-require("config.keymaps") -- Leader must be first
+-- Set leader before anything else
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+require("config.keymaps")
 require("config.options")
 require("config.transparency")
 
--- 2. Plugin Management (Native vim.pack)
--- Using the experimental but powerful native package management
+-- 2. Plugin Management (Native vim.pack - Neovim 0.11+)
+-- This is the "new packer" style for native plugin management
 vim.pack.add({
   -- Core UI & Themes
   "https://github.com/folke/tokyonight.nvim",
@@ -34,14 +38,20 @@ vim.pack.add({
   "https://github.com/tanvirtin/monokai.nvim",
   "https://github.com/baliestri/aura-theme",
   "https://github.com/j-hui/fidget.nvim",
+  "https://github.com/folke/which-key.nvim",
   
-  -- Foundation
+  -- Foundation & Dependencies
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/MunifTanjim/nui.nvim",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+  "https://github.com/windwp/nvim-ts-autotag",
   "https://github.com/echasnovski/mini.nvim",
   
   -- Navigation & Files
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/stevearc/oil.nvim",
+  "https://github.com/nvim-neo-tree/neo-tree.nvim",
   
   -- LSP, Completion & Tools
   "https://github.com/neovim/nvim-lspconfig",
@@ -55,14 +65,31 @@ vim.pack.add({
   
   -- Git
   "https://github.com/lewis6991/gitsigns.nvim",
+
+  -- Database Management (YC-26 Workflow)
+  "https://github.com/tpope/vim-dadbod",
+  "https://github.com/kristijanhusak/vim-dadbod-ui",
+  "https://github.com/kristijanhusak/vim-dadbod-completion",
+})
+
+-- 2.1 Filetype Detection & Overrides
+-- Ensure .html files are treated as htmldjango for proper syntax and LSP (Emmet)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.html",
+  callback = function()
+    vim.bo.filetype = "htmldjango"
+  end,
 })
 
 -- 3. Load Plugin Configurations
 require("plugins.theme")
 require("plugins.treesitter")
+require("plugins.autotag")
 require("plugins.mini")
-require("plugins.ui") -- Fidget & others
+require("plugins.ui") -- Fidget & Which-Key
+require("plugins.terminal")
 require("plugins.oil")
+require("plugins.neo-tree")
 require("plugins.fzf")
 require("plugins.lsp")
 require("plugins.mason-tools")
@@ -70,3 +97,4 @@ require("plugins.completion")
 require("plugins.formatting")
 require("plugins.linting")
 require("plugins.git")
+require("plugins.database")
