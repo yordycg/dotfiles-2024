@@ -88,6 +88,9 @@ alias tl="tmux ls" # [tmux] Listar sesiones activas
 alias tks="tmux kill-server" # [tmux] Matar servidor Tmux
 alias tkss="tmux kill-session -t" # [tmux] Matar sesión específica
 
+# SQL TUI
+alias hq="harlequin"
+
 ###############################################################################
 # LANGUAGES & DEV # [dev]
 ###############################################################################

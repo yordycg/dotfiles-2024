@@ -12,6 +12,7 @@ rm -rf "$HOME/.config/tofi"; ln -s $DOTFILES/os/linux/tofi "$HOME/.config/"
 rm -rf "$HOME/.config/alacritty"; ln -s $DOTFILES/os/linux/alacritty "$HOME/.config/"
 rm -rf "$HOME/.config/ghostty"; ln -s $DOTFILES/os/linux/ghostty "$HOME/.config/"
 rm -rf "$HOME/.config/wezterm"; ln -s $DOTFILES/os/cross-platform/wezterm "$HOME/.config/"
+rm -rf "$HOME/.config/nvim"; ln -s $DOTFILES/editors/nvim/nvim-yc-26 "$HOME/.config/nvim"
 
 # --- Config File Links ---
 # For files, `ln -sf` is sufficient to overwrite. No `rm` needed.
@@ -27,6 +28,10 @@ ln -sf "$DOTFILES/shell/zsh/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins
 mkdir -p "$HOME/.config/zed"
 ln -sf "$DOTFILES/editors/zed/settings.json" "$HOME/.config/zed/settings.json"
 ln -sf "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
+
+# Harlequin config
+mkdir -p "$HOME/.config/harlequin"
+ln -sf "$DOTFILES/os/cross-platform/harlequin/config.toml" "$HOME/.config/harlequin/config.toml"
 
 # --- Linters & Formatters ---
 ln -sf $DOTFILES/os/cross-platform/linters/.clang-format "$HOME/.clang-format"
