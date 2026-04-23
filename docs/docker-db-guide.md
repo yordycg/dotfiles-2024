@@ -47,12 +47,31 @@ Usa el alias `hq` seguido del adaptador (`-t`) y la cadena de conexión:
 
 ## ⚡ 3. Gestión desde Neovim (Editor Pro)
 
-Como usas el sistema de **paquetes nativo de Neovim**, para habilitar `vim-dadbod` debes agregar estos repositorios a tu archivo de plugins:
+Tu configuración de Neovim incluye `vim-dadbod` y `vim-dadbod-ui`, lo que convierte a tu editor en un cliente SQL completo.
 
-### Flujo de Trabajo en Neovim:
-1.  Ejecuta `:DBUI` para abrir el panel lateral.
-2.  Presiona `A` para agregar una conexión (usa las mismas URLs de la tabla de Harlequin).
-3.  Usa el autocompletado en archivos `.sql` gracias a `cmp-dadbod`.
+### Atajos de Teclado (Keymaps):
+| Comando | Acción |
+| :--- | :--- |
+| `<leader>du` | **Abrir/Cerrar** el panel de base de datos (`DBUI`). |
+| `<leader>S` | **Ejecutar Query** (sobre la línea actual o selección visual). |
+| `<leader>df` | Buscar el buffer de base de datos actual. |
+| `<leader>dr` | Renombrar el buffer de consulta actual. |
+
+### Flujo de Trabajo Profesional:
+
+1.  **Levantar el servicio:** Primero asegúrate de que el contenedor esté corriendo con `db-up mysql`.
+2.  **Conectar:** Abre el panel con `<leader>du`, presiona `A` (Add Connection) y pega la URL:
+    - *Ejemplo MySQL:* `mysql://user:password@localhost:3306/dev_db`
+    - *Ejemplo Postgres:* `postgres://user:password@localhost:5432/dev_db`
+3.  **Explorar:** Navega por las tablas con `j/k` y presiona `Enter` para ver el esquema o los datos.
+4.  **Escribir y Ejecutar:**
+    - Crea un archivo `.sql` (ej: `test.sql`).
+    - Escribe tu consulta: `SELECT * FROM users;`.
+    - Presiona `<leader>S` para ejecutarla. Los resultados se abrirán en un panel vertical a la derecha.
+5.  **Autocompletado Inteligente:** Al escribir en un archivo `.sql`, el editor te sugerirá automáticamente nombres de tablas y columnas de la base de datos activa.
+
+> [!NOTE]
+> Las consultas que ejecutas se guardan automáticamente en la carpeta `db_ui` dentro de tu proyecto, permitiéndote reutilizarlas después.
 
 ---
 
