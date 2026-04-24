@@ -3,6 +3,8 @@
 local status, conform = pcall(require, "conform")
 if not status then return end
 
+local linter_base = vim.fn.expand("$HOME/workspace/repos/dotfiles-2024/os/cross-platform/linters")
+
 conform.setup({
   formatters_by_ft = {
     -- Web Development
@@ -22,6 +24,15 @@ conform.setup({
     sql = { "sql_formatter" },
     xml = { "xmlformatter" },
     markdown = { "prettierd", "prettier", stop_after_first = true },
+  },
+
+  formatters = {
+    stylua = {
+      prepend_args = { "--config-path", linter_base .. "/.stylua.toml" },
+    },
+    ["clang-format"] = {
+      prepend_args = { "--style=file:" .. linter_base .. "/.clang-format" },
+    },
   },
 
   -- Format on save behavior

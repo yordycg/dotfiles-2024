@@ -3,6 +3,8 @@
 local status, lint = pcall(require, "lint")
 if not status then return end
 
+local linter_base = vim.fn.expand("$HOME/workspace/repos/dotfiles-2024/os/cross-platform/linters")
+
 lint.linters_by_ft = {
   lua = { "luacheck" },
   python = { "ruff" },
@@ -12,6 +14,28 @@ lint.linters_by_ft = {
   typescriptreact = { "eslint_d" },
   bash = { "shellcheck" },
   cpp = { "cpplint" },
+}
+
+-- Global Linter Configs Overrides
+lint.linters.luacheck = {
+  cmd = "luacheck",
+  stdin = true,
+  args = {
+    "--globals",
+    "vim",
+    "--config",
+    linter_base .. "/.luacheckrc",
+    "--formatter",
+    "plain",
+    "--codes",
+    "--ranges",
+    "-",
+  },
+  stream = "stdout",
+  ignore_exitcode = true,
+  parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+    source = "luacheck",
+  }),
 }
 
 -- Create an autocmd to trigger linting on relevant events

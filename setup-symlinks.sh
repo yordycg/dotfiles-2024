@@ -33,15 +33,6 @@ ln -sf "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
 mkdir -p "$HOME/.config/harlequin"
 ln -sf "$DOTFILES/os/cross-platform/harlequin/config.toml" "$HOME/.config/harlequin/config.toml"
 
-# --- Linters & Formatters ---
-ln -sf $DOTFILES/os/cross-platform/linters/.clang-format "$HOME/.clang-format"
-ln -sf $DOTFILES/os/cross-platform/linters/.clangd "$HOME/.clangd"
-ln -sf $DOTFILES/os/cross-platform/linters/.stylua.toml "$HOME/.stylua.toml"
-ln -sf $DOTFILES/os/cross-platform/linters/.luacheckrc "$HOME/.luacheckrc"
-ln -sf $DOTFILES/os/cross-platform/linters/.prettierrc "$HOME/.prettierrc"
-ln -sf $DOTFILES/os/cross-platform/linters/.ruff.toml "$HOME/.ruff.toml"
-ln -sf $DOTFILES/os/cross-platform/linters/.editorconfig "$HOME/.editorconfig"
-
 # --- [SDDM] Setup Theme & Permissions ---
 if [ -f "$DOTFILES/os/linux/sddm/setup-sddm.sh" ]; then
     bash "$DOTFILES/os/linux/sddm/setup-sddm.sh"

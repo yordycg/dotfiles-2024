@@ -34,8 +34,11 @@ mason_tool_installer.setup({
     "xmlformatter",  
 
     -- === Linters (for nvim-lint) ===
+    "luacheck",
+    "ruff",
     "eslint_d",
     "shellcheck",
+    "cpplint",
   },
 
   auto_update = true,

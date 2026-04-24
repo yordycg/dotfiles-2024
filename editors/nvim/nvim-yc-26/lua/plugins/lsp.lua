@@ -77,10 +77,21 @@ for _, server_name in ipairs(servers) do
     if server_name == "lua_ls" then
       config.settings = {
         Lua = {
-          diagnostics = { globals = { "vim" } },
-          workspace = { checkThirdParty = false },
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = vim.api.nvim_get_runtime_file("", true),
+          },
+          telemetry = { enable = false },
         },
       }
+      -- Prevent scanning home as root
+      config.root_dir = function(fname)
+        local root = vim.fs.root(fname, { ".luarc.json", ".git" })
+        return (root and root ~= vim.env.HOME) and root or nil
+      end
     end
 
     -- Start/Enable the server
