@@ -7,7 +7,7 @@ export COLOR_BORDER="#39506d"
 export COLOR_CRITICAL="#c94f6d"
 export COLOR_ACTIVE="#9d79d6"
 
-export GHOSTTY_THEME="nightfox"
+export GHOSTTY_THEME="Nightfox"
 export TMUX_THEME="nightfox"
 export NVIM_THEME="nightfox"
 export STARSHIP_THEME="nightfox"

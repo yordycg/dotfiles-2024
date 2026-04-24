@@ -24,8 +24,8 @@ export VISUAL="nvim"
 export BROWSER="firefox"
 
 # Themes (Global consistency)
-export TMUX_THEME="nord"
-export NVIM_THEME="nord"
+export TMUX_THEME="everforest"
+export NVIM_THEME="everforest"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
 

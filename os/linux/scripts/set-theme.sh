@@ -44,8 +44,11 @@ echo "return '$NVIM_THEME'" > "$HOME/.local/share/nvim/yc_theme_state.lua"
 GHOSTTY_CONFIG="$DOTFILES/os/linux/ghostty/config"
 
 if [ -f "$GHOSTTY_CONFIG" ]; then
-    # Forzamos comillas dobles alrededor del nombre del tema para evitar problemas con espacios
+    # Usamos la ruta del repositorio para asegurar que el archivo fuente cambie
+    # Ghostty detectará el cambio a través del symlink en ~/.config/ghostty/config
     sed -i "s|^[[:space:]]*theme[[:space:]]*=.*|theme = \"$GHOSTTY_THEME\"|" "$GHOSTTY_CONFIG"
+    # Reload Ghostty configuration instantly
+    killall -SIGUSR2 ghostty 2>/dev/null
 fi
 
 # 4.5 Update Harlequin

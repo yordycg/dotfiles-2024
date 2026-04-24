@@ -1,4 +1,4 @@
 [harlequin]
-theme = "nord"
+theme = "gruvbox-dark"
 limit_rows = 10000
 show_sidebar = true

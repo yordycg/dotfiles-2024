@@ -36,7 +36,7 @@ vim.pack.add({
   "https://github.com/sainnhe/everforest",
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/tanvirtin/monokai.nvim",
-  "https://github.com/baliestri/aura-theme",
+  "https://github.com/daltonmenezes/aura-theme",
   "https://github.com/j-hui/fidget.nvim",
   "https://github.com/folke/which-key.nvim",
   

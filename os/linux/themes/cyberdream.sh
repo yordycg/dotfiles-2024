@@ -7,7 +7,7 @@ export COLOR_BORDER="#3c4048"
 export COLOR_CRITICAL="#ff5ef1"
 export COLOR_ACTIVE="#5fb3b3"
 
-export GHOSTTY_THEME="cyberdream"
+export GHOSTTY_THEME="Cyberdream"
 export TMUX_THEME="cyberdream"
 export NVIM_THEME="cyberdream"
 export STARSHIP_THEME="cyberdream"

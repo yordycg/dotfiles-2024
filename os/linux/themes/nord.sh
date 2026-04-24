@@ -10,7 +10,7 @@ export COLOR_CRITICAL="#bf616a"
 export COLOR_ACTIVE="#81a1c1"
 
 # Specifics for Apps
-export GHOSTTY_THEME="nord"
+export GHOSTTY_THEME="Nord"
 export TMUX_THEME="nord"
 export NVIM_THEME="nord"
 export STARSHIP_THEME="nord"

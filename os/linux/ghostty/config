@@ -1,6 +1,6 @@
 font-family = JetBrainsMono NF
 font-size = 12
-theme = "nord"
+theme = "Everforest Dark Hard"
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 adjust-cell-height = 35%

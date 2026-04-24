@@ -1,4 +1,4 @@
--- lua/themes/unokai.lua
+-- lua/themes/monokai.lua
 local status, monokai = pcall(require, "monokai")
 if not status then return end
 
