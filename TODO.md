@@ -124,6 +124,12 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
 
 ## 🐳 PRIORIDAD 5: Ecosistema Docker & Bases de Datos (Workflow Pro)
+- [ ] **Evolución del Orquestador `db-up`**:
+    - [ ] **Detección Inteligente**: Modificar la función `db-up` para que, si no encuentra la carpeta de la base de datos solicitada en `docker/databases/`, liste las opciones disponibles o proponga crear un nuevo template.
+    - [ ] **Healthchecks**: Implementar esperas inteligentes en los scripts para asegurar que el motor de la DB esté listo antes de intentar conectar (especialmente útil para SQL Server).
+- [ ] **Abstracción de Harlequin (TUI)**:
+    - [ ] **Scripts Wrapper**: Crear un script `hq-connect <db>` que extraiga automáticamente host, puerto y credenciales de los archivos de configuración de Docker.
+    - [ ] **Aliases Dinámicos**: Implementar un generador de aliases en el shell que cree atajos como `hq-sql` o `hq-mysql` de forma automática basado en las bases de datos configuradas.
 - [ ] **Orquestación de DBs con Docker**:
     - [ ] Crear script/función `db-up <type>` que levante contenedores efímeros o persistentes de PostgreSQL, MySQL, Redis, etc., con configuraciones seguras por defecto.
     - [ ] Investigar el uso de `Docker Compose` modular para proyectos de desarrollo.

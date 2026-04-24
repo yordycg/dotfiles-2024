@@ -1,4 +1,7 @@
-[harlequin]
-theme = "gruvbox-dark"
+default_profile = "default"
+
+[profiles.default]
+theme = "gruvbox"
 limit_rows = 10000
 show_sidebar = true
+locale = "C"

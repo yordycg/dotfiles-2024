@@ -30,6 +30,7 @@ ln -sf "$DOTFILES/editors/zed/settings.json" "$HOME/.config/zed/settings.json"
 ln -sf "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
 
 # Harlequin config
+rm -rf "$HOME/.config/harlequin"
 mkdir -p "$HOME/.config/harlequin"
 ln -sf "$DOTFILES/os/cross-platform/harlequin/config.toml" "$HOME/.config/harlequin/config.toml"
 

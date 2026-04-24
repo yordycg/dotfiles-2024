@@ -90,6 +90,7 @@ alias tkss="tmux kill-session -t" # [tmux] Matar sesión específica
 
 # SQL TUI
 alias hq="harlequin"
+alias hq-sql="harlequin -a odbc 'Driver={ODBC Driver 18 for SQL Server};Server=localhost,1433;Database=master;Uid=sa;Pwd=StrongPassword123!;Encrypt=no;'"
 
 ###############################################################################
 # LANGUAGES & DEV # [dev]
