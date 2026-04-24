@@ -82,6 +82,10 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Crear script para instalar el editor Zed y vincular automáticamente `settings.json` y `keymap.json`.
 - [x] **Unificación de Temas (Single Source of Truth)**: 
     - [x] Investigar un sistema para cambiar el tema globalmente (ej. de Nord a Catppuccin) en todos los componentes: Hyprland, Ghostty, Waybar, Tmux y Neovim, usando un único archivo de configuración o script.
+- [x] **Ghostty - Problema de Hot Reload en Temas**:
+    - Investigar por qué Ghostty no aplica los cambios de configuración del tema global de forma dinámica. (Solucionado: usando SIGUSR2 para forzar la recarga).
+- [ ] **Aura Theme - Solucionar integración en Neovim**:
+    - Verificar que el plugin `daltonmenezes/aura-theme` cargue correctamente. Al ser un monorepo, es posible que Neovim necesite que se añada `packages/neovim` al `runtimepath` manualmente o mediante una configuración específica en el gestor de plugins.
 - [ ] **Sincronización de Paquetes**:
     - Realizar auditoría periódica de apps instaladas (`pacman` y `yay`).
     - Actualizar listas en `os/linux/post-install-arch/packages/pkglist-official.txt` y `pkglist-aur.txt`.
