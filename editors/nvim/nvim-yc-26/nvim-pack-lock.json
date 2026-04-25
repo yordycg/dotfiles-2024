@@ -21,6 +21,10 @@
       "rev": "39f69ebcd8de69c741bb7a65353aa37dd0680ad1",
       "src": "https://github.com/scottmckendry/cyberdream.nvim"
     },
+    "dotenv.nvim": {
+      "rev": "7d516e9293c6e3ac21830fb10a4e8674c02747c6",
+      "src": "https://github.com/ellisonleao/dotenv.nvim"
+    },
     "efmls-configs-nvim": {
       "rev": "5dc52088c231f2721f545570fcb541b04802ce6b",
       "src": "https://github.com/creativenull/efmls-configs-nvim"
