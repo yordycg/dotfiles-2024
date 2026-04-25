@@ -24,7 +24,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Gestor de Proyectos con fzf**: 
     - [x] Implementada función `work` (ex `tat`) para sesiones automáticas.
     - [x] Implementada función `jump` para navegar entre repos y universidad.
-- [ ] **Búsqueda de Historial con `Atuin`**:
+- [x] **Búsqueda de Historial con `Atuin`**:
     - Reemplazar el historial por defecto con `Atuin` (SQLite) para búsquedas ultra-rápidas y sincronizadas.
 - [x] **Configuración Global de LSP/Linters**: Centralizar archivos como `.clang-format`, `.prettierrc` o configs de `ruff` en un lugar común para asegurar consistencia en todos los editores.
 - [x] **Optimización de Tmux**: 

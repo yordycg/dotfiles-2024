@@ -1,57 +1,60 @@
 # Load Exports (Environment Variables)
-# We assume the repo is at a standard location if DOTFILES is not set, 
-# but usually it's better to source it relatively or via an absolute path if known.
-# Since this file is in $DOTFILES/shell/zsh/.zshrc, we can try to find it.
 export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
 [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
 # Load Functions (early for lazy-loading & performance)
 [[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
 
-# Sheldon Plugin Manager
-# Initializes sheldon. It will automatically source plugins from the config file.
-if command -v sheldon &> /dev/null; then
-  eval "$(sheldon init --shell zsh 2> /dev/null)"
+# --- ZSH COMPLETION SYSTEM (Early Init) ---
+# Initialize compinit BEFORE plugins so 'compdef' is available
+autoload -Uz compinit
+if [ $(date +'%j') != $(stat -c '%a' ~/.zcompdump 2>/dev/null | cut -d' ' -f1) ]; then
+  compinit
+else
+  compinit -C
 fi
 
-# Others
-# History Configuration
-setopt inc_append_history # Write to the history file immediately, not when the shell exits.
-setopt sharehistory      # Share history between sessions
-setopt hist_ignore_space # Don't save when prefixed with space
+# Sheldon Plugin Manager
+if command -v sheldon &> /dev/null; then
+  eval "$(sheldon source 2>/dev/null)"
+fi
+
+# History Configuration (Standard Zsh settings)
+setopt inc_append_history
+setopt sharehistory
+setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
-setopt hist_ignore_dups # Don't save duplicate lines
+setopt hist_ignore_dups
 setopt hist_find_no_dups
-# keybindings
-bindkey -e                           # Usa el modo de edicion emacs (estandar)
-bindkey '^n' history-search-forward  # ctrl-n para buscar hacia adelante en el historial
-bindkey '^p' history-search-backward # ctrl-p para buscar hacia atras en el historial
-bindkey '^[w' kill-region            # alt-w para borrar region seleccionada
+
+# Keybindings
+bindkey -e
+bindkey '^n' history-search-forward
+bindkey '^p' history-search-backward
+bindkey '^[w' kill-region
+
 # Completions styling
-# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Case insensitive matching
-# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Colorear completados
-# zstyle ':completion:*' menu no                          # No mostrar menú de selección para completados
-# Fzf-tab config
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu select
+
+# Fzf-tab configuration
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --icons --tree --color=always $realpath | head -200'
 
 # Eval list (External Tool Initializations)
-# Zoxide - Smarter cd command
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
-# Atuin - SQLite based shell history
 if command -v atuin &> /dev/null; then
   eval "$(atuin init zsh)"
 fi
 
-# Fzf - Fuzzy Finder integrations (Keybindings & Auto-completion)
-# Usually installed via package manager or script in ~/.fzf
 if [ -f "$HOME/.fzf.zsh" ]; then
   source "$HOME/.fzf.zsh"
-elif [ -f "/usr/share/fzf/key-bindings.zsh" ]; then # Arch Linux default
+elif [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
   source "/usr/share/fzf/key-bindings.zsh"
   source "/usr/share/fzf/completion.zsh"
 fi
@@ -59,23 +62,13 @@ fi
 # Starship prompt
 eval "$(starship init zsh)"
 
-# Node with fnm
-# Initialization is handled via lazy-loading in shell/functions/performance.sh
-FNM_PATH="$HOME/.fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$HOME/.fnm:$PATH"
-fi
-
 # Aliases
 [[ -s "$DOTFILES/shell/aliases.sh" ]] && source "$DOTFILES/shell/aliases.sh"
 
 # fzf-git
 [[ -s "$HOME/.fzf-git/fzf.git.sh" ]] && source "$HOME/.fzf-git/fzf.git.sh"
 
-# Fastfetch - System Information
+# Fastfetch
 if command -v fastfetch &> /dev/null; then
   fastfetch
 fi
-
-# Created by `pipx` on 2026-04-23 11:31:16
-export PATH="$PATH:/home/yordycg/.local/bin"

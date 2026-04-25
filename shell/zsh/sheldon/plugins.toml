@@ -6,11 +6,11 @@ shell = "zsh"
 [plugins]
 
 # --- Core Oh My Zsh Library ---
-# Many OMZ plugins depend on these core library files.
+# Load essential library files, excluding tests
 [plugins.oh-my-zsh-lib]
 github = "ohmyzsh/ohmyzsh"
 dir = "lib"
-use = ["*.zsh"]
+use = ["{functions,directories,completion,history,key-bindings,theme-and-appearance,termsupport,clipboard,cli,misc}.zsh"]
 
 # --- Independent Plugins ---
 
@@ -40,7 +40,7 @@ github = "zsh-users/zsh-autosuggestions"
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 
-# Use the faster, community-maintained fork of syntax-highlighting
+# Syntax highlighting
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 
@@ -53,21 +53,13 @@ github = "alexrochas/zsh-git-semantic-commits"
 
 # --- Oh My Zsh plugins ---
 
-[plugins.aws]
-github = "ohmyzsh/ohmyzsh"
-dir = "plugins/aws"
-
-[plugins.dotnet]
-github = "ohmyzsh/ohmyzsh"
-dir = "plugins/dotnet"
-
 [plugins.git]
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/git"
 
-[plugins.httpie]
+[plugins.dotnet]
 github = "ohmyzsh/ohmyzsh"
-dir = "plugins/httpie"
+dir = "plugins/dotnet"
 
 [plugins.command-not-found]
 github = "ohmyzsh/ohmyzsh"
