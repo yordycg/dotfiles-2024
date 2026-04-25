@@ -49,11 +49,14 @@ vim.pack.add({
   "https://github.com/echasnovski/mini.nvim",
   
   -- Navigation & Files
+  "https://github.com/stevearc/aerial.nvim",
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/stevearc/oil.nvim",
   "https://github.com/nvim-neo-tree/neo-tree.nvim",
   
   -- LSP, Completion & Tools
+  "https://github.com/mg979/vim-visual-multi",
+  "https://github.com/dnlhc/glance.nvim",
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/williamboman/mason.nvim",
   "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -90,6 +93,7 @@ require("plugins.mini")
 require("plugins.ui") -- Fidget & Which-Key
 require("plugins.terminal")
 require("plugins.oil")
+require("plugins.aerial")
 require("plugins.neo-tree")
 require("plugins.fzf")
 require("plugins.lsp")
@@ -99,3 +103,5 @@ require("plugins.formatting")
 require("plugins.linting")
 require("plugins.git")
 require("plugins.database")
+require("plugins.glance")
+require("plugins.multicursor")

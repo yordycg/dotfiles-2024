@@ -196,6 +196,7 @@
 [nvim] <space>c          | Limpiar resaltado de búsqueda (:nohlsearch)
 [nvim] <space>e          | Toggle Explorador Lateral (Neo-tree)
 [nvim] <space>fe         | Revelar archivo en el explorador (Neo-tree)
+[nvim] <space>a          | Toggle Explorador de Símbolos (Aerial)
 [nvim] <space>-          | Abrir Explorador de archivos (Oil)
 [nvim] <space>ya         | Copiar TODO el texto al portapapeles
 [nvim] CTRL + a          | Seleccionar TODO el texto
@@ -214,6 +215,10 @@
 [nvim] <space>ca         | LSP: Acciones de código
 [nvim] <space>D          | LSP: Ver diagnóstico de línea (float)
 [nvim] gd                | LSP: Ir a Definición
+[nvim] gpd               | Peek: Ver definición sin saltar (Glance)
+[nvim] gpr               | Peek: Ver referencias sin saltar (Glance)
+[nvim] gpi               | Peek: Ver implementación sin saltar (Glance)
+[nvim] gpt               | Peek: Ver definición de tipo (Glance)
 [nvim] gD                | LSP: Ir a Declaración
 [nvim] gi                | LSP: Ir a Implementación
 [nvim] gt                | LSP: Ir a Definición de Tipo
@@ -231,6 +236,8 @@
 [nvim] CTRL + h/j/k/l    | Moverse entre ventanas (Vim Style)
 [nvim] CTRL + Flechas    | Redimensionar ventanas
 [nvim] ALT + j/k         | Mover línea/bloque actual hacia abajo/arriba
+[nvim] CTRL + n          | Multi-cursor: Seleccionar palabra (como Ctrl-D en VS)
+[nvim] CTRL + Up/Down    | Multi-cursor: Añadir cursor arriba/abajo
 [nvim] j/k               | Movimiento inteligente en líneas envueltas (wrap)
 [nvim] n/N               | Ir al siguiente/anterior resultado (centrado)
 [nvim] J                 | Unir líneas manteniendo posición del cursor
