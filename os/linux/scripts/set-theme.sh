@@ -58,7 +58,8 @@ HARLEQUIN_CONFIG_HOME="$HOME/.config/harlequin/config.toml"
 update_harlequin() {
     local file=$1
     if [ -f "$file" ]; then
-        sed -i "s/^theme = .*/theme = \"$HARLEQUIN_THEME\"/" "$file"
+        # Busca la línea que empiece por 'theme =' o 'theme=' y reemplaza su valor
+        sed -i "s/^[[:space:]]*theme[[:space:]]*=[[:space:]]*.*/theme = \"$HARLEQUIN_THEME\"/" "$file"
     fi
 }
 

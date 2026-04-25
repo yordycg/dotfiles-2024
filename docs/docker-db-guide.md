@@ -1,94 +1,93 @@
 # 🐳 Guía: Flujo de Trabajo Profesional con Bases de Datos y Docker
 
-Esta guía detalla cómo gestionar bases de datos (MySQL, PostgreSQL, etc.) de forma eficiente usando las herramientas configuradas en tus `dotfiles`.
+Esta guía detalla cómo gestionar bases de datos (MySQL, PostgreSQL, SQL Server) de forma aislada, segura y profesional utilizando las herramientas configuradas en tus `dotfiles`.
 
 ---
 
-## 🚀 1. Levantando la Base de Datos (Terminal)
+## 🛠 1. Inicialización de Proyecto (`gen-env`)
 
-Hemos implementado una función inteligente llamada `db-up`. 
+Antes de empezar, cada proyecto debe tener su propia configuración de entorno. El comando `gen-env` automatiza este proceso.
 
-### Comandos Básicos:
-| Acción | Comando |
-| :--- | :--- |
-| **Levantar DB** | `db-up <db_name>` |
-| **Detener DB** | `db-up <db_name> down` |
-| **Ver Logs** | `db-up <db_name> logs` |
-| **Entrar al Shell** | `db-up <db_name> shell` |
+1.  Navega a la carpeta de tu proyecto.
+2.  Ejecuta: `gen-env`
+3.  Selecciona el motor deseado (`mysql`, `postgres`, `sqlserver`).
 
-> [!NOTE]
-> Configuración en: `$DOTFILES/os/cross-platform/docker/databases/<db_name>/docker-compose.yml`.
+**¿Qué hace este comando?**
+- Crea un archivo `.env` con variables como `DB_TYPE`, `DB_NAME`, `DB_USER`, `DB_PASS` y `DB_PORT`.
+- Genera una **contraseña segura aleatoria**.
+- Configura el nombre de la DB basado en el nombre de tu carpeta.
+- **Seguridad:** Añade automáticamente el archivo `.env` a tu `.gitignore` para evitar fugas de credenciales.
 
 ---
 
-## 🐚 2. Consulta Interactiva (Universal SQL TUI)
+## 🚀 2. Orquestación Aislada (`db`)
 
-Para una experiencia Pro en la terminal, usamos **Harlequin** (`hq`). Es un cliente universal que funciona con todas tus bases de datos Docker.
+El comando `db` gestiona contenedores **aislados por proyecto**. Los datos de un proyecto nunca se mezclarán con otros.
 
-### Cómo conectar con Harlequin:
-Usa el alias `hq` seguido del adaptador (`-t`) y la cadena de conexión:
-
-| Base de Datos | Comando de Conexión |
+### Comandos Principales:
+| Comando | Acción |
 | :--- | :--- |
-| **PostgreSQL** | `hq -t postgres "postgres://user:password@localhost:5432/dev_db"` |
-| **MySQL** | `hq -t mysql "mysql://user:password@localhost:3306/dev_db"` |
-| **SQLite** | `hq -t sqlite ./ruta/a/la/base.db` |
-| **SQL Server** | `hq -t odbc "Driver={ODBC Driver 18 for SQL Server};Server=localhost,1433;UID=sa;PWD=Password123;Encrypt=no"` |
-
-### ¿Por qué Harlequin?
-- **Universal:** Una sola herramienta para todo.
-- **Visual:** Explorador de tablas lateral y visor de resultados tipo Excel.
-- **Tematizado:** Se sincroniza automáticamente con tus temas de Ghostty/Neovim.
+| `db` | **Modo Interactivo (FZF)** para elegir motor y acción. |
+| `db up <motor>` | Levanta la base de datos específica de este proyecto. |
+| `db stop <motor>` | Detiene el servicio sin borrar datos. |
+| `db clean <motor>`| **Limpieza Total:** Detiene y BORRA los volúmenes (datos) de este proyecto. |
+| `db logs <motor>` | Ver logs del contenedor en tiempo real. |
+| `db sh <motor>`   | Entrar al shell (bash/sh) del contenedor. |
 
 > [!TIP]
-> Si solo necesitas una consulta ultra-rápida en MySQL, puedes seguir usando `mycli -h localhost -u user -p password dev_db`.
+> **Puertos Dinámicos:** Si quieres trabajar en dos proyectos MySQL a la vez, cambia `DB_PORT=3307` en el `.env` del segundo proyecto. El comando `db` lo detectará automáticamente.
 
 ---
 
-## ⚡ 3. Gestión desde Neovim (Editor Pro)
+## 🐚 3. Consulta Interactiva TUI (`hq`)
 
-Tu configuración de Neovim incluye `vim-dadbod` y `vim-dadbod-ui`, lo que convierte a tu editor en un cliente SQL completo.
+Para explorar datos rápidamente con una interfaz visual en la terminal, usamos **Harlequin**.
+
+1.  Desde la carpeta de tu proyecto, ejecuta: `hq`
+2.  **Detección Inteligente:** `hq` leerá tu `.env`, detectará el puerto y el motor, y te conectará automáticamente.
+3.  **Estética:** Se sincroniza con tu tema global (`gruvbox`, `catppuccin`, etc.).
+
+---
+
+## ⚡ 4. Gestión desde Neovim (Editor Pro)
+
+Tu Neovim es ahora un cliente SQL completo que detecta tu entorno Docker automáticamente.
 
 ### Atajos de Teclado (Keymaps):
 | Comando | Acción |
 | :--- | :--- |
-| `<leader>du` | **Abrir/Cerrar** el panel de base de datos (`DBUI`). |
+| `<leader>du` | **Abrir/Cerrar** el explorador de bases de datos (`Dadbod UI`). |
 | `<leader>S` | **Ejecutar Query** (sobre la línea actual o selección visual). |
-| `<leader>df` | Buscar el buffer de base de datos actual. |
-| `<leader>dr` | Renombrar el buffer de consulta actual. |
 
-### Flujo de Trabajo Profesional:
-
-1.  **Levantar el servicio:** Primero asegúrate de que el contenedor esté corriendo con `db-up mysql`.
-2.  **Conectar:** Abre el panel con `<leader>du`, presiona `A` (Add Connection) y pega la URL:
-    - *Ejemplo MySQL:* `mysql://user:password@localhost:3306/dev_db`
-    - *Ejemplo Postgres:* `postgres://user:password@localhost:5432/dev_db`
-3.  **Explorar:** Navega por las tablas con `j/k` y presiona `Enter` para ver el esquema o los datos.
-4.  **Escribir y Ejecutar:**
-    - Crea un archivo `.sql` (ej: `test.sql`).
-    - Escribe tu consulta: `SELECT * FROM users;`.
-    - Presiona `<leader>S` para ejecutarla. Los resultados se abrirán en un panel vertical a la derecha.
-5.  **Autocompletado Inteligente:** Al escribir en un archivo `.sql`, el editor te sugerirá automáticamente nombres de tablas y columnas de la base de datos activa.
-
-> [!NOTE]
-> Las consultas que ejecutas se guardan automáticamente en la carpeta `db_ui` dentro de tu proyecto, permitiéndote reutilizarlas después.
+### Flujo de Trabajo en Neovim:
+1.  **Detección:** Al abrir Neovim en un proyecto con `.env`, la conexión aparecerá automáticamente en el panel lateral.
+2.  **Exploración:** Usa `<leader>du` para ver tablas, columnas e índices.
+3.  **Ejecución:** Abre un archivo `.sql`, escribe tu consulta y presiona `Espacio + S`.
+4.  **Sin Dependencias:** Neovim utiliza un **Docker Bridge**. No necesitas tener instalados los clientes de MySQL/Postgres en tu Arch Linux; Neovim usa los que ya están dentro de Docker.
 
 ---
 
-## 🛠 4. Datos de Conexión (Por Defecto)
+## 📂 5. Estructura de Persistencia
 
-| Parámetro | Valor (MySQL/Postgres) | Valor (SQL Server) |
-| :--- | :--- | :--- |
-| **Host** | `localhost` | `localhost` |
-| **Puerto** | `3306 / 5432` | `1433` |
-| **Usuario** | `user` | `sa` |
-| **Password** | `password` | `Password123!` |
-| **Database** | `dev_db` | `master` |
+Los datos se guardan en volúmenes de Docker nombrados con el prefijo del proyecto:
+- `PROYECTO-mysql_mysql_data`
+- `PROYECTO-postgres_postgres_data`
+
+Esto garantiza que al hacer un `db clean`, solo afectes al proyecto actual.
 
 ---
 
-## 📂 5. Limpieza de Datos
-Si quieres resetear la base de datos por completo (borrar volúmenes):
+## 📋 6. Resumen de comandos rápidos
 ```bash
-db-up <db_name> down -v
+# 1. Crear entorno
+gen-env mysql
+
+# 2. Levantar DB
+db up mysql
+
+# 3. Consultar (Terminal)
+hq
+
+# 4. Consultar (Neovim)
+v .  # Y luego <leader>du
 ```

@@ -24,7 +24,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Gestor de Proyectos con fzf**: 
     - [x] Implementada función `work` (ex `tat`) para sesiones automáticas.
     - [x] Implementada función `jump` para navegar entre repos y universidad.
-- [x] **Búsqueda de Historial con `Atuin`**:
+- [ ] **Búsqueda de Historial con `Atuin`**:
     - Reemplazar el historial por defecto con `Atuin` (SQLite) para búsquedas ultra-rápidas y sincronizadas.
 - [x] **Configuración Global de LSP/Linters**: Centralizar archivos como `.clang-format`, `.prettierrc` o configs de `ruff` en un lugar común para asegurar consistencia en todos los editores.
 - [x] **Optimización de Tmux**: 
@@ -124,19 +124,17 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
 
 ## 🐳 PRIORIDAD 5: Ecosistema Docker & Bases de Datos (Workflow Pro)
-- [ ] **Evolución del Orquestador `db-up`**:
-    - [ ] **Detección Inteligente**: Modificar la función `db-up` para que, si no encuentra la carpeta de la base de datos solicitada en `docker/databases/`, liste las opciones disponibles o proponga crear un nuevo template.
-    - [ ] **Healthchecks**: Implementar esperas inteligentes en los scripts para asegurar que el motor de la DB esté listo antes de intentar conectar (especialmente útil para SQL Server).
-- [ ] **Abstracción de Harlequin (TUI)**:
-    - [ ] **Scripts Wrapper**: Crear un script `hq-connect <db>` que extraiga automáticamente host, puerto y credenciales de los archivos de configuración de Docker.
-    - [ ] **Aliases Dinámicos**: Implementar un generador de aliases en el shell que cree atajos como `hq-sql` o `hq-mysql` de forma automática basado en las bases de datos configuradas.
-- [ ] **Orquestación de DBs con Docker**:
-    - [ ] Crear script/función `db-up <type>` que levante contenedores efímeros o persistentes de PostgreSQL, MySQL, Redis, etc., con configuraciones seguras por defecto.
-    - [ ] Investigar el uso de `Docker Compose` modular para proyectos de desarrollo.
-- [ ] **Gestión de DBs desde la Terminal**:
-    - [ ] **Neovim (Dadbod)**: Instalar y configurar `vim-dadbod`, `vim-dadbod-ui` y `vim-dadbod-completion` para gestionar bases de datos sin salir del editor.
-    - [ ] **CLIs Inteligentes**: Instalar y configurar `pgcli` y `mycli` para consultas interactivas con autocompletado.
-    - [ ] **Monitoreo**: Optimizar el uso de `lazydocker` para la gestión del ciclo de vida de los contenedores de DB.
-- [ ] **Investigación de Flujos Pro**: 
-    - [ ] Estudiar cómo los DBAs y SREs gestionan migraciones y backups usando herramientas CLI en Linux.
-
+- [x] **Evolución del Orquestador `db-up`**:
+    - [x] **Detección Inteligente**: Modificado a comando `db` con aislamiento por proyecto.
+    - [x] **Healthchecks**: Implementada lógica de limpieza y estados.
+- [x] **Abstracción de Harlequin (TUI)**:
+    - [x] **Scripts Wrapper**: Creado comando `hq` con detección automática de .env.
+    - [x] **Aliases Dinámicos**: Implementada detección por puertos e integración con FZF.
+    - [x] **Estandarización de Temas**: Sincronizado con el sistema global de temas.
+- [x] **Orquestación de DBs con Docker**:
+    - [x] Creado comando `db up <type>` con contenedores aislados por carpeta.
+    - [x] Soporte para MySQL, PostgreSQL y SQL Server.
+- [x] **Gestión de DBs desde la Terminal**:
+    - [x] **Neovim (Dadbod)**: Configurado Dadbod UI con carga automática de .env.
+    - [x] **Autocompletado**: Integrado con Blink.cmp para sugerencias en SQL.
+    - [x] **Generador de .env**: Creado comando `gen-env` para inicializar proyectos rápidamente.

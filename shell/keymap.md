@@ -41,6 +41,7 @@
 [util] cpz <file>        | Copiar a destino inteligente (Zoxide + FD + FZF)
 [util] mvz <file>        | Mover a destino inteligente (Zoxide + FD + FZF)
 [util] wall              | Seleccionar y cambiar fondo de pantalla (swww + fzf)
+[util] gen-env           | Generar archivo .env inteligente para DBs (fzf)
 
 # [GIT] GIT & GITHUB
 [git] lg                 | Abrir LazyGit (TUI)
@@ -74,6 +75,15 @@
 [docker] d               | Docker base
 [docker] dc              | Docker Compose base
 [docker] ld              | LazyDocker (TUI)
+[docker] db              | Orquestador de DBs interactivo (FZF)
+[docker] db <name>       | Levantar base de datos (up)
+[docker] db stop <name>  | Detener base de datos (down)
+[docker] db clean <name> | Limpiar base de datos y VOLÚMENES (down -v)
+[docker] db logs <name>  | Ver logs del contenedor
+[docker] db sh <name>    | Entrar al shell del contenedor
+[docker] db ps <name>    | Ver estado del contenedor
+[docker] db -h           | Ayuda interactiva de comandos db
+[docker] hq [motor]      | SQL TUI: Conexión inteligente a DB con Harlequin
 
 # [TMUX] TMUX & SESSIONS (Prefix: CTRL + Space)
 [tmux] t                 | Tmux base
@@ -216,6 +226,8 @@
 [nvim] <space>hd         | Git: Ver Diff del archivo
 [nvim] <space>hs         | Git: Stage Hunk (añadir cambio)
 [nvim] <space>hr         | Git: Reset Hunk (deshacer cambio)
+[nvim] <space>du         | DB: Abrir Explorador de Bases de Datos (Dadbod UI)
+[nvim] <space>S          | DB: Ejecutar Query SQL (en buffer .sql)
 [nvim] CTRL + h/j/k/l    | Moverse entre ventanas (Vim Style)
 [nvim] CTRL + Flechas    | Redimensionar ventanas
 [nvim] ALT + j/k         | Mover línea/bloque actual hacia abajo/arriba
