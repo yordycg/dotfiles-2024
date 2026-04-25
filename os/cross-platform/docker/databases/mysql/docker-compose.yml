@@ -3,20 +3,21 @@ version: '3.8'
 services:
   mysql:
     image: mysql:latest
-    container_name: mysql-dev
+    # Removed fixed container_name to allow multiple instances per project
     restart: always
     environment:
-      # Variables dinámicas desde tu .env
+      # Dynamic variables from your project's .env
       MYSQL_DATABASE: ${DB_NAME:-dev_db}
       MYSQL_USER: ${DB_USER:-user}
       MYSQL_PASSWORD: ${DB_PASS:-password}
       MYSQL_ROOT_PASSWORD: ${DB_PASS:-root}
-      # Permite explícitamente contraseñas vacías si DB_PASS está vacío
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - "3306:3306"
+      # Support for dynamic port if set in .env, defaults to 3306
+      - "${DB_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
 volumes:
+  # This volume will be prefixed with the project name automatically
   mysql_data:

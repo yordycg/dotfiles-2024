@@ -3,16 +3,20 @@ version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver-dev
+    # Removed fixed container_name to allow multiple instances per project
     restart: always
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "StrongPassword123!"
+      MSSQL_SA_PASSWORD: ${DB_PASS:-StrongPassword123!}
       MSSQL_PID: "Developer"
+      # If you need to create a DB on startup for SQL Server, 
+      # it usually requires a custom script, but we'll stick to basic connectivity.
     ports:
-      - "1433:1433"
+      # Support for dynamic port if set in .env, defaults to 1433
+      - "${DB_PORT:-1433}:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
 
 volumes:
+  # This volume will be prefixed with the project name automatically
   sqlserver_data:
