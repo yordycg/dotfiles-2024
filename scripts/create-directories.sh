@@ -8,6 +8,7 @@ set -ueo pipefail # fail on error and report it, debug all lines
 WORKSPACE_DIR="$HOME/workspace"
 BACK_DIR="$HOME/BACKUP"
 REPO_DIR="$WORKSPACE_DIR/repos"
+PERSONAL_DIR="$WORKSPACE_DIR/personal"
 UNIVERSITY_DIR="$WORKSPACE_DIR/university/year_3/semester_5"
 
 # Lista de directorios a crear
@@ -15,6 +16,7 @@ DIRECTORIES=(
   "$WORKSPACE_DIR"
   "$BACK_DIR"
   "$REPO_DIR"
+  "$PERSONAL_DIR"
   "$UNIVERSITY_DIR"
 )
 
