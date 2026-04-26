@@ -1,7 +1,7 @@
 default_profile = "default"
 
 [profiles.default]
-theme = "gruvbox"
+theme = "gruvbox-dark"
 limit_rows = 10000
 show_sidebar = true
 locale = "C"

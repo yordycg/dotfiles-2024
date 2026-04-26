@@ -4,6 +4,10 @@
       "rev": "a62e1083a3cfe8b6b206e7d3d33a51091df25357",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
+    "aerial.nvim": {
+      "rev": "645d108a5242ec7b378cbe643eb6d04d4223f034",
+      "src": "https://github.com/stevearc/aerial.nvim"
+    },
     "aura-theme": {
       "rev": "c607be79c8eeaa5a5d7ac66421f8b5c51d936fe8",
       "src": "https://github.com/baliestri/aura-theme"
@@ -44,6 +48,10 @@
     "gitsigns.nvim": {
       "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
       "src": "https://www.github.com/lewis6991/gitsigns.nvim"
+    },
+    "glance.nvim": {
+      "rev": "bf86d8b79dce808e65fdb6e9269d0b4ed6d2eefc",
+      "src": "https://github.com/dnlhc/glance.nvim"
     },
     "gruvbox.nvim": {
       "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
@@ -144,6 +152,10 @@
     "vim-dadbod-ui": {
       "rev": "07e92e22114cc5b1ba4938d99897d85b58e20475",
       "src": "https://github.com/kristijanhusak/vim-dadbod-ui"
+    },
+    "vim-visual-multi": {
+      "rev": "a6975e7c1ee157615bbc80fc25e4392f71c344d4",
+      "src": "https://github.com/mg979/vim-visual-multi"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
