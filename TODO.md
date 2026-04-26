@@ -38,6 +38,14 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Workflow de Git Avanzado**:
         - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
         - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
+        - [ ] **Conventional Commits**: Investigar e implementar una herramienta (`commitizen`, `cocogitto` o `commitlint`) para estandarizar los mensajes de commit y automatizar changelogs.
+- [ ] **Scaffolding Profesional y Plantillas de Proyectos**:
+    - [ ] **Investigación**: Evaluar herramientas de plantillas como `cookiecutter` (estándar), `copier` (moderno/updateable) o `degit` (clonación ligera).
+    - [ ] **Librería de Starters**:
+        - [ ] Crear plantilla base para **Python/Django** (con Docker, Ruff, y .env preconfigurado).
+        - [ ] Crear plantilla base para **Node/TypeScript** (con Prettier, ESLint y Vitest).
+        - [ ] Crear plantilla base para **Scripts de Bash/Rust** (con tests y estructura limpia).
+    - [ ] **Integración**: Vincular con el comando `work` o crear un nuevo comando `new` que use FZF para elegir qué tipo de proyecto inicializar.
 - [x] **Acciones rápidas en Neovim**: Crear función/keymap para seleccionar todo el texto de un archivo y copiarlo al portapapeles.
 
 - [x] **Ecosistema Python & Django Pro**:
@@ -138,3 +146,9 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Neovim (Dadbod)**: Configurado Dadbod UI con carga automática de .env.
     - [x] **Autocompletado**: Integrado con Blink.cmp para sugerencias en SQL.
     - [x] **Generador de .env**: Creado comando `gen-env` para inicializar proyectos rápidamente.
+- [ ] **Estandarización y Automatización de `.env`**:
+    - [ ] **Investigación**: Estudiar estándares profesionales (e.g., `direnv` para carga automática, `doppler` para gestión de secretos) y adoptar las mejores prácticas.
+    - [ ] **Mejorar `gen-env`**: 
+        - [ ] Crear automáticamente un archivo `.env.example` sincronizado (mismas llaves, valores vacíos).
+        - [ ] Crear un script/función de sincronización que detecte nuevas variables en el `.env` local y las añada al `.env.example` para mantenerlo al día sin exponer credenciales.
+        - [ ] Permitir que `gen-env` extraiga variables de otros contextos del proyecto (no solo DB).

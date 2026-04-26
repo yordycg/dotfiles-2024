@@ -20,6 +20,7 @@
 [sys] lt                 | Ver estructura de carpetas en árbol (eza)
 [sys] mkcd <dir>         | Crear y entrar a un directorio (función)
 [sys] up <n>             | Subir N niveles en el árbol de directorios (función)
+[sys] new                | Crear nuevo proyecto desde plantilla Pro (Cookiecutter)
 [sys] win                | Ir al Home de Windows (/mnt/c/Users/Yordy)
 [sys] theme              | Selector de temas interactivo (fzf)
 [sys] set-theme <name>   | Aplicar un tema específico directamente
@@ -41,12 +42,14 @@
 [util] cpz <file>        | Copiar a destino inteligente (Zoxide + FD + FZF)
 [util] mvz <file>        | Mover a destino inteligente (Zoxide + FD + FZF)
 [util] wall              | Seleccionar y cambiar fondo de pantalla (swww + fzf)
-[util] gen-env           | Generar archivo .env inteligente para DBs (fzf)
+[util] gen-env           | Generar .env + .env.example pro (incluye direnv & linter)
+[util] sync-env          | Sincronizar llaves de .env a .env.example (sin valores)
 
 # [GIT] GIT & GITHUB
 [git] lg                 | Abrir LazyGit (TUI)
 [git] g                  | Git base
 [git] gs                 | Estado rápido (git status)
+[git] gcc                | Commit interactivo profesional (Conventional Commits + FZF)
 [git] ga <file>          | Añadir archivo específico al stage
 [git] gaa                | Añadir TODO al stage (git add -A)
 [git] gc                 | Confirmar cambios (abre editor)
