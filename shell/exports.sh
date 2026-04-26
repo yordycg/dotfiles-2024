@@ -2,12 +2,12 @@
 # DIRECTORIES & PATHS
 # -----------------------------------------------------------------------------
 export WORKSPACE_PATH="$HOME/workspace"
-export DEV_PATH="$WORKSPACE_PATH/dev"
 export REPOS_PATH="$WORKSPACE_PATH/repos"
+export PERSONAL_PATH="$WORKSPACE_PATH/personal"
+export UNIVERSITY_PATH="$WORKSPACE_PATH/university/year_3/semester_5"
 export DOTFILES="$REPOS_PATH/dotfiles-2024"
 export OBSIDIAN="$REPOS_PATH/obsidian-notes"
 export WALLPAPERS="$REPOS_PATH/wallpapers"
-export PROJECTS_PATH="$DEV_PATH/projects"
 export DSA_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/04 DataStructure-Algorithms"
 export CPP_PATH="/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/02 Cpp"
 
@@ -17,7 +17,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # PATH updates
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # -----------------------------------------------------------------------------
 # APPS & PREFERENCES
@@ -27,8 +27,8 @@ export VISUAL="nvim"
 export BROWSER="firefox"
 
 # Themes (Global consistency)
-export TMUX_THEME="everforest"
-export NVIM_THEME="everforest"
+export TMUX_THEME="gruvbox"
+export NVIM_THEME="gruvbox"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
 export HARLEQUIN_THEME="everforest" # Sincronizado con bases de datos

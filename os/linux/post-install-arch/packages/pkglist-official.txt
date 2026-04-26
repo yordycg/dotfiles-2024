@@ -11,6 +11,7 @@ brightnessctl
 btop
 cliphist
 cmake
+direnv
 eza
 fastfetch
 fd

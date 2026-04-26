@@ -107,3 +107,4 @@ end
 if command -v fastfetch >/dev/null
   fastfetch
 end
+direnv hook fish | source

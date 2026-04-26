@@ -72,3 +72,4 @@ eval "$(starship init zsh)"
 if command -v fastfetch &> /dev/null; then
   fastfetch
 fi
+eval "$(direnv hook zsh)"

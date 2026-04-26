@@ -1,27 +1,26 @@
+
+# --- HERRAMIENTAS CLI ---
 # --- HYPRLAND Y UTILIDADES DE ESCRITORIO ---
-hyprpicker
-hyprlock
-hypridle
-wlogout
-tofi
+# --- NAVEGADOR Y EDITORES ---
+# --- TEMAS ---
+brave-bin
+dotenv-linter
+fnm
+ghostty
+git-delta
 grimblast
+hypridle
+hyprlock
+hyprpicker
+impala
+kvantum-theme-catppuccin-git
 matugen
 satty
 sunsetr
 swayosd
 tinte
+tofi
 uwsm
-walker
-impala
-
-# --- NAVEGADOR Y EDITORES ---
-brave-bin
 visual-studio-code-bin
-
-# --- HERRAMIENTAS CLI ---
-fnm
-git-delta
-ghostty
-
-# --- TEMAS ---
-kvantum-theme-catppuccin-git
+walker
+wlogout
