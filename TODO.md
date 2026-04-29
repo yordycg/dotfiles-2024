@@ -33,19 +33,26 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Estética**: Diseñar una `status-line` minimalista que armonice con los colores de Hyprland y Waybar.
     - [x] **Mantenimiento**: Evaluar un script de limpieza periódica para sesiones inactivas (Opción B del workflow).
     - [x] **Sesión Core**: Autogenerar la sesión `dotfiles` al inicio.
+    - [ ] **Corrección de Sesiones Duplicadas**: Eliminar la redundancia entre las sesiones `dotfiles` y `dotfiles-2024` al iniciar el sistema (actualmente se generan ambas y son idénticas).
     - [x] **Navegación Instantánea con `zoxide`**:
         - Sustituir `z` por `zoxide` e integrarlo con `fzf` y `tmux` para saltar a cualquier directorio desde un popup global.
     - [x] **Workflow de Git Avanzado**:
         - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
         - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
-        - [ ] **Conventional Commits**: Investigar e implementar una herramienta (`commitizen`, `cocogitto` o `commitlint`) para estandarizar los mensajes de commit y automatizar changelogs.
+        - [x] **Conventional Commits**: Investigar e implementar una herramienta (`commitizen`, `cocogitto` o `commitlint`) para estandarizar los mensajes de commit y automatizar changelogs. (Implementado comando `gcc` con FZF).
+        - [ ] **Optimización de Fixup con `gfix`**:
+            - Crea una función de Bash llamada `gfix` que facilite el flujo de `git commit --fixup`.
+            - 1. Mostrar una lista interactiva de los últimos 20 commits usando `fzf`.
+            - 2. Al seleccionar un commit, crear automáticamente un commit de fixup para los archivos que ya están en el stage.
+            - 3. Ejecutar inmediatamente un rebase interactivo con `--autosquash` de forma no interactiva (usando `GIT_EDITOR=true`) tomando como base el padre del commit seleccionado para que el proceso sea instantáneo.
+            - Si no hay cambios en el stage, debe avisar al usuario.
+        - [ ] **Alias de Log Personalizado (`gl`)**:
+            - Crear un alias o función (ej. `gl`) para un `git log` visual y compacto.
+            - Debe soportar el paso de argumentos para limitar la cantidad de commits (ej. `gl -3`).
+            - Formato sugerido (basado en `glfzf`): `%C(auto)%h %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)`.
+            - Incluir `--graph` y `--decorate` para una mejor visualización de ramas.
 - [ ] **Scaffolding Profesional y Plantillas de Proyectos**:
-    - [ ] **Investigación**: Evaluar herramientas de plantillas como `cookiecutter` (estándar), `copier` (moderno/updateable) o `degit` (clonación ligera).
-    - [ ] **Librería de Starters**:
-        - [ ] Crear plantilla base para **Python/Django** (con Docker, Ruff, y .env preconfigurado).
-        - [ ] Crear plantilla base para **Node/TypeScript** (con Prettier, ESLint y Vitest).
-        - [ ] Crear plantilla base para **Scripts de Bash/Rust** (con tests y estructura limpia).
-    - [ ] **Integración**: Vincular con el comando `work` o crear un nuevo comando `new` que use FZF para elegir qué tipo de proyecto inicializar.
+    - [ ] **Investigación**: Evaluar herramientas de plantillas alternativas compatibles con Windows como `copier` o `degit`.
 - [x] **Acciones rápidas en Neovim**: Crear función/keymap para seleccionar todo el texto de un archivo y copiarlo al portapapeles.
 
 - [x] **Ecosistema Python & Django Pro**:
@@ -53,6 +60,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Calidad de Código**: Integrar alias para `ruff` y `pytest`.
     - [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
     - [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
+    - [ ] **Mejora del Script de Creación de Venv**: Asegurar que el script que genera el entorno `.venv` también lo active automáticamente en la sesión actual tras su creación.
 - [x] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
     - [x] Investigar y aplicar búsqueda profunda con `fd` dinámico dentro de FZF.
     - [x] Optimizar `_smart_path_picker` con colores diferenciales y soporte de argumentos iniciales.
@@ -68,8 +76,16 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Extraer binds de `hyprland.conf`.
     - [ ] **Pendiente**: Extraer atajos de Neovim (investigar parseo de Lua).
 - [x] **Cheatsheet interactivo**: Implementado buscador con `fzf` y sincronizado con cambios recientes.
+- [ ] **Visualización de Markdown**: Investigar y configurar herramientas para previsualizar archivos `.md` tanto dentro de Neovim (ej. `glow.nvim`, `markdown-preview.nvim`) como mediante aplicaciones externas o CLIs (ej. `glow`, `mdless`).
 - [ ] **Estandarización de Interfaz FZF**:
     - Definir 1 o 2 layouts máximos (preferiblemente tipo popup) para todas las herramientas que usan `fzf` (scripts propios, plugins de zsh/fish, etc.).
+- [ ] **Expansión del Ecosistema FZF**:
+    - Investigar nuevas integraciones de `fzf` en el flujo diario:
+        - Búsqueda de archivos en Neovim (fzf-lua vs telescope).
+        - Selector de procesos para `kill`.
+        - Selector de variables de entorno.
+        - Integración con comandos de sistema (ej. `systemctl`, `pacman`).
+        - Selector de SSH hosts.
 - [ ] **Experiencia VS Code en Neovim**: Investigar y configurar plugins para cerrar la brecha de UX:
     - [ ] **Symbols Outline**: Panel lateral con la estructura de clases/funciones (ej: `symbols-outline.nvim` o `aerial.nvim`).
     - [ ] **Breadcrumbs**: Barra de navegación superior con símbolos LSP (ej: `barbecue.nvim` o `lspsaga.nvim`).
@@ -132,23 +148,29 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
 
 ## 🐳 PRIORIDAD 5: Ecosistema Docker & Bases de Datos (Workflow Pro)
-- [x] **Evolución del Orquestador `db-up`**:
-    - [x] **Detección Inteligente**: Modificado a comando `db` con aislamiento por proyecto.
+- [x] **Evolución del Orquestador `db-docker`**:
+    - [x] **Detección Inteligente**: Modificado a comando `db-docker` con aislamiento por proyecto.
     - [x] **Healthchecks**: Implementada lógica de limpieza y estados.
 - [x] **Abstracción de Harlequin (TUI)**:
     - [x] **Scripts Wrapper**: Creado comando `hq` con detección automática de .env.
     - [x] **Aliases Dinámicos**: Implementada detección por puertos e integración con FZF.
     - [x] **Estandarización de Temas**: Sincronizado con el sistema global de temas.
 - [x] **Orquestación de DBs con Docker**:
-    - [x] Creado comando `db up <type>` con contenedores aislados por carpeta.
+    - [x] Creado comando `db-docker up <type>` con contenedores aislados por carpeta.
     - [x] Soporte para MySQL, PostgreSQL y SQL Server.
 - [x] **Gestión de DBs desde la Terminal**:
     - [x] **Neovim (Dadbod)**: Configurado Dadbod UI con carga automática de .env.
     - [x] **Autocompletado**: Integrado con Blink.cmp para sugerencias en SQL.
     - [x] **Generador de .env**: Creado comando `gen-env` para inicializar proyectos rápidamente.
-- [ ] **Estandarización y Automatización de `.env`**:
-    - [ ] **Investigación**: Estudiar estándares profesionales (e.g., `direnv` para carga automática, `doppler` para gestión de secretos) y adoptar las mejores prácticas.
-    - [ ] **Mejorar `gen-env`**: 
-        - [ ] Crear automáticamente un archivo `.env.example` sincronizado (mismas llaves, valores vacíos).
-        - [ ] Crear un script/función de sincronización que detecte nuevas variables en el `.env` local y las añada al `.env.example` para mantenerlo al día sin exponer credenciales.
-        - [ ] Permitir que `gen-env` extraiga variables de otros contextos del proyecto (no solo DB).
+- [x] **Estandarización y Automatización de `.env`**:
+    - [x] **Investigación**: Estudiar estándares profesionales (e.g., `direnv` para carga automática, `doppler` para gestión de secretos) y adoptar las mejores prácticas.
+    - [x] **Mejorar `gen-env`**: 
+        - [x] Crear automáticamente un archivo `.env.example` sincronizado (mismas llaves, valores vacíos).
+        - [x] Crear un script/función de sincronización que detecte nuevas variables en el `.env` local y las añada al `.env.example` para mantenerlo al día sin exponer credenciales.
+        - [x] Permitir que `gen-env` extraiga variables de otros contextos del proyecto (no solo DB).
+
+## 🪟 PRIORIDAD 6: Windows & PowerShell (Ecosistema Nativo)
+- [ ] **Optimización de PowerShell**:
+    - [ ] **Alias de Recarga**: Crear un alias (ej. `spw` o `sps`) para recargar el perfil de PowerShell (`. $PROFILE`) similar a `szsh` en Linux.
+    - [ ] **Integración de Herramientas**: Asegurar que `zoxide`, `fzf` y `starship` estén correctamente configurados en el perfil global.
+
