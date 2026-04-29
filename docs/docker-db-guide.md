@@ -13,29 +13,34 @@ Antes de empezar, cada proyecto debe tener su propia configuración de entorno. 
 3.  Selecciona el motor deseado (`mysql`, `postgres`, `sqlserver`).
 
 **¿Qué hace este comando?**
-- Crea un archivo `.env` con variables como `DB_TYPE`, `DB_NAME`, `DB_USER`, `DB_PASS` y `DB_PORT`.
+- Crea un archivo `.env` con variables esenciales.
+- Genera un archivo **`docker-compose.yml` local** y portable.
 - Genera una **contraseña segura aleatoria**.
 - Configura el nombre de la DB basado en el nombre de tu carpeta.
 - **Seguridad:** Añade automáticamente el archivo `.env` a tu `.gitignore` para evitar fugas de credenciales.
 
 ---
 
-## 🚀 2. Orquestación Aislada (`db`)
+## 🚀 2. Orquestación Aislada (`db-docker`)
 
-El comando `db` gestiona contenedores **aislados por proyecto**. Los datos de un proyecto nunca se mezclarán con otros.
+El comando `db-docker` gestiona contenedores **aislados por proyecto**. 
+
+### Portabilidad y Prioridad:
+1.  **Prioridad Local:** Si `db-docker` detecta un `docker-compose.yml` en la carpeta actual, lo usará automáticamente. Esto permite que el proyecto sea portable: cualquier desarrollador puede clonarlo y ejecutar `docker-compose up -d` sin depender de tus dotfiles.
+2.  **Fallback Global:** Si no hay un archivo local, usará las configuraciones base de tus dotfiles (`os/cross-platform/docker/databases/`).
 
 ### Comandos Principales:
 | Comando | Acción |
 | :--- | :--- |
-| `db` | **Modo Interactivo (FZF)** para elegir motor y acción. |
-| `db up <motor>` | Levanta la base de datos específica de este proyecto. |
-| `db stop <motor>` | Detiene el servicio sin borrar datos. |
-| `db clean <motor>`| **Limpieza Total:** Detiene y BORRA los volúmenes (datos) de este proyecto. |
-| `db logs <motor>` | Ver logs del contenedor en tiempo real. |
-| `db sh <motor>`   | Entrar al shell (bash/sh) del contenedor. |
+| `db-docker` | **Modo Interactivo (FZF)** para elegir motor y acción. |
+| `db-docker up` | Levanta la base de datos (usa el archivo local si existe). |
+| `db-docker stop` | Detiene el servicio sin borrar datos. |
+| `db-docker clean`| **Limpieza Total:** Detiene y BORRA los volúmenes (datos) de este proyecto. |
+| `db-docker logs` | Ver logs del contenedor en tiempo real. |
+| `db-docker sh`   | Entrar al shell (bash/sh) del contenedor. |
 
 > [!TIP]
-> **Puertos Dinámicos:** Si quieres trabajar en dos proyectos MySQL a la vez, cambia `DB_PORT=3307` en el `.env` del segundo proyecto. El comando `db` lo detectará automáticamente.
+> **Puertos Dinámicos:** Si quieres trabajar en dos proyectos MySQL a la vez, cambia `DB_PORT=3307` en el `.env` del segundo proyecto. El comando `db-docker` lo detectará automáticamente.
 
 ---
 
@@ -73,7 +78,7 @@ Los datos se guardan en volúmenes de Docker nombrados con el prefijo del proyec
 - `PROYECTO-mysql_mysql_data`
 - `PROYECTO-postgres_postgres_data`
 
-Esto garantiza que al hacer un `db clean`, solo afectes al proyecto actual.
+Esto garantiza que al hacer un `db-docker clean`, solo afectes al proyecto actual.
 
 ---
 
@@ -83,7 +88,7 @@ Esto garantiza que al hacer un `db clean`, solo afectes al proyecto actual.
 gen-env mysql
 
 # 2. Levantar DB
-db up mysql
+db-docker up mysql
 
 # 3. Consultar (Terminal)
 hq

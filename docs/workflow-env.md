@@ -17,7 +17,7 @@ Al empezar un nuevo proyecto, usa el comando `gen-env` para preparar el terreno:
 ```bash
 gen-env [template]
 ```
-- **¿Qué hace?**: Crea `.env`, `.env.example`, configura `.envrc` para `direnv` y añade las protecciones necesarias a `.gitignore`.
+- **¿Qué hace?**: Crea `.env`, `.env.example`, genera un **`docker-compose.yml` local**, configura `.envrc` para `direnv` y añade las protecciones necesarias a `.gitignore`.
 - **Templates**: Soporta `mysql`, `postgres`, `sqlserver` y `empty`.
 
 ### 2. Carga Automática
