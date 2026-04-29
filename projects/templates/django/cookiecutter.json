@@ -1,8 +1,0 @@
-{
-  "project_name": "My Professional Project",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
-  "pkg_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-  "description": "A production-ready Django project",
-  "author": "Yordy Carmona",
-  "version": "0.1.0"
-}

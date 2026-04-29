@@ -20,7 +20,6 @@
 [sys] lt                 | Ver estructura de carpetas en árbol (eza)
 [sys] mkcd <dir>         | Crear y entrar a un directorio (función)
 [sys] up <n>             | Subir N niveles en el árbol de directorios (función)
-[sys] new                | Crear nuevo proyecto desde plantilla Pro (Cookiecutter)
 [sys] win                | Ir al Home de Windows (/mnt/c/Users/Yordy)
 [sys] theme              | Selector de temas interactivo (fzf)
 [sys] set-theme <name>   | Aplicar un tema específico directamente
@@ -78,14 +77,14 @@
 [docker] d               | Docker base
 [docker] dc              | Docker Compose base
 [docker] ld              | LazyDocker (TUI)
-[docker] db              | Orquestador de DBs interactivo (FZF)
-[docker] db <name>       | Levantar base de datos (up)
-[docker] db stop <name>  | Detener base de datos (down)
-[docker] db clean <name> | Limpiar base de datos y VOLÚMENES (down -v)
-[docker] db logs <name>  | Ver logs del contenedor
-[docker] db sh <name>    | Entrar al shell del contenedor
-[docker] db ps <name>    | Ver estado del contenedor
-[docker] db -h           | Ayuda interactiva de comandos db
+[docker] db-docker       | Orquestador de DBs interactivo (FZF)
+[docker] db-docker <name>| Levantar base de datos (up)
+[docker] db-docker stop <name> | Detener base de datos (down)
+[docker] db-docker clean <name>| Limpiar base de datos y VOLÚMENES (down -v)
+[docker] db-docker logs <name> | Ver logs del contenedor
+[docker] db-docker sh <name>   | Entrar al shell del contenedor
+[docker] db-docker ps <name>   | Ver estado del contenedor
+[docker] db-docker -h        | Ayuda interactiva de comandos db-docker
 [docker] hq [motor]      | SQL TUI: Conexión inteligente a DB con Harlequin
 
 # [TMUX] TMUX & SESSIONS (Prefix: CTRL + Space)

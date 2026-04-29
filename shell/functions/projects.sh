@@ -2,60 +2,6 @@
 # PROJECT MANAGEMENT & SCAFFOLDING
 ###############################################################################
 
-# Crear un nuevo proyecto desde una plantilla
-function new() {
-    local templates_dir="$DOTFILES/projects/templates"
-    local base_projects_dir="$PERSONAL_PATH"
-    
-    if [[ ! -d "$templates_dir" ]]; then
-        echo -e "\033[1;31mError:\033[0m Templates directory not found at $templates_dir"
-        return 1
-    fi
-
-    # 1. Seleccionar plantilla con FZF
-    local type=$(command ls -1 "$templates_dir" | fzf --prompt="🏗️  Select Project Template: " --height=40% --layout=reverse --border)
-    [[ -z "$type" ]] && return 0
-
-    # 2. Decidir dónde crear el proyecto
-    local current_dir=$(pwd)
-    local target_dir="$current_dir"
-
-    # Sugerir personal/ si estamos en dotfiles o directamente en workspace
-    if [[ "$current_dir" == "$DOTFILES" || "$current_dir" == "$WORKSPACE_PATH" ]]; then
-        echo -e "\033[1;33m⚠️  Current directory is a base path ($current_dir).\033[0m"
-        echo -en "\033[1;34m📂 Create project in $base_projects_dir? (y/n): \033[0m"
-        read -r res
-        if [[ "$res" == "y" ]]; then
-            mkdir -p "$base_projects_dir"
-            target_dir="$base_projects_dir"
-        fi
-    fi
-
-    # 3. Ejecutar Cookiecutter
-    echo -e "\033[1;34m🚀 Initializing '$type' template in $target_dir...\033[0m"
-    echo -e "\033[1;30m(Follow the prompts below to configure your project)\033[0m\n"
-    
-    # Ejecutamos cookiecutter
-    if cookiecutter "$templates_dir/$type" -o "$target_dir"; then
-        echo -e "\n\033[1;32m✅ Project created successfully.\033[0m"
-        
-        # Encontrar la carpeta creada (buscamos la más joven usando command ls para evitar eza)
-        local new_folder=$(command ls -dt "$target_dir"/*/ | head -1)
-        
-        if [[ -n "$new_folder" ]]; then
-            echo -e "\033[1;34m📂 Entering $new_folder...\033[0m"
-            cd "$new_folder" || return
-            
-            # Inicializar Git y .env
-            git init -q
-            gen-env empty
-        fi
-    else
-        echo -e "\033[1;31m❌ Project creation failed.\033[0m"
-        return 1
-    fi
-}
-
 # Generador inteligente de archivos .env para proyectos
 function gen-env() {
     local type=$1
@@ -85,21 +31,58 @@ function gen-env() {
         mysql)
             cat <<EOF > "$file"
 # --- Database Configuration ---
-DB_TYPE=mysql
 DB_NAME=${db_name}_db
-DB_USER=admin
 DB_PASS=${random_pass}
 DB_PORT=3306
+DB_TYPE=mysql
+DB_USER=admin
+EOF
+            cat <<EOF > "docker-compose.yml"
+version: '3.8'
+services:
+  db:
+    image: mysql:latest
+    container_name: ${folder_name//_/-}-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: \${DB_NAME}
+      MYSQL_USER: \${DB_USER}
+      MYSQL_PASSWORD: \${DB_PASS}
+      MYSQL_ROOT_PASSWORD: \${DB_PASS}
+    ports:
+      - "\${DB_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
 EOF
             ;;
         postgres)
             cat <<EOF > "$file"
 # --- Database Configuration ---
-DB_TYPE=postgres
 DB_NAME=${db_name}_db
-DB_USER=admin
 DB_PASS=${random_pass}
 DB_PORT=5432
+DB_TYPE=postgres
+DB_USER=admin
+EOF
+            cat <<EOF > "docker-compose.yml"
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    container_name: ${folder_name//_/-}-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: \${DB_NAME}
+      POSTGRES_USER: \${DB_USER}
+      POSTGRES_PASSWORD: \${DB_PASS}
+    ports:
+      - "\${DB_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
 EOF
             ;;
         sqlserver)
@@ -147,7 +130,7 @@ EOF
     fi
 
     echo -e "\033[1;32m✅ .env generated for $type successfully.\033[0m"
-    [[ "$type" != "sqlserver" && "$type" != "empty" ]] && echo -e "\033[1;34m󰆼 DB Name:\033[0m ${project_name}_db"
+    [[ "$type" != "sqlserver" && "$type" != "empty" ]] && echo -e "\033[1;34m󰆼 DB Name:\033[0m ${db_name}_db"
     [[ "$type" != "empty" ]] && echo -e "\033[1;34m🔑 Password:\033[0m $([[ "$type" == "sqlserver" ]] && echo "$sql_pass" || echo "$random_pass")"
 }
 
