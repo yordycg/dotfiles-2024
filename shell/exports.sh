@@ -33,6 +33,9 @@ export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
 export HARLEQUIN_THEME="everforest" # Sincronizado con bases de datos
 
+# Secret Agent Configuration
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+
 # -----------------------------------------------------------------------------
 # ZSH PLUGIN CONFIGURATIONS
 # -----------------------------------------------------------------------------

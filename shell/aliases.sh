@@ -45,6 +45,10 @@ alias edot="cd $DOTFILES && v ." # [conf] Abrir todos tus dotfiles en Neovim
 alias theme="theme-picker" # [sys] Selector de temas interactivo (fzf)
 alias szsh="source ~/.zshrc && echo 'ZSH Reloaded!'" # [conf] Recargar configuración de ZSH
 
+# Zed Editor
+alias z="zeditor" # [conf] Abrir Zed Editor
+alias z.="zeditor ." # [conf] Abrir Zed en la carpeta actual
+
 ###############################################################################
 # GIT & GITHUB # [git]
 ###############################################################################

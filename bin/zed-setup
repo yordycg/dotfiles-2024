@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------
+# ZED-SETUP: Instalación y sincronización del editor Zed
+# ----------------------------------------------------------------------
+
+echo -e "\033[1;34m⚡ Configurando Zed Editor...\033[0m"
+
+# 1. Instalar Zed si no está presente
+if ! command -v zeditor &> /dev/null; then
+    echo -e "\033[1;33m📦 Zed (zeditor) no encontrado. Instalando...\033[0m"
+    sudo pacman -S --needed --noconfirm zed
+else
+    echo -e "\033[1;32m✅ Zed ya está instalado.\033[0m"
+fi
+
+# 2. Crear directorio de configuración si no existe
+ZED_CONFIG_DIR="$HOME/.config/zed"
+mkdir -p "$ZED_CONFIG_DIR"
+
+# 3. Vincular configuraciones (Esto lo hace setup-symlinks, pero aquí lo forzamos si es necesario)
+echo -e "\033[1;34m🔗 Sincronizando archivos de configuración...\033[0m"
+ln -sf "$DOTFILES/editors/zed/settings.json" "$ZED_CONFIG_DIR/settings.json"
+ln -sf "$DOTFILES/editors/zed/keymap.json" "$ZED_CONFIG_DIR/keymap.json"
+
+echo -e "\033[1;32m✨ Zed configurado correctamente.\033[0m"

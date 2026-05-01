@@ -148,3 +148,6 @@ zenity
 zimg
 zoxide
 zsh
+zed
+gnome-keyring
+libsecret
