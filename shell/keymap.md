@@ -52,10 +52,12 @@
 [git] ga <file>          | Añadir archivo específico al stage
 [git] gaa                | Añadir TODO al stage (git add -A)
 [git] gc                 | Confirmar cambios (abre editor)
-[git] gp                 | Subir cambios al servidor (push)
-[git] gl                 | Bajar cambios del servidor (pull)
+[git] gp                 | Bajar cambios del servidor (pull - LazyGit style)
+[git] gP                 | Subir cambios al servidor (push - LazyGit style)
+[git] gl                 | Log visual y compacto (git log --graph ...)
 [git] gf                 | Actualizar ramas y limpiar borradas (fetch --all -p)
 [git] gpp                | Sincronizar rápido (pull && push)
+[git] gfix               | Fixup interactivo + autosquash (función)
 [git] gafzf              | Añadir archivos interactivo (con preview de diff)
 [git] gbfzf              | Cambiar rama interactivo (con preview de log)
 [git] glfzf              | Buscar commit y copiar hash (con preview de diff)
@@ -166,7 +168,7 @@
 [node] pnrd              | Arrancar entorno de desarrollo (pnpm run dev)
 [node] fnm               | Gestor de versiones de Node (Lazy Loaded)
 [py] py                  | Python 3 base
-[py] venv                | Crear entorno virtual (.venv)
+[py] venv                | Crear entorno virtual Y ACTIVAR (.venv)
 [py] .venv (auto)        | ACTIVACIÓN AUTOMÁTICA al entrar en la carpeta
 [py] va                  | Activar entorno virtual manual
 [py] vd                  | Desactivar entorno virtual

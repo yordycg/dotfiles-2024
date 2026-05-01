@@ -115,3 +115,109 @@ function gcc() {
     local full_message="$type: $verb $description"
     git commit -m "$full_message"
 }
+
+# [git] Smart Fixup (gfix)
+# Facilitates the 'git commit --fixup' workflow.
+# 1. Shows an interactive list of the last 20 commits.
+# 2. Creates a fixup commit for staged files.
+# 3. Executes an immediate non-interactive autosquash rebase.
+function gfix() {
+    # Check for staged changes
+    if git diff --cached --quiet; then
+        echo -e "\033[1;33m⚠️  No hay archivos en el stage area.\033[0m"
+        return 1
+    fi
+
+    # Select target commit
+    local target
+    target=$(git log -n 20 --color=always --pretty=format:'%C(auto)%h %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' | \
+        fzf --ansi --no-multi --header "🎯 Select commit to fixup" --height=40% --layout=reverse --border)
+
+    [[ -z "$target" ]] && return 0
+
+    local hash=$(echo "$target" | awk '{print $1}')
+
+    # Create fixup commit
+    git commit --fixup "$hash"
+
+    # Autosquash rebase
+    # We use GIT_EDITOR=true to make it non-interactive
+    GIT_EDITOR=true git rebase -i --autosquash "${hash}^"
+    
+    echo -e "\033[1;32m✅ Fixup aplicado y rebase completado para $hash\033[0m"
+}
+
+# [git] Gitignore Interactive Generator (ggi)
+# Genera o añade reglas al .gitignore usando la API de gitignore.io y FZF.
+# Permite combinar múltiples tecnologías (ej: python + django + docker).
+function ggi() {
+    local api_url="https://www.toptal.com/developers/gitignore/api"
+    
+    # 1. Obtener lista de tipos soportados (con cache temporal de 1 día para velocidad)
+    local cache_file="/tmp/gitignore_types.txt"
+    if [[ ! -f "$cache_file" || $(find "$cache_file" -mmin +1440) ]]; then
+        echo -e "\033[1;34m🔍 Actualizando lista de tecnologías...\033[0m"
+        curl -sL "${api_url}/list?format=lines" > "$cache_file" 2>/dev/null
+    fi
+
+    # 2. Selector FZF (Multi-selección con TAB)
+    local selected
+    selected=$(cat "$cache_file" | fzf -m \
+        --header "TAB: seleccionar varias | ENTER: generar | CTRL-R: actualizar lista" \
+        --height=60% --layout=reverse --border \
+        --prompt="🚀 Tecnología > " \
+        --preview "curl -sL ${api_url}/{} | head -50")
+
+    [[ -z "$selected" ]] && return 0
+
+    # 3. Transformar selección para la URL (comas en lugar de espacios/newlines)
+    local targets
+    targets=$(echo "$selected" | tr '\n' ',' | sed 's/,$//')
+
+    # 4. Descargar y procesar
+    echo -e "\033[1;34m📥 Descargando reglas para: $targets...\033[0m"
+    local content
+    content=$(curl -sL "${api_url}/${targets}")
+
+    if [[ -z "$content" || "$content" == *"#!! ERROR"* ]]; then
+        echo -e "\033[1;31m❌ Error: No se pudo obtener el contenido de la API o la tecnología no existe.\033[0m"
+        return 1
+    fi
+
+    # 5. Escribir al archivo
+    if [[ -f ".gitignore" ]]; then
+        echo -e "\n# --- Added by ggi ($(date +'%Y-%m-%d %H:%M')): $targets ---" >> .gitignore
+        echo "$content" | sed '/^# Created by/d' >> .gitignore
+        echo -e "\033[1;32m✅ Reglas añadidas a tu .gitignore actual.\033[0m"
+    else
+        echo "$content" > .gitignore
+        echo -e "\033[1;32m✅ .gitignore creado con éxito para: $targets\033[0m"
+    fi
+}
+
+# [git] Gitignore Add (gi_add)
+# Añade una regla al .gitignore solo si no existe.
+# Uso: gi_add ".env" "Security"
+function gi_add() {
+    local pattern=$1
+    local comment=$2
+    local file=".gitignore"
+
+    [[ -z "$pattern" ]] && return 1
+    
+    # Crear archivo si no existe
+    [[ ! -f "$file" ]] && touch "$file"
+
+    # Verificar si ya existe el patrón (evitar duplicados)
+    if ! grep -q "^${pattern//./\.}$" "$file" 2>/dev/null; then
+        if [[ -n "$comment" ]]; then
+            # Solo añadir comentario si no existe ya esa sección
+            if ! grep -q "# $comment" "$file" 2>/dev/null; then
+                echo -e "\n# $comment" >> "$file"
+            fi
+        fi
+        echo "$pattern" >> "$file"
+        return 0
+    fi
+    return 1
+}

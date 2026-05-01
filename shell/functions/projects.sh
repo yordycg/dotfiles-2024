@@ -117,15 +117,16 @@ EOF
 
     # --- Git Protection ---
     if [[ -d ".git" || -f ".gitignore" ]]; then
-        if ! grep -q "^\.env$" .gitignore 2>/dev/null; then
-            echo -e "\033[1;33m🛡️  Adding .env to .gitignore for security...\033[0m"
-            echo -e "\n# Security\n.env" >> .gitignore
+        if gi_add ".env" "Security"; then
+            echo -e "\033[1;33m🛡️  Added .env to .gitignore for security.\033[0m"
         fi
         
         # Ensure .env.example is NOT ignored
         if grep -q "^\.env.example$" .gitignore 2>/dev/null; then
             echo -e "\033[1;33m🔓 Removing .env.example from .gitignore (it should be public)...\033[0m"
             sed -i '/^\.env\.example$/d' .gitignore
+            # Clean empty comments left behind if any
+            sed -i '/^#.*Security$/d' .gitignore 2>/dev/null
         fi
     fi
 
