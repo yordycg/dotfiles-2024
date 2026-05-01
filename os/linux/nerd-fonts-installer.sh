@@ -13,6 +13,7 @@ declare -a fonts=(
   RobotoMono
   Ubuntu
   UbuntuMono
+  ZedMono
 )
 
 # If not exist font directory, created

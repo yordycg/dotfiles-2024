@@ -16,3 +16,4 @@ walker
 wlogout
 yay
 yay-debug
+ttf-zed-mono-nerd

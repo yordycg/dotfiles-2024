@@ -9,8 +9,10 @@
 declare -A fonts
 fonts=(
     ["JetBrainsMono"]="JetBrainsMono"
+    ["ZedMono"]="ZedMono"
     ["FiraCode"]="FiraCode"
-    ["CascadiaCode"]="CaskaydiaCove" # El nombre real de la NF es CaskaydiaCove
+    ["CascadiaCode"]="CaskaydiaCove"
+ # El nombre real de la NF es CaskaydiaCove
     ["Hack"]="Hack"
     ["Meslo"]="MesloLGS"
     ["RobotoMono"]="RobotoMono"
