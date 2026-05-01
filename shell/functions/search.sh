@@ -104,3 +104,47 @@ function tmux-windows() {
     tmux switch-client -t "$(echo "$window" | cut -d: -f1)"
   fi
 }
+
+# [fzf] Interactive Process Killer (fkill)
+function fkill() {
+    local pid
+    if [[ "$UID" != "0" ]]; then
+        pid=$(ps -u "$USER" -o pid,ppid,comm,pcpu,pmem --sort=-pcpu | fzf --header "󰆙 Kill Process (User)" --header-lines=1 --multi | awk '{print $1}')
+    else
+        pid=$(ps -ef | fzf --header "󰆙 Kill Process (System)" --header-lines=1 --multi | awk '{print $2}')
+    fi
+
+    if [[ -n "$pid" ]]; then
+        echo "$pid" | xargs kill -9
+        echo -e "\033[1;32m✅ Proceso(s) $pid terminado(s).\033[0m"
+    fi
+}
+
+# [fzf] Interactive Systemd Service Manager (fsvc)
+function fsvc() {
+    local service
+    service=$(systemctl list-unit-files --type=service --state=enabled,disabled | fzf --header "⚙️ Systemd Services" --header-lines=1 | awk '{print $1}')
+    
+    [[ -z "$service" ]] && return 0
+
+    local action
+    action=$(echo -e "status\nstart\nstop\nrestart\nenable\ndisable" | fzf --header "󰑮 Action for $service")
+
+    [[ -z "$action" ]] && return 0
+
+    echo -e "\033[1;34m执行: sudo systemctl $action $service\033[0m"
+    sudo systemctl "$action" "$service"
+}
+
+# [fzf] Interactive Env Variable Inspector (fenv)
+function fenv() {
+    local var
+    var=$(env | fzf --header "󰈔 Environment Variables" | cut -d= -f1)
+    
+    if [[ -n "$var" ]]; then
+        local val=${(P)var}
+        echo -e "\033[1;34m$var=\033[0m$val"
+        echo -n "$val" | wl-copy
+        echo -e "\033[1;32m📋 Valor copiado al portapapeles.\033[0m"
+    fi
+}

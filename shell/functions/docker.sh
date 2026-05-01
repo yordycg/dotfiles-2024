@@ -22,7 +22,7 @@ function db-docker() {
         echo -e "----------------------------------"
         local selected=$(echo -e "up\tLevantar el servicio (default)\nstop\tDetener el servicio\nclean\tDetener y BORRAR VOLÚMENES de este proyecto\nlogs\tVer logs en tiempo real\nsh\tEntrar al shell del contenedor\nps\tVer estado del servicio\nrestart\tReiniciar el servicio" | \
             column -t -s $'\t' | \
-            fzf --prompt="󰑮 Select action for more info: " --height=40% --layout=reverse --border --header="Usage: db-docker [action] <name>")
+            fzf --prompt="󰑮 Select action for more info: " --header="Usage: db-docker [action] <name>")
 
         [[ -n "$selected" ]] && echo -e "\n\033[1;32mCommand:\033[0m db-docker $(echo $selected | awk '{print $1}') <name>"
         return 0
@@ -161,7 +161,7 @@ function hq() {
         fi
 
         if [[ -z "$db_type" ]]; then
-            db_type=$(ls -1 "$DB_ROOT" | fzf --prompt="󰆼 No se detectó motor, elige uno: " --height=40% --layout=reverse --border)
+            db_type=$(ls -1 "$DB_ROOT" | fzf --prompt="󰆼 No se detectó motor, elige uno: ")
             [[ -z "$db_type" ]] && return 0
         fi
     fi

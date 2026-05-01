@@ -82,16 +82,18 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Extraer binds de `hyprland.conf`.
     - [ ] **Pendiente**: Extraer atajos de Neovim (investigar parseo de Lua).
 - [x] **Cheatsheet interactivo**: Implementado buscador con `fzf` y sincronizado con cambios recientes.
-- [ ] **Visualización de Markdown**: Investigar y configurar herramientas para previsualizar archivos `.md` tanto dentro de Neovim (ej. `glow.nvim`, `markdown-preview.nvim`) como mediante aplicaciones externas o CLIs (ej. `glow`, `mdless`).
-- [ ] **Estandarización de Interfaz FZF**:
-    - Definir 1 o 2 layouts máximos (preferiblemente tipo popup) para todas las herramientas que usan `fzf` (scripts propios, plugins de zsh/fish, etc.).
-- [ ] **Expansión del Ecosistema FZF**:
-    - Investigar nuevas integraciones de `fzf` en el flujo diario:
-        - Búsqueda de archivos en Neovim (fzf-lua vs telescope).
-        - Selector de procesos para `kill`.
-        - Selector de variables de entorno.
-        - Integración con comandos de sistema (ej. `systemctl`, `pacman`).
-        - Selector de SSH hosts.
+- [x] **Visualización de Markdown**:
+    - [x] Instalado `glow` para visualización en terminal (alias `md`).
+    - [x] Configurado `render-markdown.nvim` en Neovim para renderizado en buffer.
+- [x] **Estandarización de Interfaz FZF**:
+    - [x] Definido un layout único y moderno en `FZF_DEFAULT_OPTS` con bordes redondeados y colores consistentes.
+    - [x] Limpiados scripts individuales eliminando parámetros visuales redundantes.
+- [x] **Expansión del Ecosistema FZF**:
+    - [x] Implementadas integraciones interactivas para gestión del sistema:
+        - `fkill`: Selector de procesos para matar.
+        - `fsvc`: Gestor de servicios `systemctl` (start/stop/status).
+        - `fenv`: Inspector de variables de entorno con copia al portapapeles.
+        - Búsqueda de archivos en Neovim (fzf-lua ya configurado).
 - [ ] **Experiencia VS Code en Neovim**: Investigar y configurar plugins para cerrar la brecha de UX:
     - [ ] **Symbols Outline**: Panel lateral con la estructura de clases/funciones (ej: `symbols-outline.nvim` o `aerial.nvim`).
     - [ ] **Breadcrumbs**: Barra de navegación superior con símbolos LSP (ej: `barbecue.nvim` o `lspsaga.nvim`).

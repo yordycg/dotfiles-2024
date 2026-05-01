@@ -9,7 +9,7 @@ function gen-env() {
     local example=".env.example"
 
     if [[ -z "$type" ]]; then
-        type=$(echo -e "mysql\npostgres\nsqlserver\nempty" | fzf --prompt="󰆼 Select .env template: " --height=40% --layout=reverse --border)
+        type=$(echo -e "mysql\npostgres\nsqlserver\nempty" | fzf --prompt="󰆼 Select .env template: ")
         [[ -z "$type" ]] && return 0
     fi
 

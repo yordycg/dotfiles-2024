@@ -59,7 +59,23 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --info=inline-right --border=rounded --color=hl:#2dd4bf"
-export FZF_TMUX_OPTS=" -p70%,70% "
+
+# UI Standard: Centered, Rounded Borders, Professional Colors
+export FZF_DEFAULT_OPTS=" \
+  --height 45% \
+  --layout=reverse \
+  --border=rounded \
+  --margin=0,1 \
+  --padding=0 \
+  --info=inline-right \
+  --prompt='󰭎 ' \
+  --pointer=' ' \
+  --marker='󰄲 ' \
+  --color='hl:#2dd4bf,hl+:#2dd4bf,pointer:#f43f5e,marker:#10b981,border:#334155,header:#64748b' \
+  --bind 'ctrl-u:preview-page-up,ctrl-d:preview-page-down' \
+  --bind 'ctrl-y:execute-silent(echo {+} | wl-copy)+abort' \
+"
+
+export FZF_TMUX_OPTS=" -p70%,60% "
 export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always -n --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"

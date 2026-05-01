@@ -82,7 +82,7 @@ function gcc() {
     # 1. Seleccionar Tipo
     local type
     type=$(echo -e "feat: Nuevas funcionalidades\nfix: Corrección de errores\ndocs: Documentación\nstyle: Estilo y formato\nrefactor: Refactorización de código\ntest: Pruebas\nchore: Tareas de mantenimiento\nbuild: Sistema de construcción o dependencias\nci: Configuración de CI" | \
-        fzf --ansi --header "🚀 Select Commit Type" --height=40% --layout=reverse --border | cut -d: -f1)
+        fzf --ansi --header "🚀 Select Commit Type" | cut -d: -f1)
     
     [[ -z "$type" ]] && return 0
 
@@ -101,7 +101,7 @@ function gcc() {
 
     # 3. Seleccionar Verbo
     local verb
-    verb=$(echo -e "$verbs" | fzf --ansi --header "🔨 Select Verb/Action" --height=40% --layout=reverse --border)
+    verb=$(echo -e "$verbs" | fzf --ansi --header "🔨 Select Verb/Action")
     
     [[ -z "$verb" ]] && return 0
 
@@ -131,7 +131,7 @@ function gfix() {
     # Select target commit
     local target
     target=$(git log -n 20 --color=always --pretty=format:'%C(auto)%h %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' | \
-        fzf --ansi --no-multi --header "🎯 Select commit to fixup" --height=40% --layout=reverse --border)
+        fzf --ansi --no-multi --header "🎯 Select commit to fixup")
 
     [[ -z "$target" ]] && return 0
 
