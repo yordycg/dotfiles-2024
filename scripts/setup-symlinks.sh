@@ -15,9 +15,9 @@ rm -rf "$HOME/.config/wezterm"; ln -s $DOTFILES/os/cross-platform/wezterm "$HOME
 rm -rf "$HOME/.config/nvim"; ln -s $DOTFILES/editors/nvim/nvim-yc-26 "$HOME/.config/nvim"
 
 # --- Config File Links ---
-# For files, `ln -sf` is sufficient to overwrite. No `rm` needed.
 ln -sf $DOTFILES/os/cross-platform/starship/starship.toml "$HOME/.config/starship.toml"
 ln -sf $DOTFILES/git/.gitconfig "$HOME/.gitconfig"
+ln -sf $DOTFILES/git/.gitignore_global "$HOME/.gitignore"
 ln -sf $DOTFILES/shell/zsh/.zshrc "$HOME/.zshrc"
 
 # Sheldon config

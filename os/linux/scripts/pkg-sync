@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------
+# PKG-SYNC: Automatiza la exportación de paquetes instalados
+# Solo guarda los paquetes instalados EXPLÍCITAMENTE para evitar bloat.
+# ----------------------------------------------------------------------
+
+# Rutas relativas al repositorio
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+PKG_DIR="${REPO_ROOT}/os/linux/post-install-arch/packages"
+OFFICIAL_FILE="${PKG_DIR}/pkglist-official.txt"
+AUR_FILE="${PKG_DIR}/pkglist-aur.txt"
+
+# Asegurar que el directorio existe
+mkdir -p "$PKG_DIR"
+
+echo -e "\033[1;34m🔍 Sincronizando listas de paquetes...\033[0m"
+
+# 1. Exportar paquetes oficiales (nativos) instalados explícitamente
+# -Q: query, -e: explicit, -n: native, -q: quiet
+pacman -Qenq > "$OFFICIAL_FILE"
+echo -e "\033[1;32m✅ Paquetes oficiales guardados en:\033[0m $(basename "$OFFICIAL_FILE") ($(wc -l < "$OFFICIAL_FILE") paquetes)"
+
+# 2. Exportar paquetes de AUR (foreign) instalados explícitamente
+# -Q: query, -e: explicit, -m: foreign (AUR)
+pacman -Qemq > "$AUR_FILE"
+echo -e "\033[1;32m✅ Paquetes AUR guardados en:\033[0m $(basename "$AUR_FILE") ($(wc -l < "$AUR_FILE") paquetes)"
+
+echo -e "\n\033[1;33m💡 Tip:\033[0m Ahora puedes hacer commit de estos archivos para mantener tu backup al día."

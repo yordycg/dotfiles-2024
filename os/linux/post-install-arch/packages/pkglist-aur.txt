@@ -1,26 +1,18 @@
-
-# --- HERRAMIENTAS CLI ---
-# --- HYPRLAND Y UTILIDADES DE ESCRITORIO ---
-# --- NAVEGADOR Y EDITORES ---
-# --- TEMAS ---
+beekeeper-studio-bin
 brave-bin
-dotenv-linter
-fnm
-ghostty
-git-delta
-grimblast
-hypridle
-hyprlock
-hyprpicker
-impala
+google-chrome
+grimblast-git
 kvantum-theme-catppuccin-git
-matugen
-satty
+microsoft-edge-stable-bin
+msodbcsql
+mycli
+sddm-sugar-candy-git
 sunsetr
-swayosd
+thorium-browser-bin
 tinte
 tofi
-uwsm
 visual-studio-code-bin
 walker
 wlogout
+yay
+yay-debug

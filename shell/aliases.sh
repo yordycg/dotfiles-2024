@@ -8,6 +8,7 @@ alias dot="cd $DOTFILES" # [sys] Ir a la carpeta de configuración (dotfiles)
 alias repos="cd $REPOS_PATH" # [sys] Ir a la carpeta de proyectos/repositorios
 alias shutdown="sudo shutdown now" # [sys] Apagar el equipo inmediatamente
 alias restart="sudo reboot" # [sys] Reiniciar el equipo
+alias pkg-sync="bash $DOTFILES/os/linux/scripts/pkg-sync" # [sys] Sincronizar lista de paquetes instalados (Arch)
 alias mv="mv -i" # [sys] Mover archivos pidiendo confirmación
 
 # Search & Navigation
@@ -58,8 +59,9 @@ alias gs="git status" # [git] Estado rápido
 alias ga="git add" # [git] Añadir archivo específico
 alias gaa="git add -A" # [git] Añadir TODO al stage
 alias gc="git commit" # [git] Confirmar cambios (abre editor)
-alias gp="git push" # [git] Subir cambios al servidor
-alias gl="git pull" # [git] Bajar cambios del servidor
+alias gp="git pull" # [git] Bajar cambios del servidor (LazyGit style)
+alias gP="git push" # [git] Subir cambios al servidor (LazyGit style)
+alias gl="git log --graph --decorate --pretty=format:'%C(auto)%h %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)'" # [git] Log visual y compacto
 alias gf="git fetch --all -p" # [git] Actualizar ramas y limpiar borradas
 alias gpp="git pull && git push" # [git] Sincronizar rápido
 
@@ -68,6 +70,7 @@ alias gafzf='gafzf' # [git] Seleccionar archivos para añadir (con preview de di
 alias gbfzf='gbfzf' # [git] Cambiar de rama (con preview de log)
 alias glfzf='glfzf' # [git] Buscar commit y copiar hash (con preview de diff)
 alias gsfzf='gsfzf' # [git] Ver stash antes de aplicar
+alias gfix='gfix' # [git] Fixup interactivo + autosquash
 
 # GitHub CLI (Lo esencial)
 alias ghr='gh repo' # [git] Gestionar repositorios
@@ -101,7 +104,6 @@ alias pnrd="pnpm run dev" # [node] Arrancar entorno de desarrollo
 
 # Python & Django
 alias py="python3" # [py]
-alias venv="python3 -m venv .venv" # [py] Crear entorno virtual
 alias va="source .venv/bin/activate" # [py] Activar entorno virtual (opcional con auto-activación)
 alias vd="deactivate" # [py] Desactivar entorno virtual
 alias pyclean="find . -type d -name '__pycache__' -exec rm -rf {} + && find . -type d -name '*_cache' -exec rm -rf {} +" # [py] Limpieza de caché

@@ -83,4 +83,5 @@ function tmux_bootstrap() {
 }
 
 # Solo ejecutar el bootstrap en shells interactivas y no dentro de otro tmux.
-[[ $- == *i* && -z "$TMUX" ]] && tmux_bootstrap
+# Desactivado para evitar duplicidad; usar 'work' manualmente.
+# [[ $- == *i* && -z "$TMUX" ]] && tmux_bootstrap
