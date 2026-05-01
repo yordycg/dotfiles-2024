@@ -33,34 +33,40 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] **Estética**: Diseñar una `status-line` minimalista que armonice con los colores de Hyprland y Waybar.
     - [x] **Mantenimiento**: Evaluar un script de limpieza periódica para sesiones inactivas (Opción B del workflow).
     - [x] **Sesión Core**: Autogenerar la sesión `dotfiles` al inicio.
-    - [ ] **Corrección de Sesiones Duplicadas**: Eliminar la redundancia entre las sesiones `dotfiles` y `dotfiles-2024` al iniciar el sistema (actualmente se generan ambas y son idénticas).
+    - [x] **Corrección de Sesiones Duplicadas**: Eliminar la redundancia entre las sesiones `dotfiles` y `dotfiles-2024` al iniciar el sistema (actualmente se generan ambas y son idénticas).
     - [x] **Navegación Instantánea con `zoxide`**:
         - Sustituir `z` por `zoxide` e integrarlo con `fzf` y `tmux` para saltar a cualquier directorio desde un popup global.
     - [x] **Workflow de Git Avanzado**:
         - [x] Implementar `git-delta` para diffs con resaltado de sintaxis profesional.
         - [x] Implementar funciones interactivas con FZF (`gafzf`, `gbfzf`, `glfzf`, `gsfzf`) con previsualización.
         - [x] **Conventional Commits**: Investigar e implementar una herramienta (`commitizen`, `cocogitto` o `commitlint`) para estandarizar los mensajes de commit y automatizar changelogs. (Implementado comando `gcc` con FZF).
-        - [ ] **Optimización de Fixup con `gfix`**:
+        - [x] **Optimización de Fixup con `gfix`**:
             - Crea una función de Bash llamada `gfix` que facilite el flujo de `git commit --fixup`.
             - 1. Mostrar una lista interactiva de los últimos 20 commits usando `fzf`.
             - 2. Al seleccionar un commit, crear automáticamente un commit de fixup para los archivos que ya están en el stage.
             - 3. Ejecutar inmediatamente un rebase interactivo con `--autosquash` de forma no interactiva (usando `GIT_EDITOR=true`) tomando como base el padre del commit seleccionado para que el proceso sea instantáneo.
             - Si no hay cambios en el stage, debe avisar al usuario.
-        - [ ] **Alias de Log Personalizado (`gl`)**:
+        - [x] **Alias de Log Personalizado (`gl`)**:
             - Crear un alias o función (ej. `gl`) para un `git log` visual y compacto.
             - Debe soportar el paso de argumentos para limitar la cantidad de commits (ej. `gl -3`).
             - Formato sugerido (basado en `glfzf`): `%C(auto)%h %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)`.
             - Incluir `--graph` y `--decorate` para una mejor visualización de ramas.
+- [x] **Gestión Profesional de Gitignore**:
+    - [x] **Gitignore Global**: Creado `git/.gitignore_global` para ignorar basura de OS y editores (Neovim, VS Code, logs).
+    - [x] **Comando `ggi`**: Generador interactivo con FZF y la API de gitignore.io para proyectos modulares.
+    - [x] **Utilidad `gi_add`**: Función helper para añadir reglas de forma segura y sin duplicados desde otros scripts.
+    - [x] **Refactorización**: Integrado en `gen-env` (proyectos) y `venv` (python) para una protección automática y limpia.
 - [ ] **Scaffolding Profesional y Plantillas de Proyectos**:
     - [ ] **Investigación**: Evaluar herramientas de plantillas alternativas compatibles con Windows como `copier` o `degit`.
 - [x] **Acciones rápidas en Neovim**: Crear función/keymap para seleccionar todo el texto de un archivo y copiarlo al portapapeles.
 
 - [x] **Ecosistema Python & Django Pro**:
-    - [x] **Expandir alias**: Mapear comandos de `django-admin` y `manage.py` (`djs`, `pma`, `pmcs`).
-    - [x] **Calidad de Código**: Integrar alias para `ruff` y `pytest`.
-    - [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
-    - [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
-    - [ ] **Mejora del Script de Creación de Venv**: Asegurar que el script que genera el entorno `.venv` también lo active automáticamente en la sesión actual tras su creación.
+- [x] **Expandir alias**: Mapear comandos de `django-admin` y `manage.py` (`djs`, `pma`, `pmcs`).
+- [x] **Calidad de Código**: Integrar alias para `ruff` y `pytest`.
+- [x] **Limpieza**: Añadido alias `pyclean` para mantenimiento de caché.
+- [x] **Automatización de Entornos**: Crear función para detección y activación automática de `.venv` al entrar en un directorio.
+- [x] **Mejora del Script de Creación de Venv**: Asegurar que el script que genera el entorno `.venv` también lo active automáticamente en la sesión actual tras su creación.
+
 - [x] **Mejorar `cpz` / `mvz` para Rutas Desconocidas**:
     - [x] Investigar y aplicar búsqueda profunda con `fd` dinámico dentro de FZF.
     - [x] Optimizar `_smart_path_picker` con colores diferenciales y soporte de argumentos iniciales.
@@ -110,10 +116,11 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - Investigar por qué Ghostty no aplica los cambios de configuración del tema global de forma dinámica. (Solucionado: usando SIGUSR2 para forzar la recarga).
 - [ ] **Aura Theme - Solucionar integración en Neovim**:
     - Verificar que el plugin `daltonmenezes/aura-theme` cargue correctamente. Al ser un monorepo, es posible que Neovim necesite que se añada `packages/neovim` al `runtimepath` manualmente o mediante una configuración específica en el gestor de plugins.
-- [ ] **Sincronización de Paquetes**:
-    - Realizar auditoría periódica de apps instaladas (`pacman` y `yay`).
-    - Actualizar listas en `os/linux/post-install-arch/packages/pkglist-official.txt` y `pkglist-aur.txt`.
-    - Crear un script `pkg-sync` que automatice la exportación de estas listas.
+- [x] **Sincronización de Paquetes**:
+    - [x] Realizar auditoría periódica de apps instaladas (`pacman` y `yay`).
+    - [x] Actualizar listas en `os/linux/post-install-arch/packages/pkglist-official.txt` y `pkglist-aur.txt`.
+    - [x] Crear un script `pkg-sync` que automatice la exportación de estas listas.
+
 - [x] **Gestión de Wallpapers**: 
     - [x] Integrar un selector de wallpapers interactivas con `swww` y `fzf`.
     - [x] Implementar persistencia del fondo de pantalla entre reinicios.
@@ -140,9 +147,10 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Sincronización automática del fondo de pantalla entre Hyprland y SDDM.
     - [x] Configuración de avatares circulares y estética minimalista.
 
-- [ ] **Limpieza de Scripts de Instalación (Entry Points)**:
-    - Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install-linux.sh` e `install-windows.ps1`.
+- [x] **Limpieza de Scripts de Instalación (Entry Points)**:
+    - [x] Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install.sh` (Linux) e `install-windows.ps1`.
 - [ ] **Actualización de Temas de Carpetas e Iconos**:
+
     - Investigar y aplicar un tema de iconos consistente (ej: Catppuccin Papirus, Tela-circle) que se refleje en Thunar, Waybar y el Shell (`eza`).
 - [ ] **Sheldon**: 
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
