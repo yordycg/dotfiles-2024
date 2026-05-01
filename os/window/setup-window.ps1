@@ -107,12 +107,8 @@ foreach ($repo in $config.repositories) {
 }
 
 # 8. Crear enlaces simbólicos
-Write-Host "Creando enlaces simbólicos..."
-foreach ($symlink in $config.symlinks) {
-    $target = Resolve-ConfigPath -Path $symlink.target -ConfigPaths $resolvedPaths
-    $link = Resolve-ConfigPath -Path $symlink.link -ConfigPaths $resolvedPaths
-    New-Symlink -TargetPath $target -LinkPath $link -Force
-}
+Write-Host "Ejecutando configuración de enlaces simbólicos..."
+& "$PSScriptRoot\setup-symlinks.ps1"
 
 # 9. Configurar perfil de PowerShell
 Write-Host "Configurando perfil de PowerShell..."
