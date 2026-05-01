@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------
+# FONT-PICKER: Selector dinámico de fuentes para terminales
+# ----------------------------------------------------------------------
+
+# Mapeo de nombres (fzf_display => config_name)
+# Algunos terminales usan "NF" y otros "Nerd Font"
+declare -A fonts
+fonts=(
+    ["JetBrainsMono"]="JetBrainsMono"
+    ["FiraCode"]="FiraCode"
+    ["CascadiaCode"]="CaskaydiaCove" # El nombre real de la NF es CaskaydiaCove
+    ["Hack"]="Hack"
+    ["Meslo"]="MesloLGS"
+    ["RobotoMono"]="RobotoMono"
+    ["Ubuntu"]="Ubuntu"
+)
+
+# 1. Seleccionar fuente con FZF
+selected_key=$(printf "%s\n" "${!fonts[@]}" | fzf --header "󰄱 Selecciona Fuente para Terminales" --height=40% --layout=reverse --border)
+
+[[ -z "$selected_key" ]] && exit 0
+
+font_base="${fonts[$selected_key]}"
+
+echo -e "\033[1;34m🪄 Aplicando $selected_key en todos los terminales...\033[0m"
+
+# --- 2. Actualizar Ghostty ---
+GHOSTTY_CONFIG="$DOTFILES/os/linux/ghostty/config"
+if [[ -f "$GHOSTTY_CONFIG" ]]; then
+    # Ghostty suele preferir el nombre pegado + NF: "JetBrainsMono NF"
+    sed -i "s/^font-family = .*/font-family = ${font_base} NF/" "$GHOSTTY_CONFIG"
+    pkill -USR2 ghostty 2>/dev/null
+fi
+
+# --- 3. Actualizar Kitty ---
+KITTY_CONFIG="$DOTFILES/os/linux/kitty/kitty.conf"
+if [[ -f "$KITTY_CONFIG" ]]; then
+    # Kitty prefiere el nombre pegado + Nerd Font: "JetBrainsMono Nerd Font"
+    sed -i "s/^font_family      .*/font_family      ${font_base} Nerd Font/" "$KITTY_CONFIG"
+fi
+
+# --- 4. Actualizar Alacritty ---
+ALACRITTY_CONFIG="$DOTFILES/os/linux/alacritty/alacritty.yml"
+if [[ -f "$ALACRITTY_CONFIG" ]]; then
+    # Alacritty a veces usa espacios: "JetBrains Mono"
+    # Vamos a usar una lógica simple: si es JetBrainsMono, poner JetBrains Mono
+    alacritty_font="$font_base"
+    [[ "$font_base" == "JetBrainsMono" ]] && alacritty_font="JetBrains Mono"
+    
+    sed -i "s/family: .*/family: ${alacritty_font}/" "$ALACRITTY_CONFIG"
+fi
+
+# --- 5. Opcional: Seleccionar Tamaño ---
+echo -en "\033[1;34m📏 ¿Quieres ajustar el tamaño también? (y/n): \033[0m"
+read -r -t 5 adjust_size # Espera 5 segundos, si no, termina.
+if [[ "$adjust_size" == "y" ]]; then
+    selected_size=$(seq 8 20 | fzf --header "📏 Selecciona Tamaño" --height=40% --layout=reverse --border)
+    if [[ -n "$selected_size" ]]; then
+        font-size "$selected_size"
+    fi
+fi
+
+echo -e "\033[1;32m✨ Configuración tipográfica completada.\033[0m"

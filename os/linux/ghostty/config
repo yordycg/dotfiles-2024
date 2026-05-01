@@ -1,5 +1,5 @@
-font-family = JetBrainsMono NF
-font-size = 12
+font-family = CaskaydiaCove NF
+font-size = 14
 theme = "Gruvbox Dark"
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block

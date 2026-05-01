@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------
+# FONT-SIZE: Control dinámico del tamaño de fuente
+# ----------------------------------------------------------------------
+
+GHOSTTY_CONFIG="$DOTFILES/os/linux/ghostty/config"
+KITTY_CONFIG="$DOTFILES/os/linux/kitty/kitty.conf"
+ALACRITTY_CONFIG="$DOTFILES/os/linux/alacritty/alacritty.yml"
+
+# 1. Obtener el tamaño actual (usamos Ghostty como referencia)
+current_size=$(grep "^font-size =" "$GHOSTTY_CONFIG" | cut -d'=' -f2 | xargs)
+[[ -z "$current_size" ]] && current_size=12
+
+target_size=$1
+
+# 2. Lógica de incremento/decremento
+if [[ "$target_size" == "+"* ]]; then
+    amount=${target_size#+}
+    target_size=$((current_size + amount))
+elif [[ "$target_size" == "-"* ]]; then
+    amount=${target_size#-}
+    target_size=$((current_size - amount))
+fi
+
+# 3. Validar que sea un número
+if ! [[ "$target_size" =~ ^[0-9]+$ ]]; then
+    echo -e "\033[1;31mUsage: font-size [number|+n|-n]\033[0m"
+    exit 1
+fi
+
+echo -e "\033[1;34m📏 Ajustando tamaño de fuente a: $target_size...\033[0m"
+
+# --- Aplicar cambios ---
+
+# Ghostty
+if [[ -f "$GHOSTTY_CONFIG" ]]; then
+    sed -i "s/^font-size = .*/font-size = $target_size/" "$GHOSTTY_CONFIG"
+    pkill -USR2 ghostty 2>/dev/null
+fi
+
+# Kitty
+if [[ -f "$KITTY_CONFIG" ]]; then
+    sed -i "s/^font_size .*/font_size $target_size.0/" "$KITTY_CONFIG"
+fi
+
+# Alacritty
+if [[ -f "$ALACRITTY_CONFIG" ]]; then
+    sed -i "s/size: .*/size: $target_size.0/" "$ALACRITTY_CONFIG"
+fi
+
+echo -e "\033[1;32m✅ Tamaño actualizado.\033[0m"

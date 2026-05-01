@@ -13,7 +13,7 @@ font:
   # I'm using JetBrains fonts, which I recommend, but feel free to edit it !
   normal:
     style: Medium
-    family: JetBrains Mono
+    family: CaskaydiaCove
   # sets font size to 14px
   size: 14.0
 

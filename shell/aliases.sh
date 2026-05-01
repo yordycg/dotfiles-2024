@@ -8,7 +8,6 @@ alias dot="cd $DOTFILES" # [sys] Ir a la carpeta de configuración (dotfiles)
 alias repos="cd $REPOS_PATH" # [sys] Ir a la carpeta de proyectos/repositorios
 alias shutdown="sudo shutdown now" # [sys] Apagar el equipo inmediatamente
 alias restart="sudo reboot" # [sys] Reiniciar el equipo
-alias pkg-sync="bash $DOTFILES/os/linux/scripts/pkg-sync" # [sys] Sincronizar lista de paquetes instalados (Arch)
 alias mv="mv -i" # [sys] Mover archivos pidiendo confirmación
 
 # Search & Navigation
@@ -43,8 +42,7 @@ alias v="nvim" # [conf] Neovim (El estándar pro)
 alias v.="nvim ." # [conf] Abrir Neovim en la carpeta actual
 alias eal="v $DOTFILES/shell/aliases.sh" # [conf] Editar estos alias
 alias edot="cd $DOTFILES && v ." # [conf] Abrir todos tus dotfiles en Neovim
-alias theme="bash $DOTFILES/os/linux/scripts/theme-picker.sh" # [sys] Selector de temas interactivo (fzf)
-alias set-theme="bash $DOTFILES/os/linux/scripts/set-theme.sh" # [sys] Aplicar tema directamente
+alias theme="theme-picker" # [sys] Selector de temas interactivo (fzf)
 alias szsh="source ~/.zshrc && echo 'ZSH Reloaded!'" # [conf] Recargar configuración de ZSH
 
 ###############################################################################
@@ -141,4 +139,3 @@ alias pt="pytest" # [py] Suite de tests profesional
 alias win="cd /mnt/c/Users/Yordy" # [os] Ir al Home de Windows
 alias dev="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/" # [os] Carpeta principal de estudios
 alias dircpp="cd /mnt/d/Escritorio\ 2/Cursos-Yordy/00\ -\ Cursos\ Programacion/02\ Cpp/" # [os] Carpeta de C++
-alias wall='bash /home/yordycg/workspace/repos/dotfiles-2024/scripts/wallpaper-picker.sh'
