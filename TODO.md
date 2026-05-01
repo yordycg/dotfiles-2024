@@ -147,7 +147,13 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Sincronización automática del fondo de pantalla entre Hyprland y SDDM.
     - [x] Configuración de avatares circulares y estética minimalista.
 
-- [x] **Limpieza de Scripts de Instalación (Entry Points)**:
+- [x] **Limpieza y Organización de Scripts**:
+    - [x] Crear directorio `bin/` para scripts independientes.
+    - [x] Mover scripts de `os/linux/scripts/` y `scripts/` a `bin/`.
+    - [x] Renombrar scripts eliminando la extensión `.sh` para uso como comandos nativos.
+    - [x] Actualizar `$PATH` en `shell/exports.sh` para incluir `bin/`.
+- [ ] **Limpieza de Scripts de Instalación (Entry Points)**:
+
     - [x] Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install.sh` (Linux) e `install-windows.ps1`.
 - [ ] **Actualización de Temas de Carpetas e Iconos**:
 
