@@ -105,8 +105,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 ## 🟢 PRIORIDAD 4: Mantenimiento y Estética (Pulido Final)
 - [x] **Estética de Terminal**:
     - [x] Agregar `fastfetch` al iniciar la terminal.
-    - [ ] **Selector de Fuentes**: Crear script que use `fzf` para previsualizar y cambiar la fuente de la terminal dinámicamente.
-- [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
+    - [x] **Selector de Fuentes**: Crear script `font-picker` que use `fzf` para previsualizar y cambiar la fuente (y tamaño con `font-size`) dinámicamente en Ghostty, Kitty y Alacritty.- [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
     - Evaluar migrar los scripts de symlinks manuales a `chezmoi` para soportar plantillas (ej. diferentes correos de git según el host).
 - [ ] **Script de Instalación y Sync para Zed**:
     - Crear script para instalar el editor Zed y vincular automáticamente `settings.json` y `keymap.json`.
