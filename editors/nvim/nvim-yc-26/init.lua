@@ -69,6 +69,9 @@ vim.pack.add({
   -- Git
   "https://github.com/lewis6991/gitsigns.nvim",
 
+  -- Markdown Rendering (YC-26 Workflow)
+  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+
   -- Database Management (YC-26 Workflow)
   "https://github.com/ellisonleao/dotenv.nvim",
   "https://github.com/tpope/vim-dadbod",
@@ -102,6 +105,7 @@ require("plugins.completion")
 require("plugins.formatting")
 require("plugins.linting")
 require("plugins.git")
+require("plugins.markdown")
 require("plugins.database")
 require("plugins.glance")
 require("plugins.multicursor")

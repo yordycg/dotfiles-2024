@@ -31,6 +31,7 @@ alias copy="wl-copy" # [util] Copiar al portapapeles (Wayland)
 alias paste="wl-paste" # [util] Pegar desde el portapapeles (Wayland)
 alias ff="fastfetch" # [util] Info del sistema
 alias wifi="nmtui" # [util] Gestionar Wi-Fi
+alias md="glow" # [util] Previsualizar Markdown con estilo (glow)
 
 # Funciones rápidas
 findd() { ls ~/ | grep "$1"; } # [util] Buscar en Home

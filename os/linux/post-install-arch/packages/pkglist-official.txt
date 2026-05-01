@@ -151,3 +151,4 @@ zsh
 zed
 gnome-keyring
 libsecret
+glow
