@@ -109,8 +109,8 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Agregar `fastfetch` al iniciar la terminal.
     - [x] **Selector de Fuentes**: Crear script `font-picker` que use `fzf` para previsualizar y cambiar la fuente (y tamaño con `font-size`) dinámicamente en Ghostty, Kitty y Alacritty.- [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
     - Evaluar migrar los scripts de symlinks manuales a `chezmoi` para soportar plantillas (ej. diferentes correos de git según el host).
-- [ ] **Script de Instalación y Sync para Zed**:
-    - Crear script para instalar el editor Zed y vincular automáticamente `settings.json` y `keymap.json`.
+- [x] **Script de Instalación y Sync para Zed**:
+    - [x] Crear script para instalar el editor Zed y vincular automáticamente `settings.json` y `keymap.json`.
 - [x] **Unificación de Temas (Single Source of Truth)**: 
     - [x] Investigar un sistema para cambiar el tema globalmente (ej. de Nord a Catppuccin) en todos los componentes: Hyprland, Ghostty, Waybar, Tmux y Neovim, usando un único archivo de configuración o script.
 - [x] **Ghostty - Problema de Hot Reload en Temas**:
@@ -153,11 +153,10 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Mover scripts de `os/linux/scripts/` y `scripts/` a `bin/`.
     - [x] Renombrar scripts eliminando la extensión `.sh` para uso como comandos nativos.
     - [x] Actualizar `$PATH` en `shell/exports.sh` para incluir `bin/`.
-- [ ] **Limpieza de Scripts de Instalación (Entry Points)**:
-
+- [x] **Limpieza de Scripts de Instalación (Entry Points)**:
     - [x] Unificar todos los scripts de la raíz (`bootstrap.sh`, `install.sh`, etc.) en solo dos maestros: `install.sh` (Linux) e `install-windows.ps1`.
-- [ ] **Actualización de Temas de Carpetas e Iconos**:
 
+- [ ] **Actualización de Temas de Carpetas e Iconos**:
     - Investigar y aplicar un tema de iconos consistente (ej: Catppuccin Papirus, Tela-circle) que se refleje en Thunar, Waybar y el Shell (`eza`).
 - [ ] **Sheldon**: 
     - Mantener el formato individual de plugins para evitar errores de plantillas en el futuro.
@@ -185,9 +184,9 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
         - [x] Permitir que `gen-env` extraiga variables de otros contextos del proyecto (no solo DB).
 
 ## 🚀 PRÓXIMAS FRONTERAS (Investigación Senior)
-- [ ] **Orquestación de Tareas con `Just`**:
-    - [ ] Implementar un `Justfile` global para unificar comandos de mantenimiento de dotfiles.
-    - [ ] Adoptar `Just` en proyectos personales para eliminar la carga cognitiva de recordar stacks.
+- [x] **Orquestación de Tareas con `Just`**:
+    - [x] Implementar un `Justfile` global para unificar comandos de mantenimiento de dotfiles.
+    - [x] Adoptar `Just` en proyectos personales para eliminar la carga cognitiva de recordar stacks.
 - [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
     - [ ] Migrar de symlinks manuales a `Chezmoi` para soportar plantillas (Linux vs Windows).
     - [ ] Gestionar archivos sensibles de forma segura.
@@ -199,7 +198,9 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [ ] Investigar integración de `Bitwarden/1Password CLI` con `direnv` para cargar secretos solo en memoria.
 
 ## 🪟 PRIORIDAD 6: Windows & PowerShell (Ecosistema Nativo)
-- [ ] **Optimización de PowerShell**:
-    - [ ] **Alias de Recarga**: Crear un alias (ej. `spw` o `sps`) para recargar el perfil de PowerShell (`. $PROFILE`) similar a `szsh` en Linux.
-    - [ ] **Integración de Herramientas**: Asegurar que `zoxide`, `fzf` y `starship` estén correctamente configurados en el perfil global.
-
+- [x] **Optimización de PowerShell**:
+    - [x] **Alias de Recarga**: Crear un alias (ej. `spw` o `sps`) para recargar el perfil de PowerShell (`. $PROFILE`).
+    - [x] **Integración de Herramientas**: Asegurar que `zoxide`, `fzf` y `starship` estén correctamente configurados en el perfil global.
+- [ ] **Multiplexación de Terminal**:
+    - [ ] Configurar keybindings estilo Tmux en Windows Terminal (Splits, navegación de paneles y pestañas).
+    - [ ] Investigar integración de **Zellij** como la variante moderna de Tmux (escrito en Rust, layouts dinámicos).
