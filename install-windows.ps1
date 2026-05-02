@@ -44,12 +44,16 @@ if (-not (Test-Path $TargetDir)) {
 $WindowsSetup = Join-Path $TargetDir "os\windows\setup-window.ps1"
 if (Test-Path $WindowsSetup) {
     Write-Host "⚙️ Ejecutando configuración de Windows..." -ForegroundColor Yellow
-    Set-Location (Split-Path $WindowsSetup)
-    & powershell.exe -ExecutionPolicy Bypass -File $WindowsSetup
+    # Ejecutar en la misma sesión para ver la salida
+    & $WindowsSetup
 } else {
     Write-Error "❌ No se encontró el script de configuración en $WindowsSetup"
 }
 
-Write-Host "==========================================" -ForegroundColor Blue
+Write-Host "`n==========================================" -ForegroundColor Blue
 Write-Host "   ✨ Proceso finalizado en Windows!      " -ForegroundColor Blue
 Write-Host "==========================================" -ForegroundColor Blue
+
+# Mantener la ventana abierta para revisar logs
+Write-Host "`nPresiona cualquier tecla para salir..."
+$null = [Console]::ReadKey($true)

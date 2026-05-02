@@ -2,20 +2,26 @@
 # Windows Setup Orchestrator
 # ----------------------------------------------------------------------
 
+# Asegurar que estamos en el directorio del script
+Set-Location $PSScriptRoot
+
 $LogPath = Join-Path $PSScriptRoot "install-log.txt"
+if (Test-Path $LogPath) { Remove-Item $LogPath -Force }
 Start-Transcript -Path $LogPath -Append
 Write-Host "--- Iniciando Configuración de Windows ---" -ForegroundColor Cyan
 
 # 1. Cargar Módulo y Configuración
 try {
     $ModulePath = Join-Path $PSScriptRoot "lib\WinDotfiles.psm1"
+    if (-not (Test-Path $ModulePath)) { throw "Módulo WinDotfiles no encontrado en $ModulePath" }
     Import-Module $ModulePath -Force
     
     $ConfigPath = Join-Path $PSScriptRoot "config\config.json"
+    if (-not (Test-Path $ConfigPath)) { throw "Archivo de configuración no encontrado en $ConfigPath" }
     $config = Get-Content -Raw $ConfigPath | ConvertFrom-Json
 }
 catch {
-    Write-Error "Fallo crítico al cargar el módulo o la configuración: $($_.Exception.Message)"
+    Write-Host "`n❌ FALLO CRÍTICO: $($_.Exception.Message)" -ForegroundColor Red
     Stop-Transcript; exit 1
 }
 
@@ -23,17 +29,20 @@ catch {
 Write-Host "Resolviendo rutas de configuración..."
 $resolvedPaths = @{}
 # Convertimos el objeto de paths a un hashtable para el resolvedor
-$pathsObject = $config.paths
-foreach ($prop in $pathsObject.PSObject.Properties) {
+foreach ($prop in $config.paths.PSObject.Properties) {
     $resolvedPaths[$prop.Name] = $prop.Value
 }
-# Inyectamos valores reales para evitar ciclos
+# Inyectamos valores reales
 $resolvedPaths["userprofile"] = $env:USERPROFILE
 $resolvedPaths["localappdata"] = $env:LOCALAPPDATA
 
-# Resolver recursivamente todas las rutas
+# Resolver recursivamente
 foreach ($key in @($resolvedPaths.Keys)) {
-    $resolvedPaths[$key] = Resolve-ConfigPath -Path $resolvedPaths[$key] -ConfigPaths $resolvedPaths
+    try {
+        $resolvedPaths[$key] = Resolve-ConfigPath -Path $resolvedPaths[$key] -ConfigPaths $resolvedPaths
+    } catch {
+        Write-Warning "No se pudo resolver la ruta '$key': $($_.Exception.Message)"
+    }
 }
 
 # 3. Ejecución de Tareas
