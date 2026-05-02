@@ -41,7 +41,7 @@ if (-not (Test-Path $TargetDir)) {
 }
 
 # 5. Ejecutar el script principal de Windows
-$WindowsSetup = Join-Path $TargetDir "os\window\setup-window.ps1"
+$WindowsSetup = Join-Path $TargetDir "os\windows\setup-window.ps1"
 if (Test-Path $WindowsSetup) {
     Write-Host "⚙️ Ejecutando configuración de Windows..." -ForegroundColor Yellow
     Set-Location (Split-Path $WindowsSetup)
