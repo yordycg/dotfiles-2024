@@ -115,19 +115,26 @@ function Install-ScoopApps {
         return
     }
 
-    foreach ($app in $Apps) {
-        try {
-            $status = scoop status $app | Out-String
-            if ($status -like '*OK*') {
-                Write-Host "$app ya está instalado." -ForegroundColor Gray
-            } else {
-                Write-Host "Instalando/Actualizando $app..." -ForegroundColor Cyan
-                & scoop install $app
-            }
-        }
-        catch {
-            Write-Error "No se pudo instalar '$app'. Razón: $($_.Exception.Message)"
-        }
+    # 1. Asegurar aria2 para descargas rápidas (paralelas)
+    if (-not (Get-Command aria2c -ErrorAction SilentlyContinue)) {
+        Write-Host "🚀 Instalando aria2 para acelerar descargas..." -ForegroundColor Cyan
+        & scoop install aria2
+        # Configurar aria2 para ser agresivo (opcional pero recomendado)
+        & scoop config aria2-enabled true
+    }
+
+    Write-Host "📦 Preparando instalación masiva de $($Apps.Count) aplicaciones..." -ForegroundColor Cyan
+    
+    # Filtramos las que ya están instaladas para evitar ruido
+    $installedApps = scoop list | ForEach-Object { $_.Split(' ')[0] }
+    $appsToInstall = $Apps | Where-Object { $_ -notin $installedApps }
+
+    if ($appsToInstall) {
+        Write-Host "Installing: $($appsToInstall -join ', ')" -ForegroundColor Yellow
+        # Instalamos todo de una sola vez. Scoop manejará las dependencias.
+        & scoop install $appsToInstall
+    } else {
+        Write-Host "✅ Todas las aplicaciones ya están instaladas." -ForegroundColor Green
     }
 }
 

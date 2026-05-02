@@ -8,7 +8,8 @@
 # 1. Asegurar privilegios de administrador
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "🚀 Solicitando permisos de administrador..." -ForegroundColor Cyan
-    Start-Process -FilePath powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
+    # -NoExit es la clave para que la ventana no se cierre si hay un error al inicio
+    Start-Process -FilePath powershell.exe -ArgumentList "-NoExit -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
     exit
 }
 
