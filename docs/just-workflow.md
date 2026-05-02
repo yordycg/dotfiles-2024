@@ -1,56 +1,66 @@
-# Just: Orquestación de Tareas Senior
+# 🛠️ Just Workflow Standards
 
-Este repositorio utiliza **`Just`** como herramienta estándar para la ejecución de tareas. El objetivo es eliminar la necesidad de recordar rutas de scripts o flags complejos, centralizando todo en un único punto de entrada.
+Este documento define los estándares de nomenclatura para los `Justfile` en nuestros proyectos. El objetivo es que cualquier desarrollador pueda ser productivo inmediatamente usando los mismos comandos universales.
 
-## ¿Por qué Just?
-1. **Descubribilidad**: Escribe `just` en cualquier proyecto y verás qué puedes hacer.
-2. **Abstracción**: No importa si el proyecto es Python, JS o C++, siempre usarás `just dev` o `just build`.
-3. **Legibilidad**: Los comandos están agrupados y documentados.
+## 🚀 Los 3 Pilares de un Proyecto
 
-## Uso en Dotfiles
-En la raíz de este repositorio, puedes ejecutar:
+### 1. Setup (Preparación)
+*Comandos para dejar el proyecto listo para trabajar.*
 
-- `just update`: Actualiza el sistema (`yay`) y sincroniza tus listas de paquetes en el acto.
-- `just font`: Lanza el selector de fuentes interactivo.
-- `just theme`: Lanza el selector de temas global.
-- `just links`: Refresca todos los enlaces simbólicos de tu configuración.
-## Uso en Proyectos Personales
-Para cada nuevo proyecto que crees, se recomienda crear un `Justfile` local. Un ejemplo estándar sería:
+| Comando | Descripción |
+| :--- | :--- |
+| `just setup` | **El comando principal.** Ejecuta instalación, configuración de `.env` y preparación de DB. |
+| `just install` | Instala o actualiza las dependencias del proyecto (npm, pip, cargo, etc). |
+| `just init-env` | Crea el archivo `.env` a partir de un template (`.env.example`). |
+| `just clean` | Elimina artefactos de compilación, `node_modules`, y archivos temporales. |
+
+### 2. Dev (Ejecución)
+*Comandos para el día a día del desarrollo.*
+
+| Comando | Descripción |
+| :--- | :--- |
+| `just dev` | **Modo desarrollo.** Levanta la app con "Hot Reload" y logs activos. |
+| `just db` | Levanta solo los servicios de infraestructura (Docker Compose, bases de datos). |
+| `just start` | Ejecuta la aplicación en modo normal/producción local. |
+| `just shell` | Abre una terminal interactiva dentro del contexto del proyecto (REPL). |
+
+### 3. Check (Validación)
+*Comandos para asegurar la calidad antes de subir código.*
+
+| Comando | Descripción |
+| :--- | :--- |
+| `just check` | **Pre-commit check.** Ejecuta `lint` + `test` + `build` para validar todo. |
+| `just test` | Ejecuta la suite de pruebas unitarias y de integración. |
+| `just lint` | Revisa el estilo de código y aplica correcciones automáticas (Ruff, Prettier, etc). |
+| `just build` | Genera los binarios o artefactos finales de producción. |
+
+---
+
+## 💡 Buenas Prácticas Senior
+
+1.  **Documenta cada receta:** Usa comentarios `#` arriba de cada comando para que `just --list` sea útil.
+2.  **Usa grupos:** Organiza las recetas con `[group('nombre')]` para una ayuda visual clara.
+3.  **Variables por defecto:** Define variables sensibles al sistema operativo para que el Justfile sea portable.
+4.  **Silent por defecto:** Usa `@` al inicio de los comandos para no ensuciar la terminal con el eco de los comandos, a menos que sea necesario para depurar.
+
+## 📖 Ejemplo de Justfile Estándar
 
 ```just
-# Justfile template
+set shell := ["powershell.exe", "-Command"]
+
+# Setup the project from scratch
+setup:
+    @just install
+    @just init-env
+    @just db
+
+# Run the development server
 dev:
-    python manage.py runserver
+    @echo "🚀 Starting server..."
+    npm run dev
 
-migrate:
-    python manage.py migrate
-
-shell:
-    python manage.py shell_plus
+# Run all quality checks
+check:
+    @just lint
+    @just test
 ```
-
-## Just en Windows
-`Just` es la herramienta perfecta para unificar tu experiencia en Windows y Linux.
-
-### Instalación en Windows
-Se recomienda usar **Scoop** para una instalación rápida:
-```powershell
-scoop install just
-```
-
-### Justfiles Multi-plataforma
-Puedes escribir tareas que detecten automáticamente el sistema operativo. Ejemplo para un entorno virtual de Python:
-
-```just
-# Detectar binario de python según el OS
-python := if os() == "windows" { ".venv/Scripts/python.exe" } else { ".venv/bin/python" }
-
-dev:
-    {{python}} manage.py runserver
-```
-
-Esto te permite usar el mismo comando `just dev` tanto en tu Arch Linux como en tu partición de Windows sin cambiar ni una letra.
-
-## Beneficios a largo plazo
-...
-Al adoptar este flujo, tu cerebro queda libre para enfocarse en la lógica del código, dejando que `Just` maneje la "fontanería" de los comandos de sistema.
