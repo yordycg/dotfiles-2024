@@ -184,6 +184,20 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
         - [x] Crear un script/función de sincronización que detecte nuevas variables en el `.env` local y las añada al `.env.example` para mantenerlo al día sin exponer credenciales.
         - [x] Permitir que `gen-env` extraiga variables de otros contextos del proyecto (no solo DB).
 
+## 🚀 PRÓXIMAS FRONTERAS (Investigación Senior)
+- [ ] **Orquestación de Tareas con `Just`**:
+    - [ ] Implementar un `Justfile` global para unificar comandos de mantenimiento de dotfiles.
+    - [ ] Adoptar `Just` en proyectos personales para eliminar la carga cognitiva de recordar stacks.
+- [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
+    - [ ] Migrar de symlinks manuales a `Chezmoi` para soportar plantillas (Linux vs Windows).
+    - [ ] Gestionar archivos sensibles de forma segura.
+- [ ] **Cheat-Sheets Dinámicos con `Navi`**:
+    - [ ] Configurar `Navi` con `fzf` para documentar y ejecutar comandos complejos con variables.
+- [ ] **Entornos de Desarrollo Aislados (`Devbox` / `Nix`)**:
+    - [ ] Investigar el uso de entornos determinísticos para evitar "ensuciar" el sistema base con dependencias de proyectos.
+- [ ] **Seguridad de Secretos (Zero-Trust)**:
+    - [ ] Investigar integración de `Bitwarden/1Password CLI` con `direnv` para cargar secretos solo en memoria.
+
 ## 🪟 PRIORIDAD 6: Windows & PowerShell (Ecosistema Nativo)
 - [ ] **Optimización de PowerShell**:
     - [ ] **Alias de Recarga**: Crear un alias (ej. `spw` o `sps`) para recargar el perfil de PowerShell (`. $PROFILE`) similar a `szsh` en Linux.
