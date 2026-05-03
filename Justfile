@@ -10,6 +10,12 @@ set windows-shell := ["powershell.exe", "-NoProfile", "-Command"]
 os := os_family()
 is_windows := if os == "windows" { "true" } else { "false" }
 
+# Comandos dependientes del OS
+update_cmd := if os == "windows" { 'pwsh.exe -File ./os/windows/setup-window.ps1 -Task Scoop' } else { 'yay -Syu; just sync-pkgs' }
+links_cmd  := if os == "windows" { 'pwsh.exe -File ./os/windows/setup-window.ps1 -Task Links' } else { './scripts/setup-symlinks.sh' }
+clean_cmd  := if os == "windows" { "pwsh.exe -Command cleanup" } else { "cleanup" }
+install_cmd := if os == "windows" { "pwsh.exe -File ./install-windows.ps1" } else { "bash ./install.sh" }
+
 # Mostrar lista de comandos por defecto
 default:
     @just --list --list-heading "🚀 Dotfiles ({{os}}) - Comandos disponibles:\n"
@@ -18,84 +24,44 @@ default:
 
 [group('sys')]
 update:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "🚀 Actualizando Scoop y aplicaciones..."; \
-        scoop update "*"; \
-    else \
-        echo "📦 Actualizando paquetes de Linux (Yay)..."; \
-        yay -Syu; \
-        just sync-pkgs; \
-    fi
+    @{{update_cmd}}
 
 [group('sys')]
 sync-pkgs:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "⚠️  Sync-pkgs no está implementado para Windows (usa Scoop directamente)."; \
-    else \
-        pkg-sync; \
-    fi
+    @if [ "{{os}}" != "windows" ]; then pkg-sync; else echo "⚠️ Sync-pkgs no disponible en Windows."; fi
 
 [group('sys')]
 links:
     @echo "🔗 Refrescando enlaces simbólicos..."
-    @if [ "{{is_windows}}" == "true" ]; then \
-        pwsh.exe -File ./os/windows/setup-window.ps1; \
-    else \
-        ./scripts/setup-symlinks.sh; \
-    fi
+    @{{links_cmd}}
 
 # --- Apariencia (Interactivos) ---
 
 [group('ui')]
 theme:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "🎨 selector de tema no disponible en Windows nativo."; \
-    else \
-        theme-picker; \
-    fi
+    @if [ "{{os}}" != "windows" ]; then theme-picker; else echo "🎨 No disponible en Windows."; fi
 
 [group('ui')]
 wallpaper:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "🖼️  Selector de wallpaper no disponible en Windows."; \
-    else \
-        wallpaper-picker; \
-    fi
+    @if [ "{{os}}" != "windows" ]; then wallpaper-picker; else echo "🖼️ No disponible en Windows."; fi
 
 # --- Herramientas Dev ---
 
 [group('dev')]
 init-env:
-    @echo "⚙️  Inicializando entorno de proyecto (.env)..."
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "⚠️  gen-env debe ejecutarse dentro de la shell de PowerShell."; \
-    else \
-        gen-env; \
-    fi
+    @if [ "{{os}}" != "windows" ]; then gen-env; else echo "⚠️ gen-env debe ejecutarse en PowerShell."; fi
 
 [group('dev')]
 clean:
     @echo "🧹 Limpiando archivos temporales y caché..."
-    @if [ "{{is_windows}}" == "true" ]; then \
-        pwsh.exe -Command "cleanup"; \
-    else \
-        cleanup; \
-    fi
+    @{{clean_cmd}}
 
 # --- Instalación y Setup ---
 
 [group('install')]
 install:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        pwsh.exe -File ./install-windows.ps1; \
-    else \
-        bash ./install.sh; \
-    fi
+    @{{install_cmd}}
 
 [group('install')]
 setup-zed:
-    @if [ "{{is_windows}}" == "true" ]; then \
-        echo "⚙️  Zed se configura mediante enlaces simbólicos (just links)."; \
-    else \
-        zed-setup; \
-    fi
+    @if [ "{{os}}" != "windows" ]; then zed-setup; else echo "⚙️ Zed se configura vía symlinks."; fi
