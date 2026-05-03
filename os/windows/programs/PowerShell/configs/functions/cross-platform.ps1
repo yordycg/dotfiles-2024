@@ -5,10 +5,10 @@
 # --- Navigation ---
 
 # Go to Dotfiles root
-function dot { Set-Location "$HOME\workspace\repos\dotfiles-2024" }
+function dot { Set-Location "$HOME\workspace\infra\dotfiles-2024" }
 
 # Go to Repos root
-function repos { Set-Location "$HOME\workspace\repos" }
+function repos { Set-Location "$HOME\workspace" }
 
 # Up N levels (up 3)
 function up {

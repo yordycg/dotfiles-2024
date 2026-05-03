@@ -27,14 +27,15 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 
 # 3. Definir rutas
 $DotfilesRepo = "https://github.com/yordycg/dotfiles-2024.git"
-$TargetDir = "$env:USERPROFILE\workspace\repos\dotfiles-2024"
+$TargetDir = "$env:USERPROFILE\workspace\infra\dotfiles-2024"
 
 # 4. Clonar o actualizar repo
 if (-not (Test-Path $TargetDir)) {
     Write-Host "📥 Clonando repositorio de dotfiles..." -ForegroundColor Yellow
     New-Item -ItemType Directory -Force -Path (Split-Path $TargetDir)
     git clone $DotfilesRepo $TargetDir
-} else {
+}
+else {
     Write-Host "📂 El repositorio ya existe. Actualizando..." -ForegroundColor Green
     Push-Location $TargetDir
     git pull origin main
@@ -47,7 +48,8 @@ if (Test-Path $WindowsSetup) {
     Write-Host "⚙️ Ejecutando configuración de Windows..." -ForegroundColor Yellow
     # Ejecutar en la misma sesión para ver la salida
     & $WindowsSetup
-} else {
+}
+else {
     Write-Error "❌ No se encontró el script de configuración en $WindowsSetup"
 }
 

@@ -1,6 +1,18 @@
 // Zed settings
 {
     // THEME ---------------------------------------------------------------------------------------
+    "auto_update": false,
+    "collaboration_panel": {
+        "dock": "left"
+    },
+    "agent": {
+        "dock": "right",
+        "favorite_models": [],
+        "model_parameters": []
+    },
+    "git_panel": {
+        "dock": "left"
+    },
     "cli_default_open_behavior": "new_window",
     "theme": {
         "mode": "dark",
@@ -73,6 +85,7 @@
         },
     },
     "outline_panel": {
+        "dock": "left",
         "default_width": 300,
         "indent_guides": {
             "show": "never",

@@ -33,15 +33,16 @@ sudo pacman -S --needed --noconfirm git curl base-devel
 
 # 3. Definir y preparar el directorio de dotfiles
 WORKSPACE_DIR="$HOME/workspace"
-REPO_DIR="$WORKSPACE_DIR/repos"
-DOTFILES_DIR="$REPO_DIR/dotfiles-2024"
+INFRA_DIR="$WORKSPACE_DIR/infra"
+DOTFILES_DIR="$INFRA_DIR/dotfiles-2024"
 
 echo -e "${YELLOW}📂 Preparando estructura de directorios...${NC}"
 mkdir -p "$WORKSPACE_DIR"
-mkdir -p "$REPO_DIR"
+mkdir -p "$INFRA_DIR"
 mkdir -p "$HOME/BACKUP"
-mkdir -p "$WORKSPACE_DIR/personal-projects"
-mkdir -p "$WORKSPACE_DIR/computer-engineering"
+mkdir -p "$WORKSPACE_DIR/personal"
+mkdir -p "$WORKSPACE_DIR/ipvg"
+mkdir -p "$WORKSPACE_DIR/work"
 
 # 4. Clonar o actualizar repositorio de dotfiles
 if [ ! -d "$DOTFILES_DIR" ]; then
@@ -61,7 +62,7 @@ REPOS=(
 
 for repo_url in "${REPOS[@]}"; do
     repo_name=$(basename "$repo_url" .git)
-    repo_dest="$REPO_DIR/$repo_name"
+    repo_dest="$INFRA_DIR/$repo_name"
     if [ ! -d "$repo_dest" ]; then
         echo -e "${BLUE}   - Clonando $repo_name...${NC}"
         git clone "$repo_url" "$repo_dest" || echo -e "${RED}⚠️ No se pudo clonar $repo_name (¿SSH configurado?)${NC}"

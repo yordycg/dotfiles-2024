@@ -8,7 +8,7 @@ $ProgressPreference = 'SilentlyContinue'
 
 # 2. Path Detection
 # Buscamos la carpeta de configs relativa a este perfil o en la ruta estándar
-$DotfilesRoot = "$HOME\workspace\repos\dotfiles-2024"
+$DotfilesRoot = "$HOME\workspace\infra\dotfiles-2024"
 $PSConfigPath = Join-Path $DotfilesRoot "os\windows\programs\PowerShell\configs"
 
 # 3. Dynamic Function Loading
