@@ -2,7 +2,7 @@
 # DIRECTORIES & PATHS
 # -----------------------------------------------------------------------------
 export WORKSPACE_PATH="$HOME/workspace"
-export REPOS_PATH="$WORKSPACE_PATH/repos"
+export REPOS_PATH="$WORKSPACE_PATH/infra"
 export PERSONAL_PATH="$WORKSPACE_PATH/personal"
 export UNIVERSITY_PATH="$WORKSPACE_PATH/university/year_3/semester_5"
 export DOTFILES="$REPOS_PATH/dotfiles-2024"

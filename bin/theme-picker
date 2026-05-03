@@ -4,7 +4,7 @@
 # THEME PICKER (Interactive FZF with Preview)
 # =============================================================================
 
-DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+DOTFILES="$HOME/workspace/infra/dotfiles-2024"
 THEMES_DIR="$DOTFILES/os/linux/themes"
 SET_THEME_SCRIPT="$DOTFILES/os/linux/scripts/set-theme.sh"
 CACHE_FILE="$HOME/.cache/dotfiles/current_theme.sh"

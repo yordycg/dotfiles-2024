@@ -3,7 +3,7 @@
 local status, lint = pcall(require, "lint")
 if not status then return end
 
-local linter_base = vim.fn.expand("$HOME/workspace/repos/dotfiles-2024/os/cross-platform/linters")
+local linter_base = vim.fn.expand("$HOME/workspace/infra/dotfiles-2024/os/cross-platform/linters")
 
 lint.linters_by_ft = {
   lua = { "luacheck" },

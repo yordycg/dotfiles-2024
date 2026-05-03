@@ -3,7 +3,7 @@
 local status, conform = pcall(require, "conform")
 if not status then return end
 
-local linter_base = vim.fn.expand("$HOME/workspace/repos/dotfiles-2024/os/cross-platform/linters")
+local linter_base = vim.fn.expand("$HOME/workspace/infra/dotfiles-2024/os/cross-platform/linters")
 
 conform.setup({
   formatters_by_ft = {

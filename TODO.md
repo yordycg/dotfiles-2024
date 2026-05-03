@@ -125,7 +125,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Gestión de Wallpapers**: 
     - [x] Integrar un selector de wallpapers interactivas con `swww` y `fzf`.
     - [x] Implementar persistencia del fondo de pantalla entre reinicios.
-    - [x] Organizar la carpeta `~/workspace/repos/wallpapers`.
+    - [x] Organizar la carpeta `~/workspace/infra/wallpapers`.
 
 - [x] **Consolidación Total de Neovim**: 
     - [x] **Actualizar Symlink**: Apuntar el symlink de `nvim` a la nueva configuración `nvim-yc-26`.

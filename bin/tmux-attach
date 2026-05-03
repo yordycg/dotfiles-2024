@@ -8,7 +8,7 @@ if which tmux >/dev/null 2>&1; then
 
   # Load environment variables if not present
   if [[ -z "$DOTFILES" ]]; then
-    export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+    export DOTFILES="$HOME/workspace/infra/dotfiles-2024"
   fi
   [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 
@@ -24,11 +24,11 @@ if which tmux >/dev/null 2>&1; then
 
       # Sesiones persistentes (entornos de trabajo)
       declare -A session_paths=(
-        ["dotfiles"]="${DOTFILES:-$HOME/workspace/repos/dotfiles-2024}"
+        ["dotfiles"]="${DOTFILES:-$HOME/workspace/infra/dotfiles-2024}"
         ["learn-cpp"]="${CPP_PATH:-/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/02 Cpp}"
         ["learn-dsa"]="${DSA_PATH:-/mnt/d/Escritorio 2/Cursos-Yordy/00 - Cursos Programacion/04 DataStructure-Algorithms}"
         ["projects"]="${PROJECTS_PATH:-$HOME/workspace/dev/projects}"
-        ["obsidian-notes"]="${OBSIDIAN:-$HOME/workspace/repos/obsidian-notes}"
+        ["obsidian-notes"]="${OBSIDIAN:-$HOME/workspace/infra/obsidian-notes}"
       )
 
       # Crear sesiones en background si no existen

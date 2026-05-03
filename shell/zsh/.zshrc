@@ -15,7 +15,7 @@ run_cached() {
 }
 
 # 1. Base Configuration
-export DOTFILES="$HOME/workspace/repos/dotfiles-2024"
+export DOTFILES="$HOME/workspace/infra/dotfiles-2024"
 [[ -s "$DOTFILES/shell/exports.sh" ]] && source "$DOTFILES/shell/exports.sh"
 [[ -s "$DOTFILES/shell/functions.sh" ]] && source "$DOTFILES/shell/functions.sh"
 

@@ -3,7 +3,7 @@
 # --- [hypr] Interactive Wallpaper Picker with SWWW ---
 # Allows selecting a wallpaper from the repository and applies it with transition.
 
-WALLPAPER_DIR="$HOME/workspace/repos/wallpapers"
+WALLPAPER_DIR="$HOME/workspace/infra/wallpapers"
 STATE_FILE="$HOME/.cache/.current_wallpaper"
 
 # Ensure awww daemon is running
@@ -35,7 +35,7 @@ if [[ -n "$selection" ]]; then
     echo "$full_path" > "$STATE_FILE"
     
     # 4. Sync with SDDM (may require sudo for system-wide sync)
-    bash "$HOME/workspace/repos/dotfiles-2024/scripts/sync-sddm-wallpaper.sh" "$full_path"
+    bash "$HOME/workspace/infra/dotfiles-2024/scripts/sync-sddm-wallpaper.sh" "$full_path"
 
     # Clean up the terminal and exit
     clear

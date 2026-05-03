@@ -18,7 +18,7 @@
 [commit]
   # Need install GPG in system for 'true'
   gpgSign = false
-  template = ~/workspace/repos/dotfiles-2024/git/template
+  template = ~/workspace/infra/dotfiles-2024/git/template
 
 [status]
   branch = true
@@ -120,18 +120,23 @@
 [url "git@github.com:"]
   insteadOf = "gh:" # Ejemplo: 'gcl gh:torvals/linux'
 
-# Config multi-git
-[includeIf "gitdir:C:/Users/yordycg/workspace/repos/personal/**"]
-	path = C:/Users/yordycg/.gitconfig-personal
-[includeIf "gitdir/i:C:/Users/yordycg/workspace/repos/ipvg/**"]
-	path = C:/Users/yordycg/.gitconfig-ipvg
-[includeIf "gitdir:C:/Users/yordycg/workspace/repos/work/**"]
-	path = C:/Users/yordycg/.gitconfig-work
+# Config multi-git (Unified & Senior Structure)
+# ----------------------------------------------------------------------
 
-# Config Linux/Unix
-[includeIf "gitdir:~/workspace/repos/personal/**"]
+# --- Personal Identity ---
+[includeIf "gitdir:~/workspace/personal/**"]
 	path = ~/.gitconfig-personal
-[includeIf "gitdir:~/workspace/repos/ipvg/**"]
+[includeIf "gitdir/i:C:/Users/yordycg/workspace/personal/**"]
+	path = ~/.gitconfig-personal
+
+# --- University Identity (IPVG) ---
+[includeIf "gitdir:~/workspace/ipvg/**"]
 	path = ~/.gitconfig-ipvg
-[includeIf "gitdir:~/workspace/repos/work/**"]
+[includeIf "gitdir/i:C:/Users/yordycg/workspace/ipvg/**"]
+	path = ~/.gitconfig-ipvg
+
+# --- Work Identity ---
+[includeIf "gitdir:~/workspace/work/**"]
+	path = ~/.gitconfig-work
+[includeIf "gitdir/i:C:/Users/yordycg/workspace/work/**"]
 	path = ~/.gitconfig-work

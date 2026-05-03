@@ -27,7 +27,7 @@ set -gx BROWSER firefox
 set -gx WORKSPACE_PATH "$HOME/workspace"
 set -gx DEV_PATH "$WORKSPACE_PATH/dev"
 set -gx PROJECTS_PATH "$DEV_PATH/projects"
-set -gx REPOS_PATH "$WORKSPACE_PATH/repos"
+set -gx REPOS_PATH "$WORKSPACE_PATH/infra"
 set -gx DOTFILES "$REPOS_PATH/dotfiles-2024"
 set -gx OBSIDIAN "$REPOS_PATH/obsidian-notes"
 set -gx WALLPAPERS_PATH "$REPOS_PATH/wallpapers"
