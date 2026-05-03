@@ -9,10 +9,12 @@
     "localappdata": "%LOCALAPPDATA%",
     "config": "%USERPROFILE%\\.config",
     "workspace": "%USERPROFILE%\\workspace",
-    "repos": "%workspace%\\repos",
-    "dotfiles": "%repos%\\dotfiles-2024",
-    "wallpapers": "%repos%\\wallpapers",
-    "obsidian": "%repos%\\obsidian-notes",
+    "personal": "%workspace%\\personal",
+    "ipvg": "%workspace%\\ipvg",
+    "work": "%workspace%\\work",
+    "dotfiles": "%workspace%\\infra\\dotfiles-2024",
+    "wallpapers": "%workspace%\\infra\\wallpapers",
+    "obsidian": "%workspace%\\infra\\obsidian-notes",
     "nvim": "%LOCALAPPDATA%\\nvim",
     "powershellConfig": "%config%\\powershell",
     "userProfileConfig": "%powershellConfig%\\user_profile.ps1",
@@ -54,6 +56,7 @@
     "starship",
     "sudo",
     "terminal-icons",
+    "wezterm",
     "z",
     "zed"
   ],
@@ -92,6 +95,10 @@
       "link": "%winTerminalSettings%"
     },
     {
+      "target": "%dotfiles%\\os\\cross-platform\\wezterm\\wezterm.lua",
+      "link": "%USERPROFILE%\\.wezterm.lua"
+    },
+    {
       "target": "%dotfiles%\\editors\\zed\\settings.json",
       "link": "%zed%\\settings.json"
     },
@@ -104,10 +111,10 @@
     "%config%",
     "%powershellConfig%",
     "%workspace%",
-    "%repos%",
-    "%repos%\\ipvg",
-    "%repos%\\personal",
-    "%repos%\\work"
+    "%workspace%\\infra",
+    "%personal%",
+    "%ipvg%",
+    "%work%"
   ],
   "powershellProfileLine": ". %userProfileConfig%"
 }

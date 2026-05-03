@@ -37,7 +37,7 @@ function New-Symlink {
             if ($existingItem.LinkType -eq 'SymbolicLink') {
                 if ($Force) {
                     Write-Host "Eliminando enlace simbólico existente en '$LinkPath'." -ForegroundColor Yellow
-                    Remove-Item -Path $LinkPath -Force
+                    Remove-Item -Path $LinkPath -Force -ErrorAction Stop
                 } else {
                     Write-Host "El enlace '$LinkPath' ya existe. Usa -Force para reemplazarlo." -ForegroundColor Yellow
                     return
@@ -45,7 +45,7 @@ function New-Symlink {
             } else {
                 if ($Force) {
                     Write-Warning "Se encontró un archivo o directorio real en '$LinkPath'. Se eliminará para crear el enlace."
-                    Remove-Item -Path $LinkPath -Recurse -Force
+                    Remove-Item -Path $LinkPath -Recurse -Force -ErrorAction Stop
                 } else {
                     Write-Error "Error: Ya existe un archivo o directorio en '$LinkPath' que no es un enlace. Usa -Force para reemplazarlo."
                     return
@@ -58,11 +58,18 @@ function New-Symlink {
             New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
         }
 
-        New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath | Out-Null
-        Write-Host "Enlace creado: '$LinkPath' -> '$TargetPath'." -ForegroundColor Green
+        # Intentar crear el enlace con ErrorAction Stop para capturar fallos de permisos
+        New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath -Force -ErrorAction Stop | Out-Null
+        
+        # Doble verificación
+        if (Test-Path $LinkPath) {
+            Write-Host "Enlace creado: '$LinkPath' -> '$TargetPath'." -ForegroundColor Green
+        } else {
+            throw "El comando New-Item no reportó error pero el enlace no existe."
+        }
     }
     catch {
-        Write-Error "Ocurrió un error inesperado con '$LinkPath': $($_.Exception.Message)"
+        Write-Error "FALLO al crear enlace '$LinkPath': $($_.Exception.Message)"
     }
 }
 
@@ -107,10 +114,11 @@ function Install-Scoop {
 
 function Install-ScoopApps {
     param(
+        [Parameter(Mandatory=$true)]
         [string[]]$Apps
     )
 
-    if (-not $Apps) {
+    if (-not $Apps -or $Apps.Count -eq 0) {
         Write-Warning "No se especificaron aplicaciones para instalar."
         return
     }
@@ -125,13 +133,30 @@ function Install-ScoopApps {
 
     Write-Host "📦 Preparando instalación masiva de $($Apps.Count) aplicaciones..." -ForegroundColor Cyan
     
-    # Filtramos las que ya están instaladas para evitar ruido
-    $installedApps = scoop list | ForEach-Object { $_.Split(' ')[0] }
-    $appsToInstall = $Apps | Where-Object { $_ -notin $installedApps }
+    # Obtener lista de apps instaladas de forma robusta
+    $installedApps = @()
+    try {
+        $scoopList = & scoop list
+        if ($scoopList) {
+            foreach ($line in $scoopList) {
+                if ($line -match '^\s*(\S+)\s+\(') {
+                    $installedApps += $matches[1]
+                }
+            }
+        }
+    } catch {
+        Write-Warning "No se pudo obtener la lista de aplicaciones instaladas de Scoop."
+    }
 
-    if ($appsToInstall) {
+    $appsToInstall = @()
+    foreach ($app in $Apps) {
+        if ($app -notin $installedApps) {
+            $appsToInstall += $app
+        }
+    }
+
+    if ($appsToInstall.Count -gt 0) {
         Write-Host "Installing: $($appsToInstall -join ', ')" -ForegroundColor Yellow
-        # Instalamos todo de una sola vez. Scoop manejará las dependencias.
         & scoop install $appsToInstall
     } else {
         Write-Host "✅ Todas las aplicaciones ya están instaladas." -ForegroundColor Green
@@ -179,17 +204,15 @@ function Set-PowerShellProfile {
         $parent = Split-Path $ProfilePath
         if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Path $parent -Force | Out-Null }
 
+        $content = @()
         if (Test-Path $ProfilePath) {
-            if (-not (Get-Content $ProfilePath | Where-Object { $_ -eq $ProfileContent })) {
-                Add-Content -Path $ProfilePath -Value "`n$ProfileContent"
-                Write-Host "Perfil actualizado con: $ProfileContent" -ForegroundColor Green
-            } else {
-                Write-Host "El perfil ya contiene la configuración." -ForegroundColor Gray
-            }
-        } else {
-            Set-Content -Path $ProfilePath -Value $ProfileContent
-            Write-Host "Perfil de PowerShell creado." -ForegroundColor Green
+            $content = Get-Content $ProfilePath | Where-Object { $_ -notmatch 'user_profile\.ps1' -and $_ -notmatch '^\s*$' }
         }
+        
+        $content += "`n$ProfileContent"
+        
+        $content | Set-Content -Path $ProfilePath -Force
+        Write-Host "Perfil configurado en '$ProfilePath'." -ForegroundColor Green
     } catch {
         Write-Error "Error al configurar perfil: $($_.Exception.Message)"
     }
