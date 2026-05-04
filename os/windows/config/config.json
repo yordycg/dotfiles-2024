@@ -30,6 +30,7 @@
     "delta",
     "direnv",
     "dotnet-sdk",
+    "fastfetch",
     "fd",
     "FiraCode-NF-Mono",
     "flow-launcher",
@@ -41,6 +42,7 @@
     "just",
     "lazydocker",
     "lazygit",
+    "Lilex-NF",
     "make",
     "Meslo-NF-Mono",
     "neovim",
@@ -89,6 +91,10 @@
     {
       "target": "%dotfiles%\\os\\windows\\programs\\PowerShell\\profiles\\user_profile.ps1",
       "link": "%userProfileConfig%"
+    },
+    {
+      "target": "%dotfiles%\\os\\windows\\programs\\Fastfetch",
+      "link": "%config%\\fastfetch"
     },
     {
       "target": "%dotfiles%\\os\\windows\\programs\\Windows-Terminal\\settings.json",
