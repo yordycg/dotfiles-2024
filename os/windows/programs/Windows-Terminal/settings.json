@@ -62,33 +62,33 @@
     {
         "defaults": 
         {
-            "colorScheme": "One Half Dark",
+            "colorScheme": "Catppuccin Mocha",
             "font": 
             {
-                "face": "JetBrainsMono Nerd Font Mono"
+                "builtinGlyphs": true,
+                "cellHeight": "1.2",
+                "colorGlyphs": true,
+                "face": "JetBrainsMono Nerd Font Mono",
+                "size": 10,
+                "weight": "extra-black"
             },
-            "opacity": 100,
+            "intenseTextStyle": "all",
+            "opacity": 80,
+            "padding": "8, 8, 8, 8",
             "scrollbarState": "hidden",
             "useAcrylic": true
         },
         "list": 
         [
             {
-                "colorScheme": "OneDark",
-                "commandline": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-                "font": 
-                {
-                    "face": "CaskaydiaCove Nerd Font Mono"
-                },
+                "commandline": "C:\\Program Files\\PowerShell\\7\\pwsh.exe --NoLogo",
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
                 "name": "PowerShell",
-                "opacity": 90,
-                "source": "Windows.Terminal.PowershellCore",
-                "useAcrylic": true
+                "source": "Windows.Terminal.PowershellCore"
             },
             {
-                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe --NoLogo",
                 "elevate": true,
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": true,
@@ -107,13 +107,7 @@
                 "source": "Windows.Terminal.Azure"
             },
             {
-                "colorScheme": "Catppuccin Mocha",
                 "commandline": "C:\\Windows\\system32\\wsl.exe --distribution-id {8524d710-dae0-42cc-8a73-bb1eb72ef7a3} --cd ~",
-                "font": 
-                {
-                    "face": "FiraCode Nerd Font Mono",
-                    "size": 11
-                },
                 "guid": "{5ddc39e5-0938-4ada-b986-9d64e2baec43}",
                 "hidden": false,
                 "icon": "C:\\Users\\yordycg\\AppData\\Local\\wsl\\{8524d710-dae0-42cc-8a73-bb1eb72ef7a3}\\shortcut.ico",
@@ -159,6 +153,29 @@
             "selectionBackground": "#585B70",
             "white": "#BAC2DE",
             "yellow": "#F9E2AF"
+        },
+        {
+            "background": "#282A36",
+            "black": "#21222C",
+            "blue": "#BD93F9",
+            "brightBlack": "#6272A4",
+            "brightBlue": "#D6ACFF",
+            "brightCyan": "#A4FFFF",
+            "brightGreen": "#69FF94",
+            "brightPurple": "#FF92DF",
+            "brightRed": "#FF6E6E",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFFFA5",
+            "cursorColor": "#F8F8F2",
+            "cyan": "#8BE9FD",
+            "foreground": "#F8F8F2",
+            "green": "#50FA7B",
+            "name": "Dracula",
+            "purple": "#FF79C6",
+            "red": "#FF5555",
+            "selectionBackground": "#44475A",
+            "white": "#F8F8F2",
+            "yellow": "#F1FA8C"
         },
         {
             "background": "#2E3440",
@@ -253,6 +270,7 @@
             "yellow": "#E7C547"
         }
     ],
+    "tabWidthMode": "titleLength",
     "themes": [],
     "useAcrylicInTabRow": true
 }
