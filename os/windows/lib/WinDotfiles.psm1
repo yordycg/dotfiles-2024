@@ -105,6 +105,7 @@ function Install-Scoop {
             & scoop bucket add extras
             & scoop bucket add nerd-fonts
             & scoop bucket add versions
+            & scoop bucket add psmux https://github.com/psmux/scoop-psmux
         }
     }
     catch {

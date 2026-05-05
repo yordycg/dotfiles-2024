@@ -51,6 +51,7 @@
     "posh-docker",
     "posh-git",
     "psfzf",
+    "psmux",
     "psreadline",
     "python",
     "ripgrep",
@@ -99,6 +100,14 @@
     {
       "target": "%dotfiles%\\os\\windows\\programs\\Windows-Terminal\\settings.json",
       "link": "%winTerminalSettings%"
+    },
+    {
+      "target": "%dotfiles%\\os\\windows\\programs\\psmux\\psmux.conf",
+      "link": "%USERPROFILE%\\.tmux.conf"
+    },
+    {
+      "target": "%dotfiles%\\os\\windows\\programs\\psmux\\psmux.conf",
+      "link": "%USERPROFILE%\\.psmux.conf"
     },
     {
       "target": "%dotfiles%\\os\\cross-platform\\wezterm\\wezterm.lua",

@@ -72,9 +72,12 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [x] Optimizar `_smart_path_picker` con colores diferenciales y soporte de argumentos iniciales.
     - [x] Mejorar visualización de rutas largas mediante `sed` y `awk` (home as ~).
 - [x] **Documentar Persistencia de Tmux**:
-    - [x] Agregar `Prefix + Ctrl-s` (Guardar) y `Prefix + Ctrl-r` (Restaurar) al `cheatsheet.md`.
-    - [x] Verificar que `tmux-resurrect` y `tmux-continuum` funcionen correctamente en el arranque.
-
+- [x] Agregar `Prefix + Ctrl-s` (Guardar) y `Prefix + Ctrl-r` (Restaurar) al `cheatsheet.md`.
+- [x] Verificar que `tmux-resurrect` y `tmux-continuum` funcionen correctamente en el arranque.
+- [ ] **Nuevas Mejoras de Tmux (Inspiración Felipe Coury)**:
+- [ ] **Edit Scrollback en Neovim**: Implementar `Prefix + e` para capturar el buffer del panel y abrirlo en Neovim para búsqueda y edición.
+- [ ] **Smart Clear (`Alt + k`)**: Atajo para limpiar terminal y scrollback simultáneamente.
+- [ ] **Sincronización de Títulos**: Configurar actualización dinámica del título de la ventana (Ghostty/Wezterm) basado en el proceso actual.
 ## 🔵 PRIORIDAD 3: UX y Documentación (Fricción Cognitiva)
 - [x] **Visor de Keymaps unificado (`keys`)**:
     - [x] Extraer Aliases de `shell/aliases.sh`.
@@ -201,6 +204,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [x] **Optimización de PowerShell**:
     - [x] **Alias de Recarga**: Crear un alias (ej. `spw` o `sps`) para recargar el perfil de PowerShell (`. $PROFILE`).
     - [x] **Integración de Herramientas**: Asegurar que `zoxide`, `fzf` y `starship` estén correctamente configurados en el perfil global.
-- [ ] **Multiplexación de Terminal**:
-    - [ ] Configurar keybindings estilo Tmux en Windows Terminal (Splits, navegación de paneles y pestañas).
-    - [ ] Investigar integración de **Zellij** como la variante moderna de Tmux (escrito en Rust, layouts dinámicos).
+- [ ] **Refinar y Mejorar psmux en Windows**:
+    - [ ] Investigar y corregir el bloqueo del popup al ejecutar `psmux-resurrect save` (`Prefix + Ctrl-s`).
+    - [ ] Mejorar la estética de la barra de estado y la integración de plugins.
+    - [ ] Evaluar estabilidad a largo plazo comparado con Windows Terminal nativo.
