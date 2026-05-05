@@ -28,8 +28,8 @@ if [ ! -f /etc/arch-release ]; then
 fi
 
 # 2. Instalar dependencias base si no existen
-echo -e "${YELLOW}🔍 Verificando dependencias base (git, curl, base-devel, openssh, inetutils)...${NC}"
-sudo pacman -S --needed --noconfirm git curl base-devel openssh inetutils
+echo -e "${YELLOW}🔍 Verificando dependencias base (git, curl, base-devel, openssh, inetutils, github-cli)...${NC}"
+sudo pacman -S --needed --noconfirm git curl base-devel openssh inetutils github-cli
 
 # 3. Definir y preparar el directorio de dotfiles
 WORKSPACE_DIR="$HOME/workspace"
