@@ -23,7 +23,8 @@ fi
 
 if ! gh auth status &> /dev/null; then
     echo "⚠️ Not authenticated with GitHub CLI. Initiating login..."
-    gh auth login
+    # Requesting admin:public_key scope specifically so we can add the key
+    gh auth login -s admin:public_key
 fi
 echo "GitHub CLI found and authenticated."
 
