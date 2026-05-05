@@ -49,8 +49,11 @@ if [ ! -d "$DOTFILES_DIR" ]; then
     echo -e "${YELLOW}📥 Clonando repositorio de dotfiles...${NC}"
     git clone https://github.com/yordycg/dotfiles-2024.git "$DOTFILES_DIR"
 else
-    echo -e "${GREEN}📂 El directorio de dotfiles ya existe. Actualizando...${NC}"
-    cd "$DOTFILES_DIR" && git pull origin main
+    echo -e "${GREEN}📂 El directorio de dotfiles ya existe. Actualizando vía HTTPS...${NC}"
+    cd "$DOTFILES_DIR"
+    # Forzamos HTTPS para la actualización del bootstrap para evitar problemas de SSH
+    git remote set-url origin https://github.com/yordycg/dotfiles-2024.git
+    git pull origin main
 fi
 
 # 5. Cambiar al directorio del repo para asegurar rutas relativas correctas
