@@ -17,69 +17,47 @@ KEY_TITLE="GitHub Automation Key on $(hostname)" # Title displayed on GitHub
 # --- 1. Check for gh CLI and authentication ---
 if ! command -v gh &> /dev/null; then
     echo "Error: GitHub CLI (gh) is not installed."
-    echo "Please install it from https://cli.github.com/ and try again."
     exit 1
 fi
 
 if ! gh auth status &> /dev/null; then
     echo "⚠️ Not authenticated with GitHub CLI. Initiating login..."
-    # Requesting admin:public_key scope specifically so we can add the key
     gh auth login -s admin:public_key
 fi
 echo "GitHub CLI found and authenticated."
 
-# --- 2. Create .ssh directory if it doesn't exist ---
-if [ ! -d "$SSH_DIR" ]; then
-    echo "Creating $SSH_DIR directory..."
-    mkdir -p "$SSH_DIR"
-    chmod 700 "$SSH_DIR"
-fi
+# --- 2. Create .ssh directory ---
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
 
 # --- 3. Generate SSH Key ---
 if [ -f "$SSH_KEY_PATH" ]; then
-    echo "Warning: SSH key '$SSH_KEY_NAME' already exists at '$SSH_KEY_PATH'."
+    echo "Warning: SSH key '$SSH_KEY_NAME' already exists."
     read -p "Do you want to overwrite it? (y/N): " overwrite_choice
-    if [[ ! "$overwrite_choice" =~ ^[yY]$ ]]; then
-        echo "Exiting without generating new key."
-        exit 0
+    if [[ "$overwrite_choice" =~ ^[yY]$ ]]; then
+        rm -f "$SSH_KEY_PATH" "$SSH_KEY_PUB_PATH"
+        ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "$KEY_COMMENT" -q
     fi
-    echo "Overwriting existing key..."
-fi
-
-echo "Generating new SSH key ($SSH_KEY_PATH)..."
-# -t ed25519: modern, secure key type
-# -f: output filename
-# -N "": no passphrase for automation (use with caution!)
-# -C: comment for the key
-ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "$KEY_COMMENT" -q
-
-if [ $? -eq 0 ]; then
-    echo "SSH key generated successfully."
-    chmod 600 "$SSH_KEY_PATH" # Ensure private key permissions are secure
 else
-    echo "Error: Failed to generate SSH key."
-    exit 1
+    ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "$KEY_COMMENT" -q
 fi
+chmod 600 "$SSH_KEY_PATH"
 
-# --- 4. Add SSH Key to ssh-agent ---
-echo "Configuring ssh-agent..."
-# Siempre intentamos arrancar o vincular el agente para esta sesión
-if [ -z "$SSH_AUTH_SOCK" ]; then
-    eval "$(ssh-agent -s)"
+# --- 4. Add to agent ---
+eval "$(ssh-agent -s)"
+ssh-add "$SSH_KEY_PATH"
+
+# --- 5. Upload to GitHub (IDEMPOTENT) ---
+echo "Uploading key to GitHub..."
+# Borramos si existe una con el mismo título para evitar duplicados
+EXISTING_KEY_ID=$(gh ssh-key list | grep "$KEY_TITLE" | awk '{print $1}' || true)
+if [ -n "$EXISTING_KEY_ID" ]; then
+    gh ssh-key delete "$EXISTING_KEY_ID" --yes
 fi
+gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE"
 
-echo "Adding SSH key to ssh-agent..."
-# Usamos || true para que set -e no mate el script si ssh-add falla
-ssh-add "$SSH_KEY_PATH" || echo "Warning: Could not add key to agent, but continuing..."
-
-
-# --- 5. Add Public Key to GitHub (Idempotent) ---
-echo "Checking for existing SSH key on GitHub titled '$KEY_TITLE'..."
-# ... (rest of step 5 logic remains similar but I'll provide the full section below for clarity)
-
-# --- 6. Configure SSH Config File (Crucial for custom key names) ---
+# --- 6. SSH Config ---
 if [ ! -f "$SSH_DIR/config" ] || ! grep -q "Host github.com" "$SSH_DIR/config"; then
-    echo "Configuring SSH config for github.com..."
     cat <<EOF >> "$SSH_DIR/config"
 
 Host github.com
@@ -89,23 +67,12 @@ Host github.com
     IdentitiesOnly yes
 EOF
     chmod 600 "$SSH_DIR/config"
-    echo "SSH config updated."
-else
-    # Update IdentityFile if it's different
-    if ! grep -q "IdentityFile $SSH_KEY_PATH" "$SSH_DIR/config"; then
-        echo "Updating IdentityFile in SSH config..."
-        # This is a simple append, for complex setups a sed replacement would be better
-        echo "    IdentityFile $SSH_KEY_PATH" >> "$SSH_DIR/config"
-    fi
 fi
 
-# --- 7. Switch dotfiles repo remote URL to SSH ---
-# The bootstrap process clones via HTTPS, this step switches it to SSH.
-DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/workspace/infra/dotfiles-2024}" # Use env var or default
-if [ -d "$DOTFILES_DIR_CHECK" ] && [ -d "$DOTFILES_DIR_CHECK/.git" ]; then
-    echo "Switching origin remote URL to SSH for dotfiles repository..."
+# --- 7. Remote Update ---
+DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/workspace/infra/dotfiles-2024}"
+if [ -d "$DOTFILES_DIR_CHECK/.git" ]; then
     (cd "$DOTFILES_DIR_CHECK" && git remote set-url origin "git@github.com:yordycg/dotfiles-2024.git")
-    echo "Dotfiles repository remote URL updated."
-else
-    echo "Warning: Dotfiles directory not found at '$DOTFILES_DIR_CHECK'. Skipping remote URL update."
 fi
+
+echo "--- SSH Setup Complete ---"
