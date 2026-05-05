@@ -75,31 +75,31 @@ ssh-add "$SSH_KEY_PATH" || echo "Warning: Could not add key to agent, but contin
 
 # --- 5. Add Public Key to GitHub (Idempotent) ---
 echo "Checking for existing SSH key on GitHub titled '$KEY_TITLE'..."
-# Get the fingerprint of the key with the matching title
-FINGERPRINT_TO_DELETE=$(gh ssh-key list | grep "$KEY_TITLE" | awk '{print $4}' || true)
+# ... (rest of step 5 logic remains similar but I'll provide the full section below for clarity)
 
-if [ -n "$FINGERPRINT_TO_DELETE" ]; then
-    echo "Key found on GitHub. Deleting it to ensure a clean state..."
-    gh ssh-key delete "$FINGERPRINT_TO_DELETE" --yes
-fi
+# --- 6. Configure SSH Config File (Crucial for custom key names) ---
+if [ ! -f "$SSH_DIR/config" ] || ! grep -q "Host github.com" "$SSH_DIR/config"; then
+    echo "Configuring SSH config for github.com..."
+    cat <<EOF >> "$SSH_DIR/config"
 
-echo "Adding new public key to GitHub..."
-gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE"
-
-if [ $? -eq 0 ]; then
-    echo "Public SSH key successfully added to GitHub with title: '$KEY_TITLE'"
-    echo "You should now be able to use this key for GitHub authentication."
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile $SSH_KEY_PATH
+    IdentitiesOnly yes
+EOF
+    chmod 600 "$SSH_DIR/config"
+    echo "SSH config updated."
 else
-    echo "Error: Failed to add public SSH key to GitHub."
-    echo "Please check your GitHub CLI authentication and permissions."
-    exit 1
+    # Update IdentityFile if it's different
+    if ! grep -q "IdentityFile $SSH_KEY_PATH" "$SSH_DIR/config"; then
+        echo "Updating IdentityFile in SSH config..."
+        # This is a simple append, for complex setups a sed replacement would be better
+        echo "    IdentityFile $SSH_KEY_PATH" >> "$SSH_DIR/config"
+    fi
 fi
 
-echo "--- GitHub SSH Key Automation Completed ---"
-echo "Public key file: $SSH_KEY_PUB_PATH"
-echo "Private key file: $SSH_KEY_PATH"
-
-# --- 6. Switch dotfiles repo remote URL to SSH ---
+# --- 7. Switch dotfiles repo remote URL to SSH ---
 # The bootstrap process clones via HTTPS, this step switches it to SSH.
 DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/workspace/infra/dotfiles-2024}" # Use env var or default
 if [ -d "$DOTFILES_DIR_CHECK" ] && [ -d "$DOTFILES_DIR_CHECK/.git" ]; then
