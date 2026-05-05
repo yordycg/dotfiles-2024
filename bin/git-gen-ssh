@@ -22,9 +22,8 @@ if ! command -v gh &> /dev/null; then
 fi
 
 if ! gh auth status &> /dev/null; then
-    echo "Error: Not authenticated with GitHub CLI."
-    echo "Please run 'gh auth login' and try again."
-    exit 1
+    echo "⚠️ Not authenticated with GitHub CLI. Initiating login..."
+    gh auth login
 fi
 echo "GitHub CLI found and authenticated."
 
