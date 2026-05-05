@@ -16,6 +16,10 @@
             "id": "User.paste"
         },
         {
+            "command": "find",
+            "id": "User.find"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
@@ -23,10 +27,6 @@
                 "splitMode": "duplicate"
             },
             "id": "User.splitPane.A6751878"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
         }
     ],
     "copyFormatting": "none",
@@ -40,12 +40,12 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
             "id": "User.find",
             "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
         },
         {
             "id": "User.splitPane.A6751878",
@@ -69,7 +69,7 @@
                 "cellHeight": "1.2",
                 "colorGlyphs": true,
                 "face": "JetBrainsMono Nerd Font Mono",
-                "size": 10,
+                "size": 12,
                 "weight": "extra-black"
             },
             "intenseTextStyle": "all",
@@ -126,6 +126,12 @@
                 "hidden": false,
                 "name": "Developer PowerShell for VS 18",
                 "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{baf8b3d0-46d6-5c58-9a82-a39f6dee44fa}",
+                "hidden": false,
+                "name": "Arch",
+                "source": "Microsoft.WSL"
             }
         ]
     },

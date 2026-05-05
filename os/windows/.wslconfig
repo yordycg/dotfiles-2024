@@ -1,0 +1,15 @@
+[wsl2]
+# Límites de Hardware
+memory=8GB 
+processors=4
+
+# Configuraciones de Red y GUI
+guiApplications=true
+
+# Opciones Experimentales (Solo las más compatibles)
+# Si tu Windows es antiguo, estas líneas simplemente se ignorarán o darán el aviso que viste
+[experimental]
+autoMemoryReclaim=gradual
+networkingMode=mirrored
+dnsTunneling=true
+firewall=true

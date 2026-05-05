@@ -35,6 +35,14 @@ links:
     @echo "🔗 Refrescando enlaces simbólicos..."
     @{{links_cmd}}
 
+[group('sys')]
+setup-arch:
+    @if ("{{is_windows}}" -eq "true") { \
+        pwsh.exe -File ./os/windows/setup-window.ps1 -Task WSL \
+    } else { \
+        Write-Host "⚠️ Este comando es solo para Windows (registro de distro)." \
+    }
+
 # --- Apariencia (Interactivos) ---
 
 [group('ui')]
@@ -61,6 +69,15 @@ clean:
 [group('install')]
 install:
     @{{install_cmd}}
+
+[group('install')]
+setup-wsl:
+    @if [ "{{os}}" != "windows" ]; then \
+        echo "🚀 Iniciando setup de Arch Linux en WSL..."; \
+        bash ./os/linux/post-install-arch/install.sh; \
+    else \
+        echo "⚠️  Este comando debe ejecutarse DENTRO de la terminal de Arch en WSL."; \
+    fi
 
 [group('install')]
 setup-zed:

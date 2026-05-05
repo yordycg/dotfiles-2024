@@ -22,6 +22,15 @@ log_error() {
 
 log_info "Starting Arch Linux post-installation script..."
 
+# Detección de WSL
+if grep -qi microsoft /proc/version; then
+    log_info "WSL detectado. Activando modo MINIMAL (CLI + Kitty)."
+    export MINIMAL=true
+    bash ./wsl-setup.sh
+else
+    export MINIMAL=false
+fi
+
 # Ensure the script is run from its directory
 cd "$(dirname "$0")" || log_error "Failed to change to script directory."
 
@@ -33,18 +42,7 @@ bash 00-yay.sh || log_error "00-yay.sh failed."
 log_info "Running 01-packages.sh: Installing official and AUR packages."
 bash 01-packages.sh || log_error "01-packages.sh failed."
 
-log_info "Running generate-github-ssh-key.sh: Automating GitHub SSH key setup."
-# Note: This requires user interaction to log in to GitHub CLI ('gh auth login') if not already authenticated.
-# The script is located in the root 'scripts' directory, so we go up two levels.
-bash ../../../scripts/generate-github-ssh-key.sh || log_error "generate-github-ssh-key.sh failed."
+# El resto de tareas (SSH, Dotfiles, Docker) ahora se orquestan desde el install.sh raíz 
+# para asegurar el orden correcto de dependencias.
 
-log_info "Running 02-dotfiles.sh: Setting up dotfiles."
-bash 02-dotfiles.sh || log_error "02-dotfiles.sh failed."
-
-log_info "Running 03-services.sh: Configuring system services."
-bash 03-services.sh || log_error "03-services.sh failed."
-
-log_info "Installing Docker: The Professional Way."
-bash ../../../install/install-docker.sh || log_error "install-docker.sh failed."
-
-log_info "Arch Linux post-installation script completed successfully!"
+log_info "Arch Linux post-installation modular scripts completed!"

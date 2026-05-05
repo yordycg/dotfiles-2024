@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------
 param (
     [Parameter(Mandatory=$false)]
-    [ValidateSet("All", "Directories", "Links", "Scoop", "SSH", "Repos", "Profile")]
+    [ValidateSet("All", "Directories", "Links", "Scoop", "SSH", "Repos", "Profile", "WSL")]
     [string]$Task = "All"
 )
 
@@ -122,6 +122,22 @@ if ($Task -eq "All" -or $Task -eq "Profile" -or $Task -eq "Links") {
         $cleanPath = $rawLine.Replace(". ", "").Trim(' "')
         $profileLine = ". `"$cleanPath`""
         Set-PowerShellProfile -ProfileContent $profileLine
+    }
+}
+
+# --- ARCHWSL REGISTRATION ---
+if ($Task -eq "All" -or $Task -eq "WSL") {
+    Write-Host "`nStep 7: Verificando registro de ArchWSL..." -ForegroundColor Yellow
+    if (Get-Command Arch.exe -ErrorAction SilentlyContinue) {
+        $wslDistros = wsl -l -q
+        if ($wslDistros -notcontains "Arch") {
+            Write-Host "📦 Registrando Arch Linux en WSL (esto puede tardar un poco)..." -ForegroundColor Cyan
+            # Ejecutar Arch.exe para registrar la distro
+            Start-Process -FilePath "Arch.exe" -Wait
+            Write-Host "✅ Arch Linux registrado con éxito." -ForegroundColor Green
+        } else {
+            Write-Host "✅ Arch Linux ya está registrado en WSL." -ForegroundColor Green
+        }
     }
 }
 

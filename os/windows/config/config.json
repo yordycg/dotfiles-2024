@@ -23,6 +23,7 @@
   },
   "scoopApps": [
     "7zip",
+    "archwsl",
     "bat",
     "CascadiaCode-NF-Mono",
     "curl",
@@ -120,6 +121,10 @@
     {
       "target": "%dotfiles%\\editors\\zed\\keymap.json",
       "link": "%zed%\\keymap.json"
+    },
+    {
+      "target": "%dotfiles%\\os\\windows\\.wslconfig",
+      "link": "%USERPROFILE%\\.wslconfig"
     }
   ],
   "directoriesToCreate": [
