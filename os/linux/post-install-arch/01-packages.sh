@@ -13,6 +13,10 @@ log_error() {
     exit 1
 }
 
+# Ensure we are in the script's directory for relative paths to work
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 log_info "Installing packages from official repositories..."
 if [ -f "./packages/pkglist-official.txt" ]; then
     if [ "$MINIMAL" = "true" ]; then

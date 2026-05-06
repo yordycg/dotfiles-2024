@@ -117,14 +117,18 @@ for repo_url in "${REPOS[@]}"; do
     fi
 done
 
-# 9. Configurar Symlinks y Servicios
-echo -e "${YELLOW}🔗 Finalizando configuración (Symlinks y Servicios)...${NC}"
-bash "./scripts/setup-symlinks.sh"
+# 9. Configurar Dotfiles (Symlinks, Shell, Node)
+echo -e "${YELLOW}🔗 Configurando Dotfiles (Shell, Node, Symlinks)...${NC}"
+if [ -f "os/linux/post-install-arch/02-dotfiles.sh" ]; then
+    bash "os/linux/post-install-arch/02-dotfiles.sh"
+else
+    # Fallback to direct symlinks if modular script is missing
+    bash "./scripts/setup-symlinks.sh"
+fi
 
 if [ -f "os/linux/post-install-arch/03-services.sh" ]; then
     bash "os/linux/post-install-arch/03-services.sh"
 fi
-
 # D. Instalar Docker
 if [ -f "install/install-docker.sh" ]; then
     bash "install/install-docker.sh"
