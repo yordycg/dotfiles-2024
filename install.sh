@@ -73,9 +73,29 @@ if [ -f "os/linux/post-install-arch/01-packages.sh" ]; then
 fi
 
 # 7. Configuración de SSH y GitHub (Ahora que 'gh' está instalado)
+# -----------------------------------------------------------------------
+# FIX: bash subshell no propaga variables de entorno al padre.
+# git-gen-ssh guarda las vars del agente en ~/.ssh/agent.env.
+# Las sourceamos aquí para que git clone funcione en este proceso.
+# -----------------------------------------------------------------------
 echo -e "${YELLOW}🔑 Configurando SSH y GitHub...${NC}"
+
+SSH_AGENT_ENV="$HOME/.ssh/agent.env"
+
 if [ -f "bin/git-gen-ssh" ]; then
-    bash "bin/git-gen-ssh" || echo -e "${RED}⚠️ No se pudo configurar SSH. Es posible que necesites login manual de 'gh'.${NC}"
+    if bash "bin/git-gen-ssh"; then
+        # Sourcear el agente en el proceso PADRE para que git clone lo use.
+        if [ -f "$SSH_AGENT_ENV" ]; then
+            # shellcheck source=/dev/null
+            source "$SSH_AGENT_ENV"
+            echo -e "${GREEN}✅ Agente SSH activado en el proceso actual.${NC}"
+        fi
+    else
+        echo -e "${RED}❌ Setup SSH falló. No se puede continuar con git clone.${NC}"
+        echo -e "${YELLOW}   Ejecuta manualmente: bash bin/git-gen-ssh${NC}"
+        echo -e "${YELLOW}   Luego: source ~/.ssh/agent.env${NC}"
+        exit 1
+    fi
 fi
 
 # 8. Clonar o actualizar repositorios adicionales (Ahora con SSH listo)

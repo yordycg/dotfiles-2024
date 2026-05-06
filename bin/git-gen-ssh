@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# setup_github_ssh.sh
-# Automatiza la configuración de llaves SSH para GitHub en Arch Linux (WSL2).
-# Usa GitHub CLI (gh). Diseñado para ser 100% idempotente.
+# bin/git-gen-ssh
+# Configura llave SSH para GitHub en Arch Linux (WSL2) usando GitHub CLI (gh).
+# Idempotente. Exporta el agente SSH a ~/.ssh/agent.env para que el script
+# padre pueda sourcear las variables y que git clone funcione en la misma sesión.
 # =============================================================================
 
 set -euo pipefail
@@ -16,7 +17,10 @@ SSH_KEY_PATH="$SSH_DIR/$SSH_KEY_NAME"
 SSH_KEY_PUB_PATH="${SSH_KEY_PATH}.pub"
 SSH_CONFIG_FILE="$SSH_DIR/config"
 
-# FIX 5: hostname puede no existir en WSL/Arch — usar alternativas seguras.
+# Archivo donde se exportan las variables del agente para el proceso padre.
+SSH_AGENT_ENV="${SSH_DIR}/agent.env"
+
+# FIX 5: hostname compatible con WSL/Arch (sin depender de que exista el cmd).
 _get_hostname() {
     if command -v hostname &>/dev/null; then
         hostname
@@ -48,9 +52,8 @@ echo ""
 echo "=== Verificando dependencias ==="
 
 for cmd in gh ssh-keygen jq; do
-    if ! command -v "$cmd" &>/dev/null; then
-        die "'$cmd' no está instalado. Instálalo con: sudo pacman -S $cmd"
-    fi
+    command -v "$cmd" &>/dev/null \
+        || die "'$cmd' no está instalado. Instálalo con: sudo pacman -S $cmd"
 done
 success "gh, ssh-keygen, jq encontrados."
 
@@ -67,9 +70,9 @@ if ! gh auth status &>/dev/null; then
         || die "Falló la autenticación con GitHub CLI."
 fi
 
-# Verificar que el scope requerido esté presente aunque ya haya sesión activa.
+# Verificar scope incluso si ya había sesión activa.
 if ! gh auth status 2>&1 | grep -q "admin:public_key"; then
-    warn "El token actual no tiene el scope 'admin:public_key'. Re-autenticando..."
+    warn "El token no tiene el scope 'admin:public_key'. Re-autenticando..."
     gh auth login --hostname github.com --scopes "admin:public_key" --web \
         || die "Falló la re-autenticación."
 fi
@@ -87,9 +90,8 @@ chmod 700 "$SSH_DIR"
 success "Directorio $SSH_DIR listo."
 
 # ──────────────────────────────────────────────────────────────────────────────
-# PASO 3: Generar llave SSH
-# FIX 3: Idempotente — si la llave ya existe (ambas partes), se reutiliza.
-#         Se eliminó el prompt interactivo para permitir ejecución desatendida.
+# PASO 3: Generar llave SSH (idempotente)
+# FIX 3: Si el par completo ya existe, se reutiliza sin preguntar.
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Generando llave SSH ==="
@@ -97,9 +99,9 @@ echo "=== Generando llave SSH ==="
 if [[ -f "$SSH_KEY_PATH" && -f "$SSH_KEY_PUB_PATH" ]]; then
     success "La llave '$SSH_KEY_NAME' ya existe localmente. Se reutilizará."
 else
-    # Estado corrupto: solo existe una de las dos partes del par.
+    # Estado corrupto: solo existe una parte del par → limpiar y regenerar.
     if [[ -f "$SSH_KEY_PATH" ]] || [[ -f "$SSH_KEY_PUB_PATH" ]]; then
-        warn "Se encontró solo una parte del par de llaves. Limpiando y regenerando..."
+        warn "Par de llaves incompleto. Limpiando y regenerando..."
         rm -f "$SSH_KEY_PATH" "$SSH_KEY_PUB_PATH"
     fi
 
@@ -111,36 +113,62 @@ else
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
-# PASO 4: Agregar llave al agente SSH
+# PASO 4: Agente SSH
+#
+# PROBLEMA: eval "$(ssh-agent -s)" dentro de un subshell crea un agente cuyas
+# variables (SSH_AUTH_SOCK, SSH_AGENT_PID) NO se propagan al proceso padre.
+# Cuando el script hijo termina, el padre no sabe dónde está el agente
+# → git clone falla con "Permission denied (publickey)".
+#
+# SOLUCIÓN: Guardar las variables en $SSH_AGENT_ENV para que el padre las
+# sourcee inmediatamente después con: source "$HOME/.ssh/agent.env"
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Configurando agente SSH ==="
 
-# Iniciar agente solo si no hay uno corriendo en la sesión actual.
-if [[ -z "${SSH_AUTH_SOCK:-}" ]]; then
-    info "Iniciando ssh-agent..."
-    eval "$(ssh-agent -s)" > /dev/null
+_agent_is_alive() {
+    # Retorna 0 si el agente responde (con o sin llaves cargadas).
+    # ssh-add -l: retorna 0 (tiene llaves), 1 (vacío), 2 (no hay agente).
+    [[ -n "${SSH_AUTH_SOCK:-}" ]] && ssh-add -l &>/dev/null
+    local rc=$?
+    [[ $rc -eq 0 || $rc -eq 1 ]]
+}
+
+# Intentar reusar agente de ejecuciones anteriores.
+if [[ -f "$SSH_AGENT_ENV" ]]; then
+    # shellcheck source=/dev/null
+    source "$SSH_AGENT_ENV" &>/dev/null || true
 fi
 
-# Agregar la llave solo si no está ya cargada en el agente.
-if ! ssh-add -l 2>/dev/null | grep -qF "$SSH_KEY_PATH"; then
-    ssh-add "$SSH_KEY_PATH" 2>/dev/null \
-        && success "Llave agregada al agente." \
-        || warn "No se pudo agregar la llave al agente (puede ser normal en WSL2 sin agente persistente)."
+if ! _agent_is_alive; then
+    info "Iniciando nuevo ssh-agent..."
+    ssh-agent -s > "$SSH_AGENT_ENV"
+    chmod 600 "$SSH_AGENT_ENV"
+    # shellcheck source=/dev/null
+    source "$SSH_AGENT_ENV" > /dev/null
+    success "Agente SSH iniciado. Variables guardadas en $SSH_AGENT_ENV"
 else
-    success "La llave ya está cargada en el agente."
+    success "Agente SSH ya está activo (socket: $SSH_AUTH_SOCK)."
+fi
+
+# Agregar la llave solo si no está ya cargada.
+if ! ssh-add -l 2>/dev/null | grep -qF "$SSH_KEY_PATH"; then
+    ssh-add "$SSH_KEY_PATH" \
+        && success "Llave agregada al agente." \
+        || die "No se pudo agregar la llave al agente."
+else
+    success "La llave ya estaba cargada en el agente."
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
 # PASO 5: Subir llave a GitHub
-# FIX 1: Usar --json id,title + jq en vez de grep/awk para evitar errores 404
-#         causados por IDs mal parseados al cortar strings.
-# FIX 3: Idempotente — detecta por título exacto si ya existe antes de subir.
+# FIX 1: --json id,title + jq en vez de grep/awk que cortaba mal los IDs
+#         y causaba errores 404.
+# FIX 3: Idempotente — detecta por título exacto si ya existe.
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Sincronizando llave con GitHub ==="
 
-# Buscar llave existente por título de forma segura usando JSON + jq.
 EXISTING_KEY_ID=$(
     gh ssh-key list --json id,title 2>/dev/null \
     | jq -r --arg title "$KEY_TITLE" \
@@ -149,19 +177,17 @@ EXISTING_KEY_ID=$(
 )
 
 if [[ -n "$EXISTING_KEY_ID" ]]; then
-    success "La llave ya existe en GitHub con título '$KEY_TITLE' (ID: $EXISTING_KEY_ID). No se sube de nuevo."
+    success "La llave ya existe en GitHub (ID: $EXISTING_KEY_ID). No se sube de nuevo."
 else
     info "Subiendo llave pública a GitHub con título '$KEY_TITLE'..."
     gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE" \
-        || die "Falló al subir la llave a GitHub. Verifica que el scope 'admin:public_key' esté activo."
+        || die "Falló al subir la llave. Verifica el scope 'admin:public_key'."
     success "Llave subida correctamente a GitHub."
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
 # PASO 6: Configurar ~/.ssh/config
-# FIX 4: Usa un marcador único para detectar el bloque ya escrito y evitar
-#         duplicados. Reemplaza la verificación débil con grep -q "Host github.com"
-#         que podía colisionar con otros bloques o comentarios preexistentes.
+# FIX 4: Marcador único para detectar el bloque ya escrito y evitar duplicados.
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Configurando ~/.ssh/config ==="
@@ -169,9 +195,9 @@ echo "=== Configurando ~/.ssh/config ==="
 SSH_CONFIG_MARKER="# BEGIN github.com block (setup_github_ssh)"
 
 if [[ -f "$SSH_CONFIG_FILE" ]] && grep -qF "$SSH_CONFIG_MARKER" "$SSH_CONFIG_FILE"; then
-    success "Bloque de configuración para github.com ya existe en $SSH_CONFIG_FILE."
+    success "Bloque github.com ya existe en $SSH_CONFIG_FILE."
 else
-    info "Agregando configuración para github.com en $SSH_CONFIG_FILE..."
+    info "Agregando bloque github.com en $SSH_CONFIG_FILE..."
     cat >> "$SSH_CONFIG_FILE" <<EOF
 
 ${SSH_CONFIG_MARKER}
@@ -183,35 +209,51 @@ Host github.com
 # END github.com block (setup_github_ssh)
 EOF
     chmod 600 "$SSH_CONFIG_FILE"
-    success "Configuración SSH agregada en $SSH_CONFIG_FILE."
+    success "Configuración SSH escrita en $SSH_CONFIG_FILE."
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
-# PASO 7: Actualizar remote de dotfiles (opcional)
+# PASO 7: Actualizar remote dotfiles (opcional)
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Verificando repositorio dotfiles ==="
 
 if [[ -d "$DOTFILES_DIR/.git" ]]; then
-    info "Actualizando remote 'origin' en $DOTFILES_DIR..."
     (cd "$DOTFILES_DIR" && git remote set-url origin "$DOTFILES_REMOTE")
-    success "Remote actualizado a: $DOTFILES_REMOTE"
+    success "Remote 'origin' actualizado a: $DOTFILES_REMOTE"
 else
-    info "Directorio $DOTFILES_DIR no encontrado o no es un repo git. Saltando."
+    info "Directorio $DOTFILES_DIR no es un repo git. Saltando."
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
 # VERIFICACIÓN FINAL
+#
+# CRÍTICO: Retornamos exit 1 si SSH no funciona para que el script padre
+# pueda abortar el flujo en vez de continuar y fallar silenciosamente
+# en el git clone con "Permission denied (publickey)".
 # ──────────────────────────────────────────────────────────────────────────────
 echo ""
 echo "=== Verificación de conexión con GitHub ==="
 
-# -o StrictHostKeyChecking=accept-new acepta el host la primera vez sin prompt.
-if ssh -T git@github.com -o StrictHostKeyChecking=accept-new 2>&1 | grep -q "successfully authenticated"; then
-    success "Conexión SSH con GitHub verificada correctamente."
+SSH_TEST=$(ssh -T git@github.com \
+    -o StrictHostKeyChecking=accept-new \
+    -o ConnectTimeout=10 \
+    2>&1 || true)
+
+if echo "$SSH_TEST" | grep -q "successfully authenticated"; then
+    success "Conexión SSH con GitHub: OK"
 else
-    warn "No se pudo verificar la conexión automáticamente."
-    info "Prueba manualmente con: ssh -T git@github.com"
+    echo "  [ERROR] Falló la verificación SSH. Salida:" >&2
+    echo "          $SSH_TEST" >&2
+    echo "" >&2
+    echo "  Posibles causas:" >&2
+    echo "    1. La llave no fue aceptada por GitHub aún." >&2
+    echo "    2. El agente no tiene la llave cargada." >&2
+    echo "    3. ~/.ssh/config apunta a la llave incorrecta." >&2
+    echo "" >&2
+    echo "  Diagnóstico manual:" >&2
+    echo "    source ~/.ssh/agent.env && ssh -vT git@github.com" >&2
+    exit 1
 fi
 
 echo ""
