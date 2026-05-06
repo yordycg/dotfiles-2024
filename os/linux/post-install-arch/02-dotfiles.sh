@@ -24,13 +24,13 @@ if [ -z "$DOTFILES_ROOT" ]; then
 fi
 
 # Execute the main setup-symlinks.sh script from the dotfiles root
-if [ -f "$DOTFILES_ROOT/setup-symlinks.sh" ]; then
-    log_info "Executing $DOTFILES_ROOT/setup-symlinks.sh with absolute path..."
+if [ -f "$DOTFILES_ROOT/scripts/setup-symlinks.sh" ]; then
+    log_info "Executing $DOTFILES_ROOT/scripts/setup-symlinks.sh with absolute path..."
     # Prepending the command with DOTFILES="$DOTFILES_ROOT" injects the absolute path
     # as an environment variable into the script, ensuring it's always set correctly.
-    DOTFILES="$DOTFILES_ROOT" bash "$DOTFILES_ROOT/setup-symlinks.sh" || log_error "setup-symlinks.sh failed."
+    DOTFILES="$DOTFILES_ROOT" bash "$DOTFILES_ROOT/scripts/setup-symlinks.sh" || log_error "setup-symlinks.sh failed."
 else
-    log_error "setup-symlinks.sh not found at $DOTFILES_ROOT/setup-symlinks.sh. Please ensure it exists."
+    log_error "setup-symlinks.sh not found at $DOTFILES_ROOT/scripts/setup-symlinks.sh. Please ensure it exists."
 fi
 
 # --- Change default shell to Zsh ---
@@ -57,11 +57,11 @@ else
 fi
 
 # --- Setup Node.js with fnm ---
-if [ -f "$DOTFILES_ROOT/scripts/setup-node.sh" ]; then
-    log_info "Executing $DOTFILES_ROOT/scripts/setup-node.sh..."
-    bash "$DOTFILES_ROOT/scripts/setup-node.sh" || log_error "setup-node.sh failed."
+if [ -f "$DOTFILES_ROOT/bin/setup-node" ]; then
+    log_info "Executing $DOTFILES_ROOT/bin/setup-node..."
+    bash "$DOTFILES_ROOT/bin/setup-node" || log_error "setup-node failed."
 else
-    log_info "setup-node.sh not found at $DOTFILES_ROOT/scripts/setup-node.sh. Skipping."
+    log_info "setup-node not found at $DOTFILES_ROOT/bin/setup-node. Skipping."
 fi
 
 log_info "Dotfiles setup complete."
