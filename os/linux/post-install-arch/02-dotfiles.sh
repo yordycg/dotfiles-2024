@@ -37,20 +37,24 @@ fi
 log_info "Changing default shell to Zsh..."
 
 # Check if Zsh is installed
-if ! command -v zsh &> /dev/null; then
+ZSH_PATH=$(command -v zsh)
+if [ -z "$ZSH_PATH" ]; then
     log_error "Zsh is not installed. Please install it before changing the shell."
 fi
 
+# FIX AUTOMATIZADO: Asegurar que Zsh esté en /etc/shells
+if ! grep -qF "$ZSH_PATH" /etc/shells; then
+    log_info "Adding $ZSH_PATH to /etc/shells..."
+    echo "$ZSH_PATH" | sudo tee -a /etc/shells > /dev/null
+fi
+
 # Check if the shell is already Zsh
-if [ "$SHELL" != "/bin/zsh" ] && [ "$SHELL" != "/usr/bin/zsh" ]; then
+if [ "$SHELL" != "$ZSH_PATH" ]; then
     log_info "Attempting to set Zsh as the default shell. This may require your password."
-    # The command `chsh -s $(which zsh)` changes the default shell for the user.
-    # It might prompt for a password.
-    if chsh -s "$(which zsh)"; then
+    if sudo chsh -s "$ZSH_PATH" "$USER"; then
         log_info "Default shell changed to Zsh successfully."
-        log_info "Please log out and log back in for the change to take effect."
     else
-        log_error "Failed to change the default shell. Please try running 'chsh -s \$(which zsh)' manually."
+        log_error "Failed to change the default shell."
     fi
 else
     log_info "Default shell is already Zsh. Skipping."
