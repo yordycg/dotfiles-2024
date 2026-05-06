@@ -3,6 +3,7 @@
 Este documento sirve como guía para las próximas optimizaciones y funcionalidades de este repositorio de configuraciones.
 
 ## 🔴 PRIORIDAD 1: Cimientos y Velocidad (Impacto Inmediato)
+- [ ] **Estructura Senior de Scripts (Arch Linux)**: Mejorar la arquitectura de los scripts de instalación y configuración de Arch Linux bajo una perspectiva Senior (modularidad, manejo de errores robusto, logs avanzados y abstracción de entorno).
 - [x] **Reparar Historial de Zsh**: Corregir error `zsh: corrupt history file /home/yordycg/.zsh_history`. (Reparado usando strings y backup creado).
 - [x] **Centralización de Variables de Entorno**:
     - Mover todos los `export` de `.zshrc`, scripts y configs a un único archivo `shell/exports.sh`.
