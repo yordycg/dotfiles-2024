@@ -126,21 +126,23 @@ fi
 echo ""
 echo "=== Configurando agente SSH ==="
 
-_agent_is_alive() {
-    # Retorna 0 si el agente responde (con o sin llaves cargadas).
-    # ssh-add -l: retorna 0 (tiene llaves), 1 (vacío), 2 (no hay agente).
-    [[ -n "${SSH_AUTH_SOCK:-}" ]] && ssh-add -l &>/dev/null
-    local rc=$?
-    [[ $rc -eq 0 || $rc -eq 1 ]]
-}
-
 # Intentar reusar agente de ejecuciones anteriores.
 if [[ -f "$SSH_AGENT_ENV" ]]; then
     # shellcheck source=/dev/null
     source "$SSH_AGENT_ENV" &>/dev/null || true
 fi
 
-if ! _agent_is_alive; then
+# Verificación explícita en dos pasos:
+# 1. ¿Existe el socket como archivo de tipo socket (-S)?
+# 2. ¿Responde el agente? ssh-add -l: rc=0 (llaves), rc=1 (vivo/vacío), rc=2 (muerto).
+_agent_rc=2
+if [[ -n "${SSH_AUTH_SOCK:-}" && -S "${SSH_AUTH_SOCK:-/dev/null}" ]]; then
+    ssh-add -l &>/dev/null && _agent_rc=0 || _agent_rc=$?
+    # rc=0 o rc=1 → agente vivo; rc=2 → agente muerto
+    [[ $_agent_rc -eq 1 ]] && _agent_rc=0
+fi
+
+if [[ $_agent_rc -ne 0 ]]; then
     info "Iniciando nuevo ssh-agent..."
     ssh-agent -s > "$SSH_AGENT_ENV"
     chmod 600 "$SSH_AGENT_ENV"
@@ -148,7 +150,7 @@ if ! _agent_is_alive; then
     source "$SSH_AGENT_ENV" > /dev/null
     success "Agente SSH iniciado. Variables guardadas en $SSH_AGENT_ENV"
 else
-    success "Agente SSH ya está activo (socket: $SSH_AUTH_SOCK)."
+    success "Agente SSH ya está activo (socket: ${SSH_AUTH_SOCK})."
 fi
 
 # Agregar la llave solo si no está ya cargada.
