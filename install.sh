@@ -27,6 +27,14 @@ if [ ! -f /etc/arch-release ]; then
     exit 1
 fi
 
+# Detección de WSL para modo minimalista
+if grep -qi microsoft /proc/version; then
+    echo -e "${BLUE}ℹ️  WSL detectado. Activando modo MINIMAL (CLI + Kitty).${NC}"
+    export MINIMAL=true
+else
+    export MINIMAL=false
+fi
+
 # 2. Instalar dependencias base si no existen
 echo -e "${YELLOW}🔍 Verificando dependencias base (git, curl, base-devel, openssh, inetutils, github-cli, jq)...${NC}"
 sudo pacman -S --needed --noconfirm git curl base-devel openssh inetutils github-cli jq
