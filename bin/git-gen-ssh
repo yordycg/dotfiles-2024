@@ -1,78 +1,218 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# =============================================================================
+# setup_github_ssh.sh
+# Automatiza la configuración de llaves SSH para GitHub en Arch Linux (WSL2).
+# Usa GitHub CLI (gh). Diseñado para ser 100% idempotente.
+# =============================================================================
 
-# Script to generate an SSH key and add it to GitHub via gh CLI.
+set -euo pipefail
 
-set -e # Exit immediately if a command exits with a non-zero status.
-
-echo "--- Starting GitHub SSH Key Automation ---"
-
-# --- Configuration ---
+# ──────────────────────────────────────────────────────────────────────────────
+# CONFIGURACIÓN
+# ──────────────────────────────────────────────────────────────────────────────
 SSH_KEY_NAME="id_ed25519_github"
 SSH_DIR="$HOME/.ssh"
 SSH_KEY_PATH="$SSH_DIR/$SSH_KEY_NAME"
-SSH_KEY_PUB_PATH="$SSH_KEY_PATH.pub"
-KEY_COMMENT="GitHub automation key for $(hostname)"
-KEY_TITLE="GitHub Automation Key on $(hostname)" # Title displayed on GitHub
+SSH_KEY_PUB_PATH="${SSH_KEY_PATH}.pub"
+SSH_CONFIG_FILE="$SSH_DIR/config"
 
-# --- 1. Check for gh CLI and authentication ---
-if ! command -v gh &> /dev/null; then
-    echo "Error: GitHub CLI (gh) is not installed."
-    exit 1
+# FIX 5: hostname puede no existir en WSL/Arch — usar alternativas seguras.
+_get_hostname() {
+    if command -v hostname &>/dev/null; then
+        hostname
+    elif [[ -r /etc/hostname ]]; then
+        tr -d '[:space:]' < /etc/hostname
+    else
+        echo "arch-wsl2"
+    fi
+}
+
+KEY_COMMENT="GitHub automation key for $(_get_hostname)"
+KEY_TITLE="GitHub Automation Key on $(_get_hostname)"
+
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/workspace/infra/dotfiles-2024}"
+DOTFILES_REMOTE="git@github.com:yordycg/dotfiles-2024.git"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# HELPERS
+# ──────────────────────────────────────────────────────────────────────────────
+info()    { echo "  [INFO]  $*"; }
+success() { echo "  [ OK ]  $*"; }
+warn()    { echo "  [WARN]  $*"; }
+die()     { echo "  [ERROR] $*" >&2; exit 1; }
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 0: Verificar dependencias
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Verificando dependencias ==="
+
+for cmd in gh ssh-keygen jq; do
+    if ! command -v "$cmd" &>/dev/null; then
+        die "'$cmd' no está instalado. Instálalo con: sudo pacman -S $cmd"
+    fi
+done
+success "gh, ssh-keygen, jq encontrados."
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 1: Autenticación con GitHub CLI
+# FIX 2: Solicitar explícitamente el scope admin:public_key.
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Verificando autenticación con GitHub CLI ==="
+
+if ! gh auth status &>/dev/null; then
+    warn "No autenticado. Iniciando login con scope 'admin:public_key'..."
+    gh auth login --hostname github.com --scopes "admin:public_key" --web \
+        || die "Falló la autenticación con GitHub CLI."
 fi
 
-if ! gh auth status &> /dev/null; then
-    echo "⚠️ Not authenticated with GitHub CLI. Initiating login..."
-    gh auth login -s admin:public_key
+# Verificar que el scope requerido esté presente aunque ya haya sesión activa.
+if ! gh auth status 2>&1 | grep -q "admin:public_key"; then
+    warn "El token actual no tiene el scope 'admin:public_key'. Re-autenticando..."
+    gh auth login --hostname github.com --scopes "admin:public_key" --web \
+        || die "Falló la re-autenticación."
 fi
-echo "GitHub CLI found and authenticated."
 
-# --- 2. Create .ssh directory ---
+success "GitHub CLI autenticado con los scopes correctos."
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 2: Crear directorio .ssh
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Preparando directorio ~/.ssh ==="
+
 mkdir -p "$SSH_DIR"
 chmod 700 "$SSH_DIR"
+success "Directorio $SSH_DIR listo."
 
-# --- 3. Generate SSH Key ---
-if [ -f "$SSH_KEY_PATH" ]; then
-    echo "Warning: SSH key '$SSH_KEY_NAME' already exists."
-    read -p "Do you want to overwrite it? (y/N): " overwrite_choice
-    if [[ "$overwrite_choice" =~ ^[yY]$ ]]; then
-        rm -f "$SSH_KEY_PATH" "$SSH_KEY_PUB_PATH"
-        ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "$KEY_COMMENT" -q
-    fi
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 3: Generar llave SSH
+# FIX 3: Idempotente — si la llave ya existe (ambas partes), se reutiliza.
+#         Se eliminó el prompt interactivo para permitir ejecución desatendida.
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Generando llave SSH ==="
+
+if [[ -f "$SSH_KEY_PATH" && -f "$SSH_KEY_PUB_PATH" ]]; then
+    success "La llave '$SSH_KEY_NAME' ya existe localmente. Se reutilizará."
 else
+    # Estado corrupto: solo existe una de las dos partes del par.
+    if [[ -f "$SSH_KEY_PATH" ]] || [[ -f "$SSH_KEY_PUB_PATH" ]]; then
+        warn "Se encontró solo una parte del par de llaves. Limpiando y regenerando..."
+        rm -f "$SSH_KEY_PATH" "$SSH_KEY_PUB_PATH"
+    fi
+
+    info "Generando nueva llave ed25519..."
     ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "$KEY_COMMENT" -q
+    chmod 600 "$SSH_KEY_PATH"
+    chmod 644 "$SSH_KEY_PUB_PATH"
+    success "Llave generada: $SSH_KEY_PATH"
 fi
-chmod 600 "$SSH_KEY_PATH"
 
-# --- 4. Add to agent ---
-eval "$(ssh-agent -s)"
-ssh-add "$SSH_KEY_PATH"
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 4: Agregar llave al agente SSH
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Configurando agente SSH ==="
 
-# --- 5. Upload to GitHub (IDEMPOTENT) ---
-echo "Uploading key to GitHub..."
-# Borramos si existe una con el mismo título para evitar duplicados
-EXISTING_KEY_ID=$(gh ssh-key list | grep "$KEY_TITLE" | awk '{print $1}' || true)
-if [ -n "$EXISTING_KEY_ID" ]; then
-    gh ssh-key delete "$EXISTING_KEY_ID" --yes
+# Iniciar agente solo si no hay uno corriendo en la sesión actual.
+if [[ -z "${SSH_AUTH_SOCK:-}" ]]; then
+    info "Iniciando ssh-agent..."
+    eval "$(ssh-agent -s)" > /dev/null
 fi
-gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE"
 
-# --- 6. SSH Config ---
-if [ ! -f "$SSH_DIR/config" ] || ! grep -q "Host github.com" "$SSH_DIR/config"; then
-    cat <<EOF >> "$SSH_DIR/config"
+# Agregar la llave solo si no está ya cargada en el agente.
+if ! ssh-add -l 2>/dev/null | grep -qF "$SSH_KEY_PATH"; then
+    ssh-add "$SSH_KEY_PATH" 2>/dev/null \
+        && success "Llave agregada al agente." \
+        || warn "No se pudo agregar la llave al agente (puede ser normal en WSL2 sin agente persistente)."
+else
+    success "La llave ya está cargada en el agente."
+fi
 
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 5: Subir llave a GitHub
+# FIX 1: Usar --json id,title + jq en vez de grep/awk para evitar errores 404
+#         causados por IDs mal parseados al cortar strings.
+# FIX 3: Idempotente — detecta por título exacto si ya existe antes de subir.
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Sincronizando llave con GitHub ==="
+
+# Buscar llave existente por título de forma segura usando JSON + jq.
+EXISTING_KEY_ID=$(
+    gh ssh-key list --json id,title 2>/dev/null \
+    | jq -r --arg title "$KEY_TITLE" \
+        '.[] | select(.title == $title) | .id' \
+    | head -n1
+)
+
+if [[ -n "$EXISTING_KEY_ID" ]]; then
+    success "La llave ya existe en GitHub con título '$KEY_TITLE' (ID: $EXISTING_KEY_ID). No se sube de nuevo."
+else
+    info "Subiendo llave pública a GitHub con título '$KEY_TITLE'..."
+    gh ssh-key add "$SSH_KEY_PUB_PATH" --title "$KEY_TITLE" \
+        || die "Falló al subir la llave a GitHub. Verifica que el scope 'admin:public_key' esté activo."
+    success "Llave subida correctamente a GitHub."
+fi
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 6: Configurar ~/.ssh/config
+# FIX 4: Usa un marcador único para detectar el bloque ya escrito y evitar
+#         duplicados. Reemplaza la verificación débil con grep -q "Host github.com"
+#         que podía colisionar con otros bloques o comentarios preexistentes.
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Configurando ~/.ssh/config ==="
+
+SSH_CONFIG_MARKER="# BEGIN github.com block (setup_github_ssh)"
+
+if [[ -f "$SSH_CONFIG_FILE" ]] && grep -qF "$SSH_CONFIG_MARKER" "$SSH_CONFIG_FILE"; then
+    success "Bloque de configuración para github.com ya existe en $SSH_CONFIG_FILE."
+else
+    info "Agregando configuración para github.com en $SSH_CONFIG_FILE..."
+    cat >> "$SSH_CONFIG_FILE" <<EOF
+
+${SSH_CONFIG_MARKER}
 Host github.com
     HostName github.com
     User git
-    IdentityFile $SSH_KEY_PATH
+    IdentityFile ${SSH_KEY_PATH}
     IdentitiesOnly yes
+# END github.com block (setup_github_ssh)
 EOF
-    chmod 600 "$SSH_DIR/config"
+    chmod 600 "$SSH_CONFIG_FILE"
+    success "Configuración SSH agregada en $SSH_CONFIG_FILE."
 fi
 
-# --- 7. Remote Update ---
-DOTFILES_DIR_CHECK="${DOTFILES_DIR_CHECK:-$HOME/workspace/infra/dotfiles-2024}"
-if [ -d "$DOTFILES_DIR_CHECK/.git" ]; then
-    (cd "$DOTFILES_DIR_CHECK" && git remote set-url origin "git@github.com:yordycg/dotfiles-2024.git")
+# ──────────────────────────────────────────────────────────────────────────────
+# PASO 7: Actualizar remote de dotfiles (opcional)
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Verificando repositorio dotfiles ==="
+
+if [[ -d "$DOTFILES_DIR/.git" ]]; then
+    info "Actualizando remote 'origin' en $DOTFILES_DIR..."
+    (cd "$DOTFILES_DIR" && git remote set-url origin "$DOTFILES_REMOTE")
+    success "Remote actualizado a: $DOTFILES_REMOTE"
+else
+    info "Directorio $DOTFILES_DIR no encontrado o no es un repo git. Saltando."
 fi
 
-echo "--- SSH Setup Complete ---"
+# ──────────────────────────────────────────────────────────────────────────────
+# VERIFICACIÓN FINAL
+# ──────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Verificación de conexión con GitHub ==="
+
+# -o StrictHostKeyChecking=accept-new acepta el host la primera vez sin prompt.
+if ssh -T git@github.com -o StrictHostKeyChecking=accept-new 2>&1 | grep -q "successfully authenticated"; then
+    success "Conexión SSH con GitHub verificada correctamente."
+else
+    warn "No se pudo verificar la conexión automáticamente."
+    info "Prueba manualmente con: ssh -T git@github.com"
+fi
+
+echo ""
+echo "=== Setup SSH completado exitosamente ==="
