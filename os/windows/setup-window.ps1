@@ -9,7 +9,7 @@ param (
 
 # 0. Asegurar privilegios de administrador para symlinks
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Host "🚀 Solicitando permisos de administrador para tareas del sistema..." -ForegroundColor Cyan
+    Write-Host "[INFO] Solicitando permisos de administrador para tareas del sistema..." -ForegroundColor Cyan
     
     # IMPORTANTE: Usamos el mismo ejecutable que nos está corriendo (pwsh o powershell)
     $PSExe = (Get-Process -Id $PID).Path
@@ -29,25 +29,25 @@ Set-Location $PSScriptRoot
 # --- CARGA CRÍTICA DEL MÓDULO ---
 try {
     $ModulePath = Join-Path $PSScriptRoot "lib\WinDotfiles.psm1"
-    if (-not (Test-Path $ModulePath)) { throw "Módulo WinDotfiles no encontrado en $ModulePath" }
+    if (-not (Test-Path $ModulePath)) { throw "Modulo WinDotfiles no encontrado en $ModulePath" }
     Import-Module $ModulePath -Force
     
     $ConfigPath = Join-Path $PSScriptRoot "config\config.json"
-    if (-not (Test-Path $ConfigPath)) { throw "Archivo de configuración no encontrado en $ConfigPath" }
+    if (-not (Test-Path $ConfigPath)) { throw "Archivo de configuracion no encontrado en $ConfigPath" }
     $config = Get-Content -Raw $ConfigPath | ConvertFrom-Json
 }
 catch {
-    Write-Host "`n❌ FALLO CRÍTICO al cargar módulos/config: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "`n[ERROR] FALLO CRITICO al cargar modulos/config: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }
 
 $LogPath = Join-Path $PSScriptRoot "install-log.txt"
 if ($Task -eq "All" -and (Test-Path $LogPath)) { Remove-Item $LogPath -Force }
 Start-Transcript -Path $LogPath -Append
-Write-Host "--- Iniciando Configuración de Windows (Tarea: $Task) ---" -ForegroundColor Cyan
+Write-Host "--- Iniciando Configuracion de Windows (Tarea: $Task) ---" -ForegroundColor Cyan
 
 # 2. Resolver Rutas Base
-Write-Host "Resolviendo rutas de configuración..."
+Write-Host "Resolviendo rutas de configuracion..."
 $resolvedPaths = @{}
 foreach ($prop in $config.paths.PSObject.Properties) {
     $resolvedPaths[$prop.Name] = $prop.Value
@@ -63,7 +63,7 @@ foreach ($key in @($resolvedPaths.Keys)) {
     }
 }
 
-# 3. Ejecución de Tareas
+# 3. Ejecucion de Tareas
 
 # --- DIRECTORIOS ---
 if ($Task -eq "All" -or $Task -eq "Directories" -or $Task -eq "Links") {
@@ -74,9 +74,9 @@ if ($Task -eq "All" -or $Task -eq "Directories" -or $Task -eq "Links") {
     }
 }
 
-# --- ENLACES SIMBÓLICOS ---
+# --- ENLACES SIMBOLICOS ---
 if ($Task -eq "All" -or $Task -eq "Links") {
-    Write-Host "`nStep 2: Creando Enlaces Simbólicos..." -ForegroundColor Yellow
+    Write-Host "`nStep 2: Creando Enlaces Simbolicos..." -ForegroundColor Yellow
     foreach ($symlink in $config.symlinks) {
         $target = Resolve-ConfigPath -Path $symlink.target -ConfigPaths $resolvedPaths
         $link = Resolve-ConfigPath -Path $symlink.link -ConfigPaths $resolvedPaths
@@ -101,7 +101,7 @@ if ($Task -eq "All" -or $Task -eq "SSH") {
             & pwsh.exe -NoProfile -File $sshScriptPath -Config $config
         }
     } catch {
-        Write-Warning "No se pudo ejecutar la configuración de SSH: $($_.Exception.Message)"
+        Write-Warning "No se pudo ejecutar la configuracion de SSH: $($_.Exception.Message)"
     }
 }
 
@@ -131,15 +131,15 @@ if ($Task -eq "All" -or $Task -eq "WSL") {
     if (Get-Command Arch.exe -ErrorAction SilentlyContinue) {
         $wslDistros = wsl -l -q
         if ($wslDistros -notcontains "Arch") {
-            Write-Host "📦 Registrando Arch Linux en WSL (esto puede tardar un poco)..." -ForegroundColor Cyan
+            Write-Host "[INFO] Registrando Arch Linux en WSL (esto puede tardar un poco)..." -ForegroundColor Cyan
             # Ejecutar Arch.exe para registrar la distro
             Start-Process -FilePath "Arch.exe" -Wait
-            Write-Host "✅ Arch Linux registrado con éxito." -ForegroundColor Green
+            Write-Host "[SUCCESS] Arch Linux registrado con exito." -ForegroundColor Green
         } else {
-            Write-Host "✅ Arch Linux ya está registrado en WSL." -ForegroundColor Green
+            Write-Host "[SUCCESS] Arch Linux ya esta registrado en WSL." -ForegroundColor Green
         }
     }
 }
 
-Write-Host "`n--- Configuración de Windows Finalizada ---" -ForegroundColor Green
+Write-Host "`n--- Configuracion de Windows Finalizada ---" -ForegroundColor Green
 Stop-Transcript
