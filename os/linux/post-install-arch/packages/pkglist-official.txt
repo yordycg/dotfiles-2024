@@ -14,6 +14,7 @@ dbeaver
 direnv
 docker
 docker-compose
+dotnet-sdk
 efibootmgr
 eza
 fastfetch
@@ -29,6 +30,8 @@ git
 git-delta
 github-cli
 gjs
+glow
+gnome-keyring
 grim
 grub
 gsm
@@ -45,9 +48,9 @@ imagemagick
 impala
 inetutils
 jq
+just
 kitty
 kvantum
-l-smash
 lazydocker
 lazygit
 libass
@@ -63,6 +66,7 @@ libopenmpt
 libplacebo
 libraw1394
 libsamplerate
+libsecret
 libsoxr
 libssh
 libtheora
@@ -72,6 +76,7 @@ libvpl
 libvpx
 linux
 linux-firmware
+l-smash
 luarocks
 mailcap
 mako
@@ -90,12 +95,12 @@ pamixer
 pnpm
 polkit-kde-agent
 portaudio
-python-cookiecutter
+python
 python-pipx
-qt5-wayland
 qt5ct
-qt6-wayland
+qt5-wayland
 qt6ct
+qt6-wayland
 rav1e
 ripgrep
 rubberband
@@ -145,12 +150,8 @@ xclip
 xdg-desktop-portal-hyprland
 xvidcore
 yazi
+zed
 zenity
 zimg
 zoxide
 zsh
-zed
-gnome-keyring
-libsecret
-glow
-just

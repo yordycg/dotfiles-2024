@@ -18,8 +18,7 @@
     "nvim": "%LOCALAPPDATA%\\nvim",
     "powershellConfig": "%config%\\powershell",
     "userProfileConfig": "%powershellConfig%\\user_profile.ps1",
-    "winTerminalSettings": "%LOCALAPPDATA%\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json",
-    "zed": "%APPDATA%\\Zed"
+    "winTerminalSettings": "%LOCALAPPDATA%\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
   },
   "scoopApps": [
     "7zip",
@@ -30,21 +29,18 @@
     "curlie",
     "delta",
     "direnv",
-    "dotnet-sdk",
     "fastfetch",
     "fd",
     "FiraCode-NF-Mono",
     "flow-launcher",
     "fnm",
     "fzf",
-    "gcc",
     "JetBrainsMono-NF-Mono",
     "jq",
     "just",
     "lazydocker",
     "lazygit",
     "Lilex-NF",
-    "make",
     "Meslo-NF-Mono",
     "neovim",
     "oh-my-posh",
@@ -54,15 +50,12 @@
     "psfzf",
     "psmux",
     "psreadline",
-    "python",
     "ripgrep",
     "RobotoMono-NF-Mono",
     "starship",
     "sudo",
     "terminal-icons",
-    "wezterm",
-    "z",
-    "zed"
+    "z"
   ],
   "repositories": [
     { "name": "dotfiles-2024.git", "destination": "%dotfiles%" },
@@ -109,18 +102,6 @@
     {
       "target": "%dotfiles%\\os\\windows\\programs\\psmux\\psmux.conf",
       "link": "%USERPROFILE%\\.psmux.conf"
-    },
-    {
-      "target": "%dotfiles%\\os\\cross-platform\\wezterm\\wezterm.lua",
-      "link": "%USERPROFILE%\\.wezterm.lua"
-    },
-    {
-      "target": "%dotfiles%\\editors\\zed\\settings.json",
-      "link": "%zed%\\settings.json"
-    },
-    {
-      "target": "%dotfiles%\\editors\\zed\\keymap.json",
-      "link": "%zed%\\keymap.json"
     },
     {
       "target": "%dotfiles%\\os\\windows\\.wslconfig",
