@@ -26,7 +26,6 @@
     "bat",
     "CascadiaCode-NF-Mono",
     "curl",
-    "curlie",
     "delta",
     "direnv",
     "fastfetch",
@@ -48,12 +47,10 @@
     "posh-docker",
     "posh-git",
     "psfzf",
-    "psmux",
     "psreadline",
     "ripgrep",
     "RobotoMono-NF-Mono",
     "starship",
-    "sudo",
     "terminal-icons",
     "z"
   ],
@@ -94,14 +91,6 @@
     {
       "target": "%dotfiles%\\os\\windows\\programs\\Windows-Terminal\\settings.json",
       "link": "%winTerminalSettings%"
-    },
-    {
-      "target": "%dotfiles%\\os\\windows\\programs\\psmux\\psmux.conf",
-      "link": "%USERPROFILE%\\.tmux.conf"
-    },
-    {
-      "target": "%dotfiles%\\os\\windows\\programs\\psmux\\psmux.conf",
-      "link": "%USERPROFILE%\\.psmux.conf"
     },
     {
       "target": "%dotfiles%\\os\\windows\\.wslconfig",

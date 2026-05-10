@@ -34,20 +34,30 @@ function New-Symlink {
     try {
         if (Test-Path -Path $LinkPath) {
             $existingItem = Get-Item -Path $LinkPath -Force
-            if ($existingItem.LinkType -eq 'SymbolicLink') {
+            
+            # Si ya es un link, verificar a donde apunta
+            if ($existingItem.Attributes -match "ReparsePoint") {
+                $currentTarget = $existingItem.Target
+                if ($currentTarget -eq $TargetPath) {
+                    Write-Host "[OK] Enlace ya correcto: '$LinkPath' -> '$TargetPath'." -ForegroundColor Gray
+                    return
+                }
+                
                 if ($Force) {
-                    Write-Host "Eliminando enlace simbólico existente en '$LinkPath'." -ForegroundColor Yellow
+                    Write-Host "[INFO] Reemplazando enlace viejo en '$LinkPath'..." -ForegroundColor Yellow
                     Remove-Item -Path $LinkPath -Force -ErrorAction Stop
                 } else {
-                    Write-Host "El enlace '$LinkPath' ya existe. Usa -Force para reemplazarlo." -ForegroundColor Yellow
+                    Write-Warning "El enlace '$LinkPath' ya existe pero apunta a '$currentTarget'. Usa -Force para actualizarlo."
                     return
                 }
             } else {
+                # Es un archivo o directorio real
                 if ($Force) {
-                    Write-Warning "Se encontró un archivo o directorio real en '$LinkPath'. Se eliminará para crear el enlace."
-                    Remove-Item -Path $LinkPath -Recurse -Force -ErrorAction Stop
+                    Write-Warning "[WARN] Se encontro un elemento REAL en '$LinkPath'. Moviendo a backup..."
+                    $backupPath = "$LinkPath.bak_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+                    Move-Item -Path $LinkPath -Destination $backupPath -Force
                 } else {
-                    Write-Error "Error: Ya existe un archivo o directorio en '$LinkPath' que no es un enlace. Usa -Force para reemplazarlo."
+                    Write-Error "Error: Ya existe un ARCHIVO REAL en '$LinkPath'. Usa -Force para respaldarlo y crear el enlace."
                     return
                 }
             }
@@ -58,18 +68,11 @@ function New-Symlink {
             New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
         }
 
-        # Intentar crear el enlace con ErrorAction Stop para capturar fallos de permisos
         New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath -Force -ErrorAction Stop | Out-Null
-        
-        # Doble verificación
-        if (Test-Path $LinkPath) {
-            Write-Host "Enlace creado: '$LinkPath' -> '$TargetPath'." -ForegroundColor Green
-        } else {
-            throw "El comando New-Item no reportó error pero el enlace no existe."
-        }
+        Write-Host "[SUCCESS] Enlace creado: '$LinkPath' -> '$TargetPath'." -ForegroundColor Green
     }
     catch {
-        Write-Error "FALLO al crear enlace '$LinkPath': $($_.Exception.Message)"
+        Write-Error "[FAIL] Fallo al crear enlace '$LinkPath': $($_.Exception.Message)"
     }
 }
 
@@ -79,16 +82,14 @@ function New-Directory {
         [switch]$Force
     )
 
-    try {
-        if (-not (Test-Path -Path $Path)) {
+    if (-not (Test-Path -Path $Path)) {
+        try {
             New-Item -ItemType Directory -Path $Path -Force:$Force | Out-Null
-            Write-Host "Directorio '$Path' creado." -ForegroundColor Cyan
-        } else {
-            Write-Host "El directorio '$Path' ya existe." -ForegroundColor Gray
+            Write-Host "[INFO] Directorio '$Path' creado." -ForegroundColor Cyan
         }
-    }
-    catch {
-        Write-Error "Error al crear el directorio '$Path': $($_.Exception.Message)."
+        catch {
+            Write-Error "[ERROR] Error al crear el directorio '$Path': $($_.Exception.Message)."
+        }
     }
 }
 
@@ -96,20 +97,20 @@ function Install-Scoop {
     $ScoopPath = "$env:USERPROFILE\scoop\shims\scoop.ps1"
     try {
         if (Test-Path $ScoopPath) {
-            Write-Host "Scoop ya está instalado. Actualizando..." -ForegroundColor Cyan
-            & scoop update
+            Write-Host "[INFO] Scoop ya esta instalado. Sincronizando..." -ForegroundColor Gray
+            & scoop update | Out-Null
         } else {
-            Write-Host "Instalando Scoop..." -ForegroundColor Cyan
+            Write-Host "[INFO] Instalando Scoop..." -ForegroundColor Cyan
+            Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
             iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
-            Write-Host "Agregando buckets..." -ForegroundColor Cyan
+            Write-Host "[INFO] Agregando buckets esenciales..." -ForegroundColor Cyan
             & scoop bucket add extras
             & scoop bucket add nerd-fonts
             & scoop bucket add versions
-            & scoop bucket add psmux https://github.com/psmux/scoop-psmux
         }
     }
     catch {
-        Write-Error "Error al instalar/actualizar Scoop: $($_.Exception.Message)."
+        Write-Error "[ERROR] Error al instalar/actualizar Scoop: $($_.Exception.Message)."
     }
 }
 
@@ -119,48 +120,26 @@ function Install-ScoopApps {
         [string[]]$Apps
     )
 
-    if (-not $Apps -or $Apps.Count -eq 0) {
-        Write-Warning "No se especificaron aplicaciones para instalar."
-        return
-    }
+    if (-not $Apps -or $Apps.Count -eq 0) { return }
 
-    # 1. Asegurar aria2 para descargas rápidas (paralelas)
-    if (-not (Get-Command aria2c -ErrorAction SilentlyContinue)) {
-        Write-Host "🚀 Instalando aria2 para acelerar descargas..." -ForegroundColor Cyan
+    # Optimizacion: Ver que apps estan instaladas mirando el sistema de archivos
+    $scoopAppsDir = Join-Path $env:USERPROFILE "scoop\apps"
+    $installedApps = if (Test-Path $scoopAppsDir) { Get-ChildItem $scoopAppsDir | Select-Object -ExpandProperty Name } else { @() }
+
+    # Asegurar aria2 para descargas rapidas
+    if ("aria2" -notin $installedApps) {
+        Write-Host "[INFO] Instalando aria2 para acelerar descargas..." -ForegroundColor Cyan
         & scoop install aria2
-        # Configurar aria2 para ser agresivo (opcional pero recomendado)
         & scoop config aria2-enabled true
     }
 
-    Write-Host "📦 Preparando instalación masiva de $($Apps.Count) aplicaciones..." -ForegroundColor Cyan
-    
-    # Obtener lista de apps instaladas de forma robusta
-    $installedApps = @()
-    try {
-        $scoopList = & scoop list
-        if ($scoopList) {
-            foreach ($line in $scoopList) {
-                if ($line -match '^\s*(\S+)\s+\(') {
-                    $installedApps += $matches[1]
-                }
-            }
-        }
-    } catch {
-        Write-Warning "No se pudo obtener la lista de aplicaciones instaladas de Scoop."
-    }
-
-    $appsToInstall = @()
-    foreach ($app in $Apps) {
-        if ($app -notin $installedApps) {
-            $appsToInstall += $app
-        }
-    }
+    $appsToInstall = $Apps | Where-Object { $_ -notin $installedApps }
 
     if ($appsToInstall.Count -gt 0) {
-        Write-Host "Installing: $($appsToInstall -join ', ')" -ForegroundColor Yellow
+        Write-Host "[INFO] Instalando $($appsToInstall.Count) aplicaciones faltantes..." -ForegroundColor Yellow
         & scoop install $appsToInstall
     } else {
-        Write-Host "✅ Todas las aplicaciones ya están instaladas." -ForegroundColor Green
+        Write-Host "[OK] Todas las aplicaciones de Scoop estan al dia." -ForegroundColor Gray
     }
 }
 
