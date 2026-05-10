@@ -3,7 +3,9 @@
 Este documento sirve como guía para las próximas optimizaciones y funcionalidades de este repositorio de configuraciones.
 
 ## 🔴 PRIORIDAD 1: Cimientos y Velocidad (Impacto Inmediato)
-- [ ] **Estructura Senior de Scripts (Arch Linux)**: Mejorar la arquitectura de los scripts de instalación y configuración de Arch Linux bajo una perspectiva Senior (modularidad, manejo de errores robusto, logs avanzados y abstracción de entorno).
+- [ ] **Resiliencia en Pacman (WSL)**: Automatizar `pacman-key --init`, `--populate archlinux` y la actualizacion de `archlinux-keyring` antes de cualquier instalacion para evitar fallos de firmas o errores 404 en imagenes base antiguas.
+- [ ] **SSH Idempotente y Unico**: Mejorar `bin/git-gen-ssh` para generar nombres de llave mas especificos (ej. incluyendo timestamp/date) y asegurar que siempre se suba una llave valida aunque existan nombres similares en GitHub.
+- [ ] **Estructura Senior de Scripts (Arch Linux)**: Mejorar la arquitectura de los scripts de instalacion y configuracion de Arch Linux bajo una perspectiva Senior (modularidad, manejo de errores robusto, logs avanzados y abstraccion de entorno).
 - [x] **Reparar Historial de Zsh**: Corregir error `zsh: corrupt history file /home/yordycg/.zsh_history`. (Reparado usando strings y backup creado).
 - [x] **Centralización de Variables de Entorno**:
     - Mover todos los `export` de `.zshrc`, scripts y configs a un único archivo `shell/exports.sh`.
