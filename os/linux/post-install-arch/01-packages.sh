@@ -1,48 +1,43 @@
 #!/bin/bash
+# ----------------------------------------------------------------------
+# Arch Linux Package Installer
+# ----------------------------------------------------------------------
 
-# Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Function to display messages (re-defined for modularity or can be sourced)
-log_info() {
-    echo -e "\033[0;32m[INFO]\033[0m $1"
-}
+log_info() { echo -e "\033[0;32m[INFO]\033[0m $1"; }
+log_error() { echo -e "\033[0;31m[ERROR]\033[0m $1"; exit 1; }
 
-log_error() {
-    echo -e "\033[0;31m[ERROR]\033[0m $1"
-    exit 1
-}
-
-# Ensure we are in the script's directory for relative paths to work
+# Directorio de los paquetes
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+PKG_DIR="$SCRIPT_DIR/packages"
 
-log_info "Installing packages from official repositories..."
-if [ -f "./packages/pkglist-official.txt" ]; then
-    if [ "$MINIMAL" = "true" ]; then
-        log_info "Filtrando paquetes GUI pesados (manteniendo Kitty)..."
-        # Excluimos el entorno de escritorio y apps pesadas, pero NO kitty ni herramientas dev
-        GUI_EXCLUDE="hypr|sddm|waybar|mako|wofi|thunar|firefox|obsidian|sway|wayland-utils"
-        tr -d '\r' < "./packages/pkglist-official.txt" | grep -vE "$GUI_EXCLUDE" | yay -Syu --noconfirm --needed - || log_error "Failed to install official packages."
-    else
-        tr -d '\r' < "./packages/pkglist-official.txt" | yay -Syu --noconfirm --needed - || log_error "Failed to install official packages."
-    fi
+# 1. Definicion de Filtros para WSL (Modo Minimal)
+# Paquetes de Hardware, Kernel, Boot y GUI pesada que NO queremos en WSL
+SYSTEM_FILTER="grub|efibootmgr|os-prober|linux|linux-firmware|networkmanager|blueman|brightnessctl|vulkan-intel|mesa"
+GUI_FILTER="hyprland|sddm|waybar|mako|wofi|thunar|nwg-look|kvantum|qt5-wayland|qt6-wayland|xdg-desktop-portal-hyprland"
+BROWSER_FILTER="firefox|chrome|brave|edge|thorium"
+FONT_FILTER="ttf-cascadia|ttf-fira|ttf-jetbrains|ttf-lilex|ttf-roboto"
+
+# Combinar filtros si estamos en modo Minimal
+if [ "$MINIMAL" = "true" ]; then
+    log_info "Modo MINIMAL (WSL) detectado. Se filtraran paquetes de sistema y GUI pesada."
+    EXCLUDE_PATTERN="^($SYSTEM_FILTER|$GUI_FILTER|$BROWSER_FILTER|$FONT_FILTER)"
 else
-    log_info "No official package list found (./packages/pkglist-official.txt). Skipping."
+    log_info "Modo FULL (Bare Metal) detectado. Se instalara todo el ecosistema."
+    EXCLUDE_PATTERN="^$" # No excluir nada
 fi
 
-log_info "Installing packages from AUR..."
-if [ -f "./packages/pkglist-aur.txt" ]; then
-    if [ "$MINIMAL" = "true" ]; then
-        log_info "Filtrando paquetes AUR GUI..."
-        # Excluimos navegadores y decoraciones de escritorio
-        AUR_EXCLUDE="chrome|brave|edge|wlogout|walker|sddm-sugar-candy"
-        tr -d '\r' < "./packages/pkglist-aur.txt" | grep -vE "$AUR_EXCLUDE" | yay -Syu --noconfirm --needed - || log_error "Failed to install AUR packages."
-    else
-        tr -d '\r' < "./packages/pkglist-aur.txt" | yay -Syu --noconfirm --needed - || log_error "Failed to install AUR packages."
-    fi
-else
-    log_info "No AUR package list found (./packages/pkglist-aur.txt). Skipping."
+# 2. Instalacion de Paquetes Oficiales
+if [ -f "$PKG_DIR/pkglist-official.txt" ]; then
+    log_info "Instalando paquetes desde repositorios oficiales..."
+    tr -d '\r' < "$PKG_DIR/pkglist-official.txt" | grep -vE "$EXCLUDE_PATTERN" | yay -Syu --noconfirm --needed - || log_error "Fallo la instalacion de paquetes oficiales."
 fi
 
-log_info "Package installation complete."
+# 3. Instalacion de Paquetes AUR
+if [ -f "$PKG_DIR/pkglist-aur.txt" ]; then
+    log_info "Instalando paquetes desde AUR..."
+    tr -d '\r' < "$PKG_DIR/pkglist-aur.txt" | grep -vE "$EXCLUDE_PATTERN" | yay -Syu --noconfirm --needed - || log_error "Fallo la instalacion de paquetes AUR."
+fi
+
+log_info "Instalacion de paquetes completada."
