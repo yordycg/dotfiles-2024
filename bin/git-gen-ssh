@@ -66,14 +66,14 @@ echo "=== Verificando autenticación con GitHub CLI ==="
 
 if ! gh auth status &>/dev/null; then
     warn "No autenticado. Iniciando login con scope 'admin:public_key'..."
-    gh auth login --hostname github.com --scopes "admin:public_key" --web \
+    gh auth login --hostname github.com --scopes "admin:public_key,admin:ssh_signing_key" --web \
         || die "Falló la autenticación con GitHub CLI."
 fi
 
 # Verificar scope incluso si ya había sesión activa.
 if ! gh auth status 2>&1 | grep -q "admin:public_key"; then
     warn "El token no tiene el scope 'admin:public_key'. Re-autenticando..."
-    gh auth login --hostname github.com --scopes "admin:public_key" --web \
+    gh auth login --hostname github.com --scopes "admin:public_key,admin:ssh_signing_key" --web \
         || die "Falló la re-autenticación."
 fi
 

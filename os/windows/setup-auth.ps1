@@ -26,7 +26,7 @@ Write-Info "Verificando autenticacion con GitHub..."
 $authState = gh auth status 2>&1
 if ($LASTEXITCODE -ne 0) {
     Write-Warn "No autenticado. Iniciando login via navegador..."
-    gh auth login --hostname github.com --scopes "admin:public_key" --web
+    gh auth login --hostname github.com --scopes "admin:public_key,admin:ssh_signing_key" --web
     if ($LASTEXITCODE -ne 0) { Write-Die "Fallo la autenticacion con GitHub CLI." }
 }
 Write-Success "GitHub CLI autenticado."
