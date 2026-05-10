@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------
 # MASTER INSTALLER: Windows Dotfiles
 # ----------------------------------------------------------------------
-# Este script es el punto de entrada único para Windows.
-# Instala Git, clona los dotfiles y ejecuta la configuración.
+# Este script es el punto de entrada unico para Windows.
+# Instala Git, clona los dotfiles y ejecuta la configuracion.
 # ----------------------------------------------------------------------
 
 # 1. Asegurar privilegios de administrador
@@ -16,23 +16,32 @@ Write-Host "==========================================" -ForegroundColor Blue
 Write-Host "   Yordy's Windows Dotfiles Setup         " -ForegroundColor Blue
 Write-Host "==========================================" -ForegroundColor Blue
 
-# 2. Verificar/Instalar Git
+# 2. Health Check: Internet
+Write-Host "[INFO] Verificando conexion a internet..." -ForegroundColor Cyan
+try {
+    $null = [System.Net.Dns]::GetHostEntry("github.com")
+} catch {
+    Write-Error "No hay conexion a internet o no se puede resolver github.com. Abortando."
+    exit 1
+}
+
+# 3. Verificar/Instalar Git
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "[INFO] Git no encontrado. Instalando mediante Winget..." -ForegroundColor Yellow
     winget install --id Git.Git -e --source winget
-    # Refrescar el PATH para la sesión actual
+    # Refrescar el PATH para la sesion actual
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 }
 
-# 3. Definir rutas
+# 4. Definir rutas
 $DotfilesRepo = "https://github.com/yordycg/dotfiles-2024.git"
 $TargetDir = "$env:USERPROFILE\workspace\infra\dotfiles-2024"
 
-# 4. Clonar o actualizar repo
+# 5. Clonar o actualizar repo
 if (-not (Test-Path $TargetDir)) {
     Write-Host "[INFO] Clonando repositorio de dotfiles..." -ForegroundColor Yellow
     $parentDir = Split-Path $TargetDir
-    if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Force -Path $parentDir }
+    if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Force -Path $parentDir | Out-Null }
     git clone $DotfilesRepo $TargetDir
 }
 else {
@@ -42,14 +51,14 @@ else {
     Pop-Location
 }
 
-# 5. Ejecutar el script principal de Windows
+# 6. Ejecutar el script principal de Windows
 $WindowsSetup = Join-Path $TargetDir "os\windows\setup-window.ps1"
 if (Test-Path $WindowsSetup) {
-    Write-Host "[INFO] Ejecutando configuración de Windows..." -ForegroundColor Yellow
+    Write-Host "[INFO] Ejecutando configuracion de Windows..." -ForegroundColor Yellow
     & $WindowsSetup
 }
 else {
-    Write-Error "[ERROR] No se encontró el script de configuración en $WindowsSetup"
+    Write-Error "[ERROR] No se encontro el script de configuracion en $WindowsSetup"
 }
 
 Write-Host "`n==========================================" -ForegroundColor Blue

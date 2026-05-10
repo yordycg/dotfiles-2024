@@ -11,7 +11,6 @@ param (
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "[INFO] Solicitando permisos de administrador para tareas del sistema..." -ForegroundColor Cyan
     
-    # IMPORTANTE: Usamos el mismo ejecutable que nos está corriendo (pwsh o powershell)
     $PSExe = (Get-Process -Id $PID).Path
     $Arguments = "-NoExit -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`" -Task $Task"
     
@@ -26,7 +25,7 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 # Asegurar que estamos en el directorio del script
 Set-Location $PSScriptRoot
 
-# --- CARGA CRÍTICA DEL MÓDULO ---
+# --- CARGA CRITICA DEL MODULO ---
 try {
     $ModulePath = Join-Path $PSScriptRoot "lib\WinDotfiles.psm1"
     if (-not (Test-Path $ModulePath)) { throw "Modulo WinDotfiles no encontrado en $ModulePath" }
@@ -42,7 +41,7 @@ catch {
 }
 
 $LogPath = Join-Path $PSScriptRoot "install-log.txt"
-if ($Task -eq "All" -and (Test-Path $LogPath)) { Remove-Item $LogPath -Force }
+if ($Task -eq "All" -and (Test-Path $LogPath)) { Remove-Item $LogPath -Force | Out-Null }
 Start-Transcript -Path $LogPath -Append
 Write-Host "--- Iniciando Configuracion de Windows (Tarea: $Task) ---" -ForegroundColor Cyan
 
@@ -92,16 +91,27 @@ if ($Task -eq "All" -or $Task -eq "Scoop") {
     Install-ScoopApps -Apps $config.scoopApps
 }
 
-# --- SSH & GIT ---
+# --- AUTHENTICATION (GitHub & SSH) ---
 if ($Task -eq "All" -or $Task -eq "SSH") {
-    Write-Host "`nStep 4: Configurando SSH y Git..." -ForegroundColor Yellow
-    try {
-        $sshScriptPath = Resolve-Path (Join-Path $PSScriptRoot "..\..\git\setup-git-ssh.ps1")
-        if (Test-Path $sshScriptPath) {
-            & pwsh.exe -NoProfile -File $sshScriptPath -Config $config
+    Write-Host "`nStep 4: Configurando Autenticacion y SSH..." -ForegroundColor Yellow
+    
+    # 4.1 GitHub Personal (Obligatorio)
+    $authScript = Join-Path $PSScriptRoot "setup-auth.ps1"
+    if (Test-Path $authScript) {
+        & $authScript -Config $config
+    }
+
+    # 4.2 Trabajo (Opcional e Interactivo)
+    $workAuthScript = Join-Path $PSScriptRoot "setup-auth-work.ps1"
+    if (Test-Path $workAuthScript) {
+        Write-Host "`n¿Deseas configurar una cuenta de trabajo (GitLab/Innevo)? (s/N)" -ForegroundColor Cyan
+        $choice = Read-Host
+        if ($choice -eq "s") {
+            $workEmail = if ($config.emails.work) { $config.emails.work } else { "work@example.com" }
+            & $workAuthScript -Email $workEmail
+        } else {
+            Write-Host "Saltando configuracion de trabajo." -ForegroundColor Gray
         }
-    } catch {
-        Write-Warning "No se pudo ejecutar la configuracion de SSH: $($_.Exception.Message)"
     }
 }
 
