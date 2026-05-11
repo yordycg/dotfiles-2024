@@ -79,7 +79,7 @@
       "link": "%USERPROFILE%\\.gitconfig-work"
     },
     {
-      "target": "%dotfiles%\\os\\cross-platform\\starship\\starship.toml",
+      "target": "%dotfiles%\\os\\cross-platform\\starship\\starship-windows.toml",
       "link": "%config%\\starship.toml"
     },
     {

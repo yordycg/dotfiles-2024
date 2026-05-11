@@ -67,7 +67,15 @@ echo -e "${BLUE}=== Iniciando Gestion de Enlaces Simbolicos ===${NC}"
 create_link "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
 create_link "$DOTFILES/git/.gitignore_global" "$HOME/.gitignore"
 create_link "$DOTFILES/shell/zsh/.zshrc" "$HOME/.zshrc"
-create_link "$DOTFILES/os/cross-platform/starship/starship.toml" "$HOME/.config/starship.toml"
+
+# Starship: Diferenciar entre WSL (Jetpack) y Bare Metal
+MINIMAL_LOWER=$(echo "${MINIMAL:-false}" | tr '[:upper:]' '[:lower:]')
+if [ "$MINIMAL_LOWER" == "true" ]; then
+    create_link "$DOTFILES/os/cross-platform/starship/starship-wsl.toml" "$HOME/.config/starship.toml"
+else
+    create_link "$DOTFILES/os/cross-platform/starship/starship-linux.toml" "$HOME/.config/starship.toml"
+fi
+
 create_link "$DOTFILES/os/cross-platform/wezterm" "$HOME/.config/wezterm"
 create_link "$DOTFILES/editors/nvim/nvim-yc-26" "$HOME/.config/nvim"
 create_link "$DOTFILES/shell/zsh/sheldon/plugins.toml" "$HOME/.config/sheldon/plugins.toml"
@@ -78,8 +86,6 @@ create_link "$DOTFILES/os/linux/tmux" "$HOME/.config/tmux"
 create_link "$DOTFILES/os/windows/programs/Fastfetch" "$HOME/.config/fastfetch"
 
 # 2. Enlaces de Interfaz (Solo si NO es WSL / MINIMAL)
-# Convertir a minúsculas para comparación robusta
-MINIMAL_LOWER=$(echo "${MINIMAL:-false}" | tr '[:upper:]' '[:lower:]')
 if [ "$MINIMAL_LOWER" != "true" ]; then
     echo -e "\n${BLUE}=== Configurando Enlaces de Interfaz (Bare Metal) ===${NC}"
     create_link "$DOTFILES/os/linux/kitty" "$HOME/.config/kitty"
