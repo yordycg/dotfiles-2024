@@ -61,6 +61,15 @@ if [ -z "$DOTFILES" ]; then
     DOTFILES="$(cd "$(dirname "$0")/.." && pwd)"
 fi
 
+# Autodeteccion de WSL si MINIMAL no esta definido
+if [ -z "$MINIMAL" ]; then
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        MINIMAL="true"
+    else
+        MINIMAL="false"
+    fi
+fi
+
 echo -e "${BLUE}=== Iniciando Gestion de Enlaces Simbolicos ===${NC}"
 
 # 1. Enlaces de Configuracion Base (Siempre necesarios)
