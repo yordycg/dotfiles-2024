@@ -7,6 +7,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
 - [ ] **Seguridad de Propiedad (Ownership)**: Mejorar los scripts (`install.sh` e `install-windows.ps1`) para detectar y advertir si el repositorio fue clonado como `sudo` o `Administrator`, evitando errores de "dubious ownership" y problemas de permisos en symlinks.
 - [ ] **SSH Idempotente y Unico**: Mejorar `bin/git-gen-ssh` para generar nombres de llave mas especificos (ej. incluyendo timestamp/date) y asegurar que siempre se suba una llave valida aunque existan nombres similares en GitHub.
 - [ ] **Estructura Senior de Scripts (Arch Linux)**: Mejorar la arquitectura de los scripts de instalacion y configuracion de Arch Linux bajo una perspectiva Senior (modularidad, manejo de errores robusto, logs avanzados y abstraccion de entorno).
+- [ ] **Arquitectura Modular para WSL/Linux**: Refactorizar el instalador para eliminar el exceso de condicionales (`if` de modo Minimal). Implementar perfiles de instalacion (ej. `wsl.sh`, `bare-metal.sh`) que orquesten que paquetes y enlaces aplicar, reutilizando scripts core sin ensuciar la logica principal.
 - [x] **Reparar Historial de Zsh**: Corregir error `zsh: corrupt history file /home/yordycg/.zsh_history`. (Reparado usando strings y backup creado).
 - [x] **Centralización de Variables de Entorno**:
     - Mover todos los `export` de `.zshrc`, scripts y configs a un único archivo `shell/exports.sh`.
@@ -112,6 +113,7 @@ Este documento sirve como guía para las próximas optimizaciones y funcionalida
     - [ ] **Análisis de Dotfiles Externos**: Estudiar repositorios de referencia (ej: https://dotfiles.substtack.com) para extraer trucos y optimizaciones de rendimiento.
 
 ## 🟢 PRIORIDAD 4: Mantenimiento y Estética (Pulido Final)
+- [ ] **Evolución de Starship**: Seguir refinando y mejorando los prompts de Starship para Windows, Linux (Bare Metal) y WSL, buscando la máxima legibilidad y diferenciación estética entre entornos.
 - [x] **Estética de Terminal**:
     - [x] Agregar `fastfetch` al iniciar la terminal.
     - [x] **Selector de Fuentes**: Crear script `font-picker` que use `fzf` para previsualizar y cambiar la fuente (y tamaño con `font-size`) dinámicamente en Ghostty, Kitty y Alacritty.- [ ] **Gestión Profesional de Dotfiles (`Chezmoi`)**:
