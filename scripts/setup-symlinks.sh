@@ -74,11 +74,14 @@ create_link "$DOTFILES/shell/zsh/sheldon/plugins.toml" "$HOME/.config/sheldon/pl
 create_link "$DOTFILES/editors/zed/settings.json" "$HOME/.config/zed/settings.json"
 create_link "$DOTFILES/editors/zed/keymap.json" "$HOME/.config/zed/keymap.json"
 create_link "$DOTFILES/os/cross-platform/harlequin/config.toml" "$HOME/.config/harlequin/config.toml"
+create_link "$DOTFILES/os/linux/tmux" "$HOME/.config/tmux"
+create_link "$DOTFILES/os/windows/programs/Fastfetch" "$HOME/.config/fastfetch"
 
 # 2. Enlaces de Interfaz (Solo si NO es WSL / MINIMAL)
-if [ "${MINIMAL:-false}" != "true" ]; then
+# Convertir a minúsculas para comparación robusta
+MINIMAL_LOWER=$(echo "${MINIMAL:-false}" | tr '[:upper:]' '[:lower:]')
+if [ "$MINIMAL_LOWER" != "true" ]; then
     echo -e "\n${BLUE}=== Configurando Enlaces de Interfaz (Bare Metal) ===${NC}"
-    create_link "$DOTFILES/os/linux/tmux" "$HOME/.config/tmux"
     create_link "$DOTFILES/os/linux/kitty" "$HOME/.config/kitty"
     create_link "$DOTFILES/os/linux/hypr" "$HOME/.config/hypr"
     create_link "$DOTFILES/os/linux/waybar" "$HOME/.config/waybar"

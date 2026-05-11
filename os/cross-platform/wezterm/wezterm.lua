@@ -1,7 +1,8 @@
 local wezterm = require("wezterm")
 
 -- Add the dotfiles directory to the lua path
-local dotfiles_dir = "C:/Users/yordycg/workspace/infra/dotfiles-2024/os/cross-platform/wezterm"
+local home = os.getenv("HOME") or os.getenv("USERPROFILE") or ""
+local dotfiles_dir = home .. "/workspace/infra/dotfiles-2024/os/cross-platform/wezterm"
 package.path = package.path .. ";" .. dotfiles_dir .. "/?.lua;" .. dotfiles_dir .. "/?/init.lua"
 
 local commands = require("commands")
