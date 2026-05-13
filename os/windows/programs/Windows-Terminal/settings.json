@@ -119,10 +119,12 @@
         "source": "Windows.Terminal.VisualStudio"
       },
       {
+        "commandline": "%USERPROFILE%\\scoop\\apps\\archwsl\\current\\Arch.exe",
         "guid": "{baf8b3d0-46d6-5c58-9a82-a39f6dee44fa}",
         "hidden": false,
+        "icon": "%USERPROFILE%\\scoop\\apps\\archwsl\\current\\Arch.exe",
         "name": "Arch",
-        "source": "Microsoft.WSL"
+        "startingDirectory": "~"
       }
     ]
   },
