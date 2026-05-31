@@ -1,35 +1,31 @@
-# Navigate to x directory
-function dev {
-  cd "D:\Escritorio 2\Cursos-Yordy\00 - Cursos Programacion"
-}
-function ws {
-  cd "$env:USERPROFILE\workspace"
-}
-function ii {
-  cd "$env:USERPROFILE\workspace\ing-informatica"
+# -----------------------------------------------------------------------------
+# Windows-WSL Bridge Functions
+# -----------------------------------------------------------------------------
+
+# Acceso rápido al Homelab (Lanza WSL y conecta)
+function hl {
+    param([string]$session = "main")
+    Write-Host "󰇄 Conectando a Homelab ($session)..." -ForegroundColor Cyan
+    wsl -d Ubuntu-24.04 -- bash -ic "~/.local/bin/hl $session"
 }
 
-#
-function touch($file) {
-  "" | Out-FIle $file -Encoding ASCII
+function hls { 
+    Write-Host "󰇄 Listando sesiones en Homelab..." -ForegroundColor Cyan
+    wsl -d Ubuntu-24.04 -- bash -ic "hls" 
 }
 
-function which($comand) {
-  Get-Command -Name $command -ErrorAction SilentlyContinue |
-  Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
-}
+# Alias rápidos
+Set-Alias -Name vim -Value nvim -ErrorAction SilentlyContinue
+Set-Alias -Name ll -Value ls -ErrorAction SilentlyContinue
 
-function mkcd {
-  param (
-    [string]$directory
-  )
-  if([string]::IsNullOrEmpty($directory)) {
-    Write-Warning "Usage: mkcd <directory-name>"
-    return
-  }
-  New-Item -ItemType Directory -Path $directory
-  cd $directory
+# Aplicar cambios de Windows (dotfiles-2024)
+function win-apply {
+    $repoPath = "$HOME\workspace\infra\dotfiles-2024"
+    if (Test-Path $repoPath) {
+        Push-Location $repoPath
+        Write-Host "▶ Actualizando dotfiles de Windows..." -ForegroundColor Cyan
+        git pull
+        ./install-windows.ps1
+        Pop-Location
+    }
 }
- function  eprofile {
-  code "$env:USERPROFILE\.config\powershell\profiles\user_profile.ps1"
- }
