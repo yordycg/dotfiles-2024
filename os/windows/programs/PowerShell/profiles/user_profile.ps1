@@ -63,7 +63,19 @@ if (Get-Command zoxide -ErrorAction SilentlyContinue) {
 }
 
 # 7. Global Environment Variables for Tools
-$env:FZF_DEFAULT_OPTS = "--height 40% --layout=reverse --border --color=hl:#2dd4bf"
+$env:FZF_DEFAULT_OPTS = " --height 45% --layout=reverse --border=rounded --margin=0,1 --info=inline-right --prompt='󰭎 ' --pointer=' ' --marker='󰄲 ' --bind 'ctrl-u:preview-page-up,ctrl-d:preview-page-down'"
+
+# Usar fd para busquedas rapidas (si esta instalado)
+if (Get-Command fd -ErrorAction SilentlyContinue) {
+    $env:FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git"
+    $env:FZF_CTRL_T_COMMAND = $env:FZF_DEFAULT_COMMAND
+}
+
+# Previsualizacion con Bat para archivos (Ctrl+T)
+if (Get-Command bat -ErrorAction SilentlyContinue) {
+    $env:FZF_CTRL_T_OPTS = "--preview 'bat --color=always --style=plain,numbers --line-range=:500 {}'"
+}
+
 $env:STARSHIP_CONFIG = Join-Path $DotfilesRoot "os\cross-platform\starship\starship-windows.toml"
 
 # 8. Fastfetch - System Information
