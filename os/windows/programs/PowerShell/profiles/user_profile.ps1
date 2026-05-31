@@ -59,7 +59,7 @@ if (Get-Command starship -ErrorAction SilentlyContinue) {
 
 # Zoxide (Modern CD)
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&zoxide init powershell)
+    zoxide init powershell | Out-String | Invoke-Expression
 }
 
 # 7. Global Environment Variables for Tools
@@ -78,12 +78,12 @@ if (Get-Command bat -ErrorAction SilentlyContinue) {
 
 $env:STARSHIP_CONFIG = Join-Path $DotfilesRoot "os\cross-platform\starship\starship-windows.toml"
 
-# 8. Fastfetch - System Information
-if (Get-Command fastfetch -ErrorAction SilentlyContinue) {
-    $fastfetchConfig = Join-Path $HOME ".config\fastfetch\config.jsonc"
-    if (Test-Path $fastfetchConfig) {
-        fastfetch -c $fastfetchConfig
-    } else {
-        fastfetch
-    }
-}
+# 8. Fastfetch - System Information (Manual only)
+# if (Get-Command fastfetch -ErrorAction SilentlyContinue) {
+#     $fastfetchConfig = Join-Path $HOME ".config\fastfetch\config.jsonc"
+#     if (Test-Path $fastfetchConfig) {
+#         fastfetch -c $fastfetchConfig
+#     } else {
+#         fastfetch
+#     }
+# }
