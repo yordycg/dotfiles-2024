@@ -23,24 +23,24 @@
   "scoopApps": [
     "7zip",
     "bat",
-    "CascadiaCode-NF-Mono",
+    "CascadiaCode-NF",
     "curl",
     "delta",
     "direnv",
     "fastfetch",
     "fd",
-    "FiraCode-NF-Mono",
+    "FiraCode-NF",
     "flow-launcher",
     "fnm",
     "fzf",
     "gh",
-    "JetBrainsMono-NF-Mono",
+    "JetBrainsMono-NF",
     "jq",
     "just",
     "lazydocker",
     "lazygit",
     "Lilex-NF",
-    "Meslo-NF-Mono",
+    "Meslo-NF",
     "neovim",
     "oh-my-posh",
     "pnpm",
@@ -50,7 +50,7 @@
     "psreadline",
     "pwsh",
     "ripgrep",
-    "RobotoMono-NF-Mono",
+    "RobotoMono-NF",
     "starship",
     "terminal-icons",
     "zoxide"
@@ -92,6 +92,10 @@
     {
       "target": "%dotfiles%\\os\\windows\\programs\\Windows-Terminal\\settings.json",
       "link": "%winTerminalSettings%"
+    },
+    {
+      "target": "%dotfiles%\\os\\windows\\programs\\SSH\\config-windows",
+      "link": "%USERPROFILE%\\.ssh\\config"
     },
     {
       "target": "%dotfiles%\\os\\windows\\.wslconfig",

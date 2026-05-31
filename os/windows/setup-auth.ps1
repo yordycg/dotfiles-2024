@@ -84,8 +84,12 @@ if ($null -eq $agentService) {
 # 6. Sincronizar Llave con GitHub
 Write-Info "Sincronizando llave publica con GitHub..."
 $keyTitle = "Seed Key - Windows ($env:COMPUTERNAME)"
-$existingKeys = gh ssh-key list | Out-String
-if ($existingKeys -match [regex]::Escape($keyTitle)) {
+$existingKeys = gh ssh-key list 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Warn "No se pudieron listar las llaves de GitHub. Es probable que falten permisos (scopes)."
+    Write-Host "[→] Ejecuta: gh auth refresh -h github.com -s admin:public_key,admin:ssh_signing_key" -ForegroundColor Yellow
+}
+elseif ($existingKeys -match [regex]::Escape($keyTitle)) {
     Write-Success "La llave ya esta registrada en GitHub."
 } else {
     if (Test-Path $pubKeyPath) {
@@ -93,44 +97,10 @@ if ($existingKeys -match [regex]::Escape($keyTitle)) {
         if ($LASTEXITCODE -eq 0) {
             Write-Success "Llave subida a GitHub correctamente."
         } else {
-            Write-Warn "No se pudo subir la llave. Es posible que ya exista con otro nombre."
-        }
-    } else {
-        Write-Warn "No se encontro la llave PUBLICA ($pubKeyPath). Saltando registro en GitHub."
-    }
-}
-
-# 7. Configurar ~/.ssh/config
-$configFile = Join-Path $sshDir "config"
-$markerBegin = "# BEGIN github.com block (dotfiles-windows)"
-$markerEnd = "# END github.com block (dotfiles-windows)"
-
-$configBlock = @"
-
-$markerBegin
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/$keyName
-    IdentitiesOnly yes
-
-Host *
-    AddKeysToAgent yes
-    IdentitiesOnly yes
-$markerEnd
-"@
-
-if (Test-Path $configFile) {
-    $content = Get-Content $configFile -Raw
-    if ($content -match [regex]::Escape($markerBegin)) {
-        Write-Success "El bloque de configuracion ya existe en $configFile."
-    } else {
-        Add-Content -Path $configFile -Value $configBlock
-        Write-Success "Configuracion añadida a $configFile."
+            Write-Warn "No se pudo subir la llave. Revisa tus permisos de GitHub CLI."
     }
 } else {
-    Set-Content -Path $configFile -Value $configBlock
-    Write-Success "Archivo $configFile creado con la configuracion."
+    Write-Warn "No se encontro la llave PUBLICA ($pubKeyPath). Saltando registro en GitHub."
 }
 
 Write-Host "`n--- Setup de Autenticacion Finalizado (Seed Mode) ---" -ForegroundColor Green

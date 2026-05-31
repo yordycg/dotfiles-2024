@@ -155,8 +155,21 @@ function Sync-Repository {
         if (Test-Path -Path (Join-Path -Path $DestinationPath -ChildPath ".git")) {
             Write-Host "Actualizando '$RepoName'..." -ForegroundColor Cyan
             Push-Location -Path $DestinationPath
-            git pull
+            
+            # Manejar cambios locales para no bloquear el pull
+            $hasChanges = (git status --porcelain)
+            if ($hasChanges) {
+                Write-Host "[INFO] Cambios locales detectados en $RepoName. Guardando en stash temporal..." -ForegroundColor Gray
+                git stash | Out-Null
+            }
+
+            git pull --rebase
             if ($Recursive) { git submodule update --init --recursive }
+
+            if ($hasChanges) {
+                Write-Host "[INFO] Restaurando tus cambios locales..." -ForegroundColor Gray
+                git stash pop | Out-Null
+            }
             Pop-Location
         }
         else {
