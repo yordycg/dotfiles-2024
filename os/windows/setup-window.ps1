@@ -135,19 +135,27 @@ if ($Task -eq "All" -or $Task -eq "Profile" -or $Task -eq "Links") {
     }
 }
 
-# --- ARCHWSL REGISTRATION ---
+# --- WSL UBUNTU 24.04 REGISTRATION ---
 if ($Task -eq "All" -or $Task -eq "WSL") {
-    Write-Host "`nStep 7: Verificando registro de ArchWSL..." -ForegroundColor Yellow
-    if (Get-Command Arch.exe -ErrorAction SilentlyContinue) {
-        $wslDistros = wsl -l -q
-        if ($wslDistros -notcontains "Arch") {
-            Write-Host "[INFO] Registrando Arch Linux en WSL (esto puede tardar un poco)..." -ForegroundColor Cyan
-            # Ejecutar Arch.exe para registrar la distro
-            Start-Process -FilePath "Arch.exe" -Wait
-            Write-Host "[SUCCESS] Arch Linux registrado con exito." -ForegroundColor Green
-        } else {
-            Write-Host "[SUCCESS] Arch Linux ya esta registrado en WSL." -ForegroundColor Green
+    Write-Host "`nStep 7: Verificando registro de WSL (Ubuntu 24.04)..." -ForegroundColor Yellow
+    
+    # Verificar si WSL está habilitado y obtener distros
+    $wslDistros = wsl -l -q 2>$null
+    $targetDistro = "Ubuntu-24.04"
+
+    if ($wslDistros -notcontains $targetDistro) {
+        Write-Host "[INFO] No se encontro $targetDistro. Iniciando instalacion automatica..." -ForegroundColor Cyan
+        Write-Host "[!] Esto abrira una nueva ventana para configurar el usuario de WSL." -ForegroundColor Yellow
+        
+        try {
+            # wsl --install -d <distro> es el comando moderno e idempotente
+            wsl --install -d $targetDistro
+            Write-Host "[SUCCESS] Proceso de instalacion de $targetDistro iniciado con exito." -ForegroundColor Green
+        } catch {
+            Write-Error "Fallo al instalar WSL: $($_.Exception.Message)"
         }
+    } else {
+        Write-Host "[SUCCESS] $targetDistro ya esta instalado en WSL." -ForegroundColor Green
     }
 }
 

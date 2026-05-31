@@ -1,142 +1,44 @@
+# -- Git Configuration (Windows - Synced with Chezmoi) --
+
 [user]
-   name = Yordy Carmona
-   email = yordy.carmona8@gmail.com
-   # signingkey = 5A6E85FD9F012B48 # for gpg linux debian 2025
+    name = Yordy Carmona
+    email = yordy.carmona8@gmail.com
 
 [core]
-  excludesfile = ~/.gitignore
- autocrlf = input
-  pager = delta
-  compression = 9 # Intercambiar CPU por transferencia de red
-  whitespace = error
-  preloadindex = true # Cargar el indice en memoria
-  symlinks = true
-
-[init]
-  defaultbranch = main
-
-[commit]
-  # Need install GPG in system for 'true'
-  gpgSign = false
-  template = ~/workspace/infra/dotfiles-2024/git/template
-
-[status]
-  branch = true
-  showStash = true
-  showUntrackedFiles = all
-
-[log]
-  abbrevCommit = true
-  graphColors = blue,yellow,cyan,magenta,green,red # Orden de los colores
-
-[branch]
-  sort = -committerdate
-
-[tag]
-  sort = -taggerdate
-
-[pretty]
-  colored = format:%C(yellow)%h%C(reset) %C(bold blue)<%an>%C(reset) %s %C(green)(%cr) %C(reset)
-  graph = format:%C(yellow)%h%C(reset) -%C(red)%d%C(reset) %s %C(green)(%ar) %C(bold blue)<%an>%C(reset)
-  bw = format:%h | %as | %>(20,trunc)%d%x09%s
-
-[alias]
-  unstage = reset HEAD -- # remove files from stage
-  visual = !gitk # open GUI git, need install
-  amend = commit --amend # modify last commit, open editor
-  amend-no = commit --amend --no-edit # modify last commit WITHOUT change message
-  undo = reset --soft HEAD^ # undo last commit
-
-  aliases = config --get-regexp 'alias.*' # show ALL aliases (gitconfig)
-
-[pager]
-  branch = false # no need to use pager for git branch
-  tag = false
-
-[push]
-  autoSetupRemote = true # easier to push new branches
-  default = current # push only current branch by defautl
-  followTags = true # push also tags
-  gpgSign = false # my remotes doesn't support sign pushes
-
-[pull]
-  rebase = true
-
-[rebase]
-  autoStash = true
-
-[merge]
-  tool = code
-  conflictstyle = zdiff3
+    autocrlf = true
+    editor = nvim
+    pager = delta
 
 [interactive]
-  diffFilter = delta --color-only
+    diffFilter = delta --color-only
 
-[advice]
-  addEmptyPathspec = true
-  pushNonFastForward = false
-  statusHints = false
-
-# Colors
-[color "decorate"]
-  HEAD = red
-  branch = blue
-  tag = yellow
-  remoteBranch = magenta
-
-[color "branch"]
-  current = magenta
-  local = default
-  remote = yellow
-  upstream = green
-  plain = blue
-
-[color "diff"]
-  meta = black bold
-  frag = magenta
-  context = white
-  whitespace = yellow reverse
-
-# Third-party: delta
 [delta]
-    navigate = true    # use n and N to move between diff sections
-    line-numbers = true
+    navigate = true
+    light = false
     side-by-side = true
-    syntax-theme = OneHalfDark
-    plus-style = syntax "#012800"
-    minus-style = syntax "#340001"
-    map-styles = \
-        bold purple => syntax "#340001", \
-        bold cyan => syntax "#012800"
-    file-added-label = [+]
-    file-copied-label = [==]
-    file-modified-label = [*]
-    file-removed-label = [-]
-    file-renamed-label = [->]
+    line-numbers = true
 
-# URL shortcuts
-[url "git@github.com:yordycg/"]
-  insteadOf = "ycg:" # Ejemplo: 'gcl ycg:dotfiles'
-[url "git@github.com:"]
-  insteadOf = "gh:" # Ejemplo: 'gcl gh:torvals/linux'
+[merge]
+    conflictstyle = zdiff3
 
-# Config multi-git (Unified & Senior Structure)
-# ----------------------------------------------------------------------
+[diff]
+    colorMoved = default
 
-# --- Personal Identity ---
-[includeIf "gitdir:~/workspace/personal/**"]
-	path = ~/.gitconfig-personal
-[includeIf "gitdir/i:C:/Users/yordycg/workspace/personal/**"]
-	path = ~/.gitconfig-personal
+[pull]
+    rebase = true
 
-# --- University Identity (IPVG) ---
-[includeIf "gitdir:~/workspace/ipvg/**"]
-	path = ~/.gitconfig-ipvg
-[includeIf "gitdir/i:C:/Users/yordycg/workspace/ipvg/**"]
-	path = ~/.gitconfig-ipvg
+[push]
+    autoSetupRemote = true
 
-# --- Work Identity ---
-[includeIf "gitdir:~/workspace/work/**"]
-	path = ~/.gitconfig-work
-[includeIf "gitdir/i:C:/Users/yordycg/workspace/work/**"]
-	path = ~/.gitconfig-work
+[init]
+    defaultBranch = main
+
+# Condicionales para perfiles específicos (Si existen en Windows)
+[includeIf "gitdir:~/workspace/work/"]
+    path = .gitconfig-work
+
+[includeIf "gitdir:~/workspace/ipvg/"]
+    path = .gitconfig-ipvg
+
+[includeIf "gitdir:~/workspace/personal/"]
+    path = .gitconfig-personal

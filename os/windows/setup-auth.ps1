@@ -1,8 +1,8 @@
 # ----------------------------------------------------------------------
-# Windows Authentication & SSH Setup
+# Windows Authentication & SSH Setup (SEED MODE)
 # ----------------------------------------------------------------------
-# Este script gestiona la autenticacion con GitHub y la configuracion
-# de llaves SSH de forma idempotente.
+# Este script NO genera llaves. Valida que existan llaves en ~/.ssh
+# (provenientes de tu USB) y las configura correctamente.
 # ----------------------------------------------------------------------
 
 param (
@@ -31,28 +31,35 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Success "GitHub CLI autenticado."
 
-# 3. Preparar Directorio SSH
+# 3. Preparar Directorio SSH e Identidad Semilla
 $sshDir = Join-Path $env:USERPROFILE ".ssh"
+$keyName = "id_ed25519" # Nombre estándar para tu llave semilla
+$keyPath = Join-Path $sshDir $keyName
+$pubKeyPath = "$keyPath.pub"
+
 if (-not (Test-Path $sshDir)) {
     New-Item -ItemType Directory -Path $sshDir -Force | Out-Null
     Write-Info "Directorio .ssh creado."
 }
 
-# 4. Generar Llave SSH (Idempotente)
-$keyName = "id_ed25519_github"
-$keyPath = Join-Path $sshDir $keyName
-$pubKeyPath = "$keyPath.pub"
-$hostname = $env:COMPUTERNAME.ToLower()
-$keyComment = "github-windows-$hostname"
-$keyTitle = "Windows Key ($hostname)"
-
-if (Test-Path $keyPath) {
-    Write-Success "La llave SSH '$keyName' ya existe. Se reutilizara."
-} else {
-    Write-Info "Generando nueva llave ed25519..."
-    ssh-keygen -t ed25519 -f $keyPath -N '""' -C "$keyComment" -q
-    Write-Success "Llave generada en $keyPath"
+# --- BUCLE DE ESPERA PARA LLAVES ---
+while (-not (Test-Path $keyPath)) {
+    Write-Host "`n[!] ATENCION: No se detecto la llave SSH semilla ($keyName) en $sshDir" -ForegroundColor Red
+    Write-Host "[→] Por favor, conecta tu USB y copia tus llaves (id_ed25519 e id_ed25519.pub) a la carpeta .ssh" -ForegroundColor Yellow
+    Write-Host "[?] Presiona cualquier tecla para reintentar la validacion..." -ForegroundColor Cyan
+    $null = [Console]::ReadKey($true)
 }
+Write-Success "Llaves detectadas en $sshDir"
+
+# 4. Asegurar Permisos (Indispensable en Windows para OpenSSH)
+Write-Info "Asegurando permisos estrictos para las llaves..."
+# Desactivar herencia y dar acceso total solo al usuario actual
+$user = $env:USERNAME
+icacls "$keyPath" /inheritance:r /grant:r "${user}:(R)" | Out-Null
+if (Test-Path $pubKeyPath) {
+    icacls "$pubKeyPath" /inheritance:r /grant:r "${user}:(R)" | Out-Null
+}
+Write-Success "Permisos de archivo configurados."
 
 # 5. Configurar/Iniciar ssh-agent Service (Windows)
 Write-Info "Configurando servicio ssh-agent..."
@@ -65,9 +72,10 @@ if ($null -eq $agentService) {
             Set-Service -Name ssh-agent -StartupType Automatic -ErrorAction Stop
             Start-Service -Name ssh-agent -ErrorAction Stop
         }
-        # Agregar la llave al agente
+        # Limpiar llaves anteriores y agregar la nueva
+        ssh-add -D 2>&1 | Out-Null
         ssh-add $keyPath 2>&1 | Out-Null
-        Write-Success "Agente SSH activo y llave cargada."
+        Write-Success "Agente SSH activo y llave semilla cargada."
     } catch {
         Write-Warn "No se pudo configurar el agente automaticamente: $($_.Exception.Message)"
     }
@@ -75,19 +83,24 @@ if ($null -eq $agentService) {
 
 # 6. Sincronizar Llave con GitHub
 Write-Info "Sincronizando llave publica con GitHub..."
+$keyTitle = "Seed Key - Windows ($env:COMPUTERNAME)"
 $existingKeys = gh ssh-key list | Out-String
 if ($existingKeys -match [regex]::Escape($keyTitle)) {
     Write-Success "La llave ya esta registrada en GitHub."
 } else {
-    gh ssh-key add $pubKeyPath --title "$keyTitle"
-    if ($LASTEXITCODE -eq 0) {
-        Write-Success "Llave subida a GitHub correctamente."
+    if (Test-Path $pubKeyPath) {
+        gh ssh-key add $pubKeyPath --title "$keyTitle"
+        if ($LASTEXITCODE -eq 0) {
+            Write-Success "Llave subida a GitHub correctamente."
+        } else {
+            Write-Warn "No se pudo subir la llave. Es posible que ya exista con otro nombre."
+        }
     } else {
-        Write-Warn "No se pudo subir la llave. Es posible que ya exista con otro nombre o el token no tenga permisos."
+        Write-Warn "No se encontro la llave PUBLICA ($pubKeyPath). Saltando registro en GitHub."
     }
 }
 
-# 7. Configurar ~/.ssh/config (Con Marcadores)
+# 7. Configurar ~/.ssh/config
 $configFile = Join-Path $sshDir "config"
 $markerBegin = "# BEGIN github.com block (dotfiles-windows)"
 $markerEnd = "# END github.com block (dotfiles-windows)"
@@ -98,7 +111,11 @@ $markerBegin
 Host github.com
     HostName github.com
     User git
-    IdentityFile $keyPath.Replace('\', '/')
+    IdentityFile ~/.ssh/$keyName
+    IdentitiesOnly yes
+
+Host *
+    AddKeysToAgent yes
     IdentitiesOnly yes
 $markerEnd
 "@
@@ -116,4 +133,4 @@ if (Test-Path $configFile) {
     Write-Success "Archivo $configFile creado con la configuracion."
 }
 
-Write-Host "`n--- Setup de Autenticacion Finalizado ---" -ForegroundColor Green
+Write-Host "`n--- Setup de Autenticacion Finalizado (Seed Mode) ---" -ForegroundColor Green

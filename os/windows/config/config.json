@@ -22,7 +22,6 @@
   },
   "scoopApps": [
     "7zip",
-    "archwsl",
     "bat",
     "CascadiaCode-NF-Mono",
     "curl",
@@ -54,7 +53,7 @@
     "RobotoMono-NF-Mono",
     "starship",
     "terminal-icons",
-    "z"
+    "zoxide"
   ],
   "repositories": [
     { "name": "dotfiles-2024.git", "destination": "%dotfiles%" },
