@@ -98,9 +98,10 @@ elseif ($existingKeys -match [regex]::Escape($keyTitle)) {
             Write-Success "Llave subida a GitHub correctamente."
         } else {
             Write-Warn "No se pudo subir la llave. Revisa tus permisos de GitHub CLI."
+        }
+    } else {
+        Write-Warn "No se encontro la llave PUBLICA ($pubKeyPath). Saltando registro en GitHub."
     }
-} else {
-    Write-Warn "No se encontro la llave PUBLICA ($pubKeyPath). Saltando registro en GitHub."
 }
 
 Write-Host "`n--- Setup de Autenticacion Finalizado (Seed Mode) ---" -ForegroundColor Green
