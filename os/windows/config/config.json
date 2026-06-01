@@ -23,8 +23,10 @@
   "scoopApps": [
     "7zip",
     "bat",
+    "beekeeper-studio",
     "CascadiaCode-NF",
     "curl",
+    "dbeaver",
     "delta",
     "direnv",
     "fastfetch",
