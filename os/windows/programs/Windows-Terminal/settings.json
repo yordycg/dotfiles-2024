@@ -1,124 +1,209 @@
 {
-  "$help": "https://aka.ms/terminal-documentation",
-  "$schema": "https://aka.ms/terminal-profiles-schema",
-  "actions": [
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        }
+    ],
+    "alwaysShowTabs": true,
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "firstWindowPreference": "persistedWindowLayout",
+    "keybindings": [],
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
     {
-      "command": {
-        "action": "copy",
-        "singleLine": false
-      },
-      "id": "User.copy.644BA8F2"
+        "defaults": 
+        {
+            "antialiasingMode": "grayscale",
+            "colorScheme": "Ayu Dark",
+            "cursorShape": "filledBox",
+            "font": 
+            {
+                "builtinGlyphs": true,
+                "cellHeight": "1.1",
+                "colorGlyphs": true,
+                "face": "JetBrainsMono Nerd Font",
+                "size": 12,
+                "weight": "medium"
+            },
+            "opacity": 100,
+            "padding": "12, 12, 12, 12",
+            "scrollbarState": "hidden",
+            "useAcrylic": false
+        },
+        "list": 
+        [
+            {
+                "commandline": "pwsh.exe -NoLogo",
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "icon": "ms-appx:///ProfileIcons/{574e775e-4f2a-5b96-ac1e-a2962a402336}.png",
+                "name": "PowerShell Core",
+                "source": "Windows.Terminal.PowershellCore",
+                "startingDirectory": "~"
+            },
+            {
+                "commandline": "wsl.exe -d Ubuntu-24.04 --cd ~",
+                "guid": "{2c4f0271-fd3e-405d-838d-19446f7f0931}",
+                "hidden": false,
+                "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
+                "name": "Ubuntu 24.04 LTS",
+                "startingDirectory": "~"
+            },
+            {
+                "guid": "{e3903326-0024-5696-ae32-a372b0b742a0}",
+                "hidden": true,
+                "name": "Developer Command Prompt for VS 18",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{416e625d-c451-5b0c-86f9-334819d8c16f}",
+                "hidden": true,
+                "name": "Developer PowerShell for VS 18",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "commandline": "powershell.exe -NoLogo",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": true,
+                "name": "Windows PowerShell"
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": true,
+                "name": "Command Prompt"
+            }
+        ]
     },
-    {
-      "command": "paste",
-      "id": "User.paste"
-    },
-    {
-      "command": "find",
-      "id": "User.find"
-    },
-    {
-      "command": {
-        "action": "splitPane",
-        "split": "auto",
-        "splitMode": "duplicate"
-      },
-      "id": "User.splitPane.A6751878"
-    }
-  ],
-  "copyFormatting": "none",
-  "copyOnSelect": false,
-  "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-  "firstWindowPreference": "persistedWindowLayout",
-  "theme": "dark",
-  "profiles": {
-    "defaults": {
-      "colorScheme": "Catppuccin Mocha",
-      "font": {
-        "builtinGlyphs": true,
-        "cellHeight": "1.1",
-        "colorGlyphs": true,
-        "face": "JetBrainsMono Nerd Font",
-        "size": 11,
-        "weight": "medium"
-      },
-      "cursorShape": "filledBox",
-      "opacity": 85,
-      "padding": "12, 12, 12, 12",
-      "scrollbarState": "hidden",
-      "useAcrylic": true,
-      "antialiasingMode": "grayscale"
-    },
-    "list": [
-      {
-        "commandline": "pwsh.exe -NoLogo",
-        "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-        "hidden": false,
-        "icon": "ms-appx:///ProfileIcons/{574e775e-4f2a-5b96-ac1e-a2962a402336}.png",
-        "name": "PowerShell Core",
-        "startingDirectory": "~"
-      },
-      {
-        "commandline": "wsl.exe -d Ubuntu-24.04 --cd ~",
-        "guid": "{2c4f0271-fd3e-405d-838d-19446f7f0931}",
-        "hidden": false,
-        "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
-        "name": "Ubuntu 24.04 LTS",
-        "startingDirectory": "~"
-      },
-      {
-        "guid": "{e3903326-0024-5696-ae32-a372b0b742a0}",
-        "hidden": true,
-        "name": "Developer Command Prompt for VS 18",
-        "source": "Windows.Terminal.VisualStudio"
-      },
-      {
-        "guid": "{416e625d-c451-5b0c-86f9-334819d8c16f}",
-        "hidden": true,
-        "name": "Developer PowerShell for VS 18",
-        "source": "Windows.Terminal.VisualStudio"
-      },
-      {
-        "commandline": "powershell.exe -NoLogo",
-        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-        "hidden": true,
-        "name": "Windows PowerShell"
-      },
-      {
-        "commandline": "cmd.exe",
-        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-        "hidden": true,
-        "name": "Command Prompt"
-      }
-    ]
-  },
-  "schemes": [
-    {
-      "name": "Catppuccin Mocha",
-      "background": "#1E1E2E",
-      "black": "#45475A",
-      "blue": "#89B4FA",
-      "brightBlack": "#585B70",
-      "brightBlue": "#89B4FA",
-      "brightCyan": "#94E2D5",
-      "brightGreen": "#A6E3A1",
-      "brightPurple": "#F5C2E7",
-      "brightRed": "#F38BA8",
-      "brightWhite": "#A6ADC8",
-      "brightYellow": "#F9E2AF",
-      "cursorColor": "#F5E0DC",
-      "cyan": "#94E2D5",
-      "foreground": "#CDD6F4",
-      "green": "#A6E3A1",
-      "purple": "#F5C2E7",
-      "red": "#F38BA8",
-      "selectionBackground": "#585B70",
-      "white": "#BAC2DE",
-      "yellow": "#F9E2AF"
-    }
-  ],
-  "tabWidthMode": "titleLength",
-  "useAcrylicInTabRow": true,
-  "alwaysShowTabs": true,
-  "showTabsInTitlebar": true
+    "schemes": 
+    [
+        {
+            "background": "#0B0E14",
+            "black": "#00010A",
+            "blue": "#6DCBFA",
+            "brightBlack": "#686868",
+            "brightBlue": "#59C2FF",
+            "brightCyan": "#95E6CB",
+            "brightGreen": "#B8CC52",
+            "brightPurple": "#D4BFFF",
+            "brightRed": "#F07178",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFCC66",
+            "cursorColor": "#F29718",
+            "cyan": "#90E1C6",
+            "foreground": "#BFBDB6",
+            "green": "#A6CC70",
+            "name": "Ayu Dark",
+            "purple": "#CFB0F7",
+            "red": "#ED8274",
+            "selectionBackground": "#253340",
+            "white": "#5C6773",
+            "yellow": "#FAD07B"
+        },
+        {
+            "background": "#1E1E2E",
+            "black": "#45475A",
+            "blue": "#89B4FA",
+            "brightBlack": "#585B70",
+            "brightBlue": "#89B4FA",
+            "brightCyan": "#94E2D5",
+            "brightGreen": "#A6E3A1",
+            "brightPurple": "#F5C2E7",
+            "brightRed": "#F38BA8",
+            "brightWhite": "#A6ADC8",
+            "brightYellow": "#F9E2AF",
+            "cursorColor": "#F5E0DC",
+            "cyan": "#94E2D5",
+            "foreground": "#CDD6F4",
+            "green": "#A6E3A1",
+            "name": "Catppuccin Mocha",
+            "purple": "#F5C2E7",
+            "red": "#F38BA8",
+            "selectionBackground": "#585B70",
+            "white": "#BAC2DE",
+            "yellow": "#F9E2AF"
+        },
+        {
+            "background": "#292D3E",
+            "black": "#292D3E",
+            "blue": "#82AAFF",
+            "brightBlack": "#434758",
+            "brightBlue": "#9CC4FF",
+            "brightCyan": "#A3F7FF",
+            "brightGreen": "#DDFFA7",
+            "brightPurple": "#E1ACFF",
+            "brightRed": "#FF8B92",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFE585",
+            "cursorColor": "#C792EA",
+            "cyan": "#89DDFF",
+            "foreground": "#A6ACCD",
+            "green": "#C3E88D",
+            "name": "Palenight",
+            "purple": "#C792EA",
+            "red": "#F07178",
+            "selectionBackground": "#444267",
+            "white": "#D0D0D0",
+            "yellow": "#FFCB6B"
+        },
+        {
+            "background": "#1A1B26",
+            "black": "#15161E",
+            "blue": "#7AA2F7",
+            "brightBlack": "#414868",
+            "brightBlue": "#7AA2F7",
+            "brightCyan": "#7DCFFF",
+            "brightGreen": "#9ECE6A",
+            "brightPurple": "#BB9AF7",
+            "brightRed": "#F7768E",
+            "brightWhite": "#C0CAF5",
+            "brightYellow": "#E0AF68",
+            "cursorColor": "#BB9AF7",
+            "cyan": "#7DCFFF",
+            "foreground": "#C0CAF5",
+            "green": "#9ECE6A",
+            "name": "Tokyo Night",
+            "purple": "#BB9AF7",
+            "red": "#F7768E",
+            "selectionBackground": "#283457",
+            "white": "#A9B1D6",
+            "yellow": "#E0AF68"
+        }
+    ],
+    "showTabsInTitlebar": true,
+    "tabWidthMode": "titleLength",
+    "theme": "dark",
+    "themes": [],
+    "useAcrylicInTabRow": true
 }
